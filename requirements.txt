@@ -1,0 +1,4 @@
+transformers
+numpy
+matplotlib
+tensorflow==2.14.0
