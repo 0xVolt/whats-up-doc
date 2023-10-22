@@ -7,3 +7,5 @@ A command-line tool leveraging LangChain &amp; LLMs for language-agnostic code d
 2. [CodeSearchNet corpus on *paperswithcode.com*](https://paperswithcode.com/dataset/codesearchnet)
 3. [CodeTrans model GitHub page](https://github.com/agemagician/CodeTrans)
 4. [CodeTrans Python models for ST, TF, MT & MT-TF through HuggingFace search](https://huggingface.co/search/full-text?q=codetrans+code+documentation+generation+python&type=model)
+5. [Code Docstring Corpus on GitHub](https://github.com/EdinburghNLP/code-docstring-corpus)
+6. [Parallel Corpus for docstrings on ArXiv](https://arxiv.org/abs/1707.02275)
