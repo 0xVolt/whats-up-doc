@@ -3,6 +3,16 @@ import os
 # Initialize ai_context
 ai_context = {}
 
+
+def checkGPU(tensorflow):
+    if tensorflow == True:
+        import tensorflow as tf
+        print("Number of GPUs available with tensorflow:", len(tf.config.list_physical_devices('GPU')))
+    else:
+        import torch
+        print('Checking if the GPU is available with PyTorch:', torch.cuda.is_available())
+
+
 # Function to log directory structure
 def log_directory_structure(directory_path, ai_context, indent=0):
     if not os.path.exists(directory_path):
@@ -28,7 +38,6 @@ def log_directory_structure(directory_path, ai_context, indent=0):
 
         # If it's a file, you can log it similarly
         
-def main():
     # Get the directory path from the user
     directory_path = input("Enter the directory path: ")
 
@@ -39,6 +48,3 @@ def main():
     log_directory_structure(directory_path, ai_context)
 
     print(ai_context)
-    
-if __name__ == '__main__':
-    main()
