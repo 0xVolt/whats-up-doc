@@ -1,2 +1,5 @@
 # Add pycache
 src/experimental-notebooks/__pycache__
+
+# Add assets
+assets/
