@@ -15,6 +15,7 @@ def checkGPU(tensorflow):
 
 # Function to log directory structure
 def log_directory_structure(directory_path, ai_context, indent=0):
+    # Check if path is valid
     if not os.path.exists(directory_path):
         print("Directory not found.")
         return
