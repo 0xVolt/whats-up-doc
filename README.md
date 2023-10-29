@@ -9,3 +9,4 @@ A command-line tool leveraging LangChain &amp; LLMs for language-agnostic code d
 4. [CodeTrans Python models for ST, TF, MT & MT-TF through HuggingFace search](https://huggingface.co/search/full-text?q=codetrans+code+documentation+generation+python&type=model)
 5. [Code Docstring Corpus on GitHub](https://github.com/EdinburghNLP/code-docstring-corpus)
 6. [Parallel Corpus for docstrings on ArXiv](https://arxiv.org/abs/1707.02275)
+7. [Transformers tokenizer error with hotfix](https://discuss.huggingface.co/t/error-with-new-tokenizers-urgent/2847/3)
