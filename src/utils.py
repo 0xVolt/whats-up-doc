@@ -1,7 +1,23 @@
 import os
+import tokenize
+import io
 
 # Initialize ai_context
 ai_context = {}
+
+def pythonTokenizer(line):
+    result= []
+    line = io.StringIO(line)
+
+    for tokenType, tok, start, end, line in tokenize.generate_tokens(line.readline):
+        if (not tokenType == tokenize.COMMENT):
+            if tokenType == tokenize.STRING:
+                result.append("CODE_STRING")
+            elif tokenType == tokenize.NUMBER:
+                result.append("CODE_INTEGER")
+            elif (not tok=="\n") and (not tok=="    "):
+                result.append(str(tok))
+    return ' '.join(result)
 
 
 def checkGPU(tensorflow):
