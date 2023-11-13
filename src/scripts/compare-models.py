@@ -1,45 +1,14 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# <a href="https://colab.research.google.com/github/0xVolt/whats-up-doc/blob/main/src/experimental-notebooks/compare-models.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
-
-# # Compare Various HuggingFace Models for CDG by `SmoothedBLEU` Score
-# 
-# ## Purpose
-# 
-# The purpose of this notebook is to figure out which models will work best for our CLI app. We will calculate and compare these select models by their smoothed BLEU scores and possibly look into fine-tuning them with [this dataset](https://www.dropbox.com/sh/488bq2of10r4wvw/AACs5CGIQuwtsD7j_Ls_JAORa/finetuning_dataset?dl=0&subfolder_nav_tracking=1).
-# 
-# ## Models
-# 
-# These are the models we'll create inference points for and load in this notebook.
-# 1. [SEBIS/code_trans_t5_base_code_documentation_generation_python](https://huggingface.co/SEBIS/code_trans_t5_base_code_documentation_generation_python)
-# 2. [Salesforce/codet5-base-multi-sum](https://huggingface.co/Salesforce/codet5-base-multi-sum)
-# 3. [google/flan-t5-small](https://huggingface.co/google/flan-t5-small)
-# 
-# The models listed above have been fine-tuned on the CodeSearchNet dataset across various programming languages for PL-NL sequence-to-sequence tasks.
-
-# ## Install Dependencies
-
-# In[1]:
-
-
 get_ipython().run_line_magic('pip', 'install -q transformers sentencepiece datasets nltk accelerate')
-
 
 # In[2]:
 
-
-from transformers import AutoTokenizer, AutoModelWithLMHead, RobertaTokenizer, T5Tokenizer, T5ForConditionalGeneration, SummarizationPipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, RobertaTokenizer, T5Tokenizer, T5ForConditionalGeneration, SummarizationPipeline
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from datasets import load_dataset
 import tokenize
 import io
 
-
-# ## Define Evaluation Metric
-
 # In[3]:
-
 
 def calculateSmoothedBLEU(reference, candidate):
     """
@@ -60,11 +29,7 @@ def calculateSmoothedBLEU(reference, candidate):
 
     return bleu_score
 
-
-# ## Define Python Tokenizer
-
 # In[4]:
-
 
 def pythonTokenizer(line):
     result = []
@@ -81,31 +46,17 @@ def pythonTokenizer(line):
                 
     return ' '.join(result)
 
-
-# ## Define Models
-
-# ### CodeTransT5
-
 # In[5]:
-
 
 codeTransModel = AutoModelWithLMHead.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune")
 codeTransTokenizer = AutoTokenizer.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune", skip_special_tokens=True)
 
-
-# ### CodeT5
-
 # In[6]:
-
 
 codeT5Model = T5ForConditionalGeneration.from_pretrained('Salesforce/codet5-base-multi-sum')
 codeT5Tokenizer = RobertaTokenizer.from_pretrained('Salesforce/codet5-base-multi-sum', skip_special_tokens=True)
 
-
-# ### FlanT5 
-
 # In[7]:
-
 
 flanT5Model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-small", device_map="auto")
 flanT5Tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-small", skip_special_tokens=True)
