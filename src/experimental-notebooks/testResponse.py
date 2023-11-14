@@ -7,8 +7,17 @@ tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2) # 2 for binary classification
 
 # Prepare data
-train_texts = ["example sentence 1", "example sentence 2", ...]
-train_labels = [1, 0, ...] # binary labels for each sentence
+# Generating example data
+num_samples = 100
+
+# Example sentences
+sentences = ["The cat is on the mat.", "The dog barks loudly.", "Birds chirp in the morning.", "Sunsets are beautiful."]
+
+# Generating random binary labels (0 or 1) for each sentence
+labels = [random.choice([0, 1]) for _ in range(num_samples)]
+
+# train_texts = ["example sentence 1", "example sentence 2", ...]
+# train_labels = [1, 0, ...] # binary labels for each sentence
 
 input_ids = []
 attention_masks = []
