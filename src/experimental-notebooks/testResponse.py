@@ -1,5 +1,6 @@
 from transformers import BertForSequenceClassification, BertTokenizer, AdamW
 import torch
+import numpy.random as random
 
 # Load pre-trained BERT model and tokenizer
 model_name = "bert-base-uncased"
@@ -8,13 +9,13 @@ model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2) 
 
 # Prepare data
 # Generating example data
-num_samples = 100
+num_samples = 250
 
 # Example sentences
-sentences = ["The cat is on the mat.", "The dog barks loudly.", "Birds chirp in the morning.", "Sunsets are beautiful."]
+train_texts = ["The cat is on the mat.", "The dog barks loudly.", "Birds chirp in the morning.", "Sunsets are beautiful."]
 
 # Generating random binary labels (0 or 1) for each sentence
-labels = [random.choice([0, 1]) for _ in range(num_samples)]
+train_labels = [random.choice([0, 1]) for _ in range(num_samples)]
 
 # train_texts = ["example sentence 1", "example sentence 2", ...]
 # train_labels = [1, 0, ...] # binary labels for each sentence
@@ -73,5 +74,5 @@ for epoch in range(num_epochs):
 
         optimizer.step()
 
-    avg_loss = total_loss / len(train_dataloader)
-    print(f"Epoch {epoch+1}/{num_epochs}, Loss: {avg_loss}")
+    averageLoss = total_loss / len(train_dataloader)
+    print(f"Epoch {epoch + 1} / {num_epochs}, Loss: {averageLoss}")
