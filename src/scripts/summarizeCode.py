@@ -24,25 +24,28 @@ def main():
         device=0
     )
 
-    code = """
-    if number <= 1:
-        return False
-    elif number <= 3:
-        return True
-    elif number % 2 == 0 or number % 3 == 0:
-        return False
-    i = 5
-    while i * i <= number:
-        if number % i == 0 or number % (i + 2) == 0:
+    code = '''
+
+    def is_prime(number):
+        if number <= 1:
             return False
-        i += 6
-    return True
-    """ 
+        elif number <= 3:
+            return True
+        elif number % 2 == 0 or number % 3 == 0:
+            return False
+        i = 5
+        while i * i <= number:
+            if number % i == 0 or number % (i + 2) == 0:
+                return False
+            i += 6
+        return True
+            
+    ''' #@param {type:"raw"}
 
     tokenized_code = pythonTokenizer(code)
-    print("Code after tokenization: " + tokenized_code)
+    # print("Code after tokenization: " + tokenized_code)
 
-    pipeline([tokenized_code])
+    print(pipeline([tokenized_code]))
 
 if __name__ == '__main__':
     main()
