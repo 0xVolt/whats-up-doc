@@ -1,4 +1,21 @@
 from transformers import AutoTokenizer, AutoModelWithLMHead, SummarizationPipeline
+import tokenize
+import io
+
+def pythonTokenizer(line):
+    result = []
+    line = io.StringIO(line)
+
+    for tokenType, tok, start, end, line in tokenize.generate_tokens(line.readline):
+        if (not tokenType == tokenize.COMMENT):
+            if tokenType == tokenize.STRING:
+                result.append("CODE_STRING")
+            elif tokenType == tokenize.NUMBER:
+                result.append("CODE_INTEGER")
+            elif (not tok=="\n") and (not tok=="    "):
+                result.append(str(tok))
+
+    return ' '.join(result)
 
 pipeline = SummarizationPipeline(
     model=AutoModelWithLMHead.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune"),
@@ -21,20 +38,7 @@ if number <= 1:
     return True
 '''
 
-import tokenize
-import io
+tokenized_code = pythonTokenizer(code)
+print("Code after tokenization: " + tokenized_code)
 
-def pythonTokenizer(line):
-    result= []
-    line = io.StringIO(line)
-
-    for tokenType, tok, start, end, line in tokenize.generate_tokens(line.readline):
-        if (not tokenType == tokenize.COMMENT):
-            if tokenType == tokenize.STRING:
-                result.append("CODE_STRING")
-            elif tokenType == tokenize.NUMBER:
-                result.append("CODE_INTEGER")
-            elif (not tok=="\n") and (not tok=="    "):
-                result.append(str(tok))
-    return ' '.join(result)
-
+pipeline([tokenized_code])
