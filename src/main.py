@@ -19,21 +19,22 @@ def pythonTokenizer(line):
 
 def readFile(path):
     with open(path) as fin:
-        lines = fin.readlines()
+        code = fin.read()
     
-    print(lines)
-    
-    # return code
+    return code
 
 def main():
-    readFile(r"C:\Users\deshi\Code\whats-up-doc\src\scripts\testReadFile.py")
     
-    # pipeline = SummarizationPipeline(
-    #     model=AutoModelWithLMHead.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune"),
-    #     tokenizer=AutoTokenizer.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune", skip_special_tokens=True),
-    #     device=0
-    # )
+    pipeline = SummarizationPipeline(
+        model=AutoModelWithLMHead.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune"),
+        tokenizer=AutoTokenizer.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune", skip_special_tokens=True),
+        device=0
+    )
 
+    code = readFile(r"C:\Users\deshi\Code\whats-up-doc\src\scripts\testReadFile.py")
+    
+    print(f"Code:\n\n{code}")
+    
     # code = '''
 
     # def is_prime(number):
@@ -52,10 +53,10 @@ def main():
             
     # ''' #@param {type:"raw"}
 
-    # tokenized_code = pythonTokenizer(code)
-    # # print("Code after tokenization: " + tokenized_code)
+    tokenizedCode = pythonTokenizer(code)
+    print(f"\n\nCode after tokenization:\n\n{tokenizedCode}")
 
-    # print(pipeline([tokenized_code]))
+    print(f"\n\nModel Output through inference point:\n\n{pipeline([tokenizedCode])}")
 
 if __name__ == '__main__':
     main()
