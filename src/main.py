@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, AutoModelWithLMHead, SummarizationPipeline
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, SummarizationPipeline
 import tokenize
 import io
 
