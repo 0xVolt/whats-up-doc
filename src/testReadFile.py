@@ -13,3 +13,9 @@ def is_prime(number):
         i += 6
     
     return True
+
+def main():
+    print(is_prime(17))
+    
+if __name__ == "__main__":
+    main()
