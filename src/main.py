@@ -31,7 +31,7 @@ def main():
         device=0
     )
 
-    code = readFile(r"C:\Users\deshi\Code\whats-up-doc\src\scripts\testReadFile.py")
+    code = readFile(r"C:\Users\deshi\Code\whats-up-doc\src\testReadFile.py")
     
     print(f"Code:\n\n{code}")
 
