@@ -15,3 +15,9 @@ def pythonTokenizer(line):
                 result.append(str(token))
 
     return ' '.join(result)
+
+def readFile(path):
+    with open(path) as fin:
+        code = fin.read()
+    
+    return code
