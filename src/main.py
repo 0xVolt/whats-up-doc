@@ -28,7 +28,7 @@ def main():
     pipeline = SummarizationPipeline(
         model=AutoModelForSeq2SeqLM.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune"),
         tokenizer=AutoTokenizer.from_pretrained("SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune", skip_special_tokens=True, legacy=False),
-        max_new_tokens=1024,
+        max_new_tokens=512,
         device=0
     )
 
