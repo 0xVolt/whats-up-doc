@@ -1,6 +1,9 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, SummarizationPipeline
+import typer
 import tokenize
 import io
+
+app = typer.Typer()
 
 def pythonTokenizer(line):
     result = []
