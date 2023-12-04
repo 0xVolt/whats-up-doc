@@ -1,7 +1,23 @@
-import io
-import tokenize
+def readFile(path):
+    with open(path) as fin:
+        code = fin.read()
+    
+    return code
+
+
+def checkGPU(tensorflow):
+    if tensorflow == True:
+        import tensorflow as tf
+        print("Number of GPUs available with tensorflow:", len(tf.config.list_physical_devices('GPU')))
+    else:
+        import torch
+        print('Checking if the GPU is available with PyTorch:', torch.cuda.is_available())
+
 
 def pythonTokenizer(line):
+    import io
+    import tokenize
+    
     result = []
     line = io.StringIO(line)
 
@@ -15,9 +31,3 @@ def pythonTokenizer(line):
                 result.append(str(token))
 
     return ' '.join(result)
-
-def readFile(path):
-    with open(path) as fin:
-        code = fin.read()
-    
-    return code
