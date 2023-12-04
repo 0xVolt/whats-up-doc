@@ -3,9 +3,11 @@ import typer
 app = typer.Typer()
 
 
+# Create a decorator for our command
 @app.command()
-def hello():
-    print("This is a test function. Hello!")
+def hello(name: str, num: int):
+    print(f"This is a test function. Hello {name}!")
+    print(f"Your lucky number is: {num}")
 
 
 @app.command()
