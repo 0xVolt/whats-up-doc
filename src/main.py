@@ -14,8 +14,8 @@ def generate(file: str, default: bool = True):
     
 
 @app.command()
-def testCommand():
-    print("This is a test command! If you're here, that means you've discovered something pretty cool in our codebase. Congrats and thanks for using our app!")    
+def easter():
+    print("This is a test command! If you're here, that means you've discovered something pretty cool in our code-base.\nCongrats and thanks for using our app!")    
 
 
 if __name__ == "__main__":
