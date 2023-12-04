@@ -16,7 +16,7 @@ def createPipeline(checkpoint, device):
 
     Arguments:
     checkpoint - model checkpoint
-    device - integer, either 0 or 1, to specify if there exists a GPU
+    device (integer) - either 0 or 1, to specify if there exists a GPU
     '''
     pipeline = SummarizationPipeline(
         model=AutoModelForSeq2SeqLM.from_pretrained(checkpoint),
@@ -38,6 +38,14 @@ def generate(
     default: bool = True,
     gpu: bool = True
 ):
+    '''
+    Typer command to generate the documentation for an input script file.
+
+    Arguments:
+    file (string) - path to the input file
+    default (boolean) - flag to specify using the default model or a custom model
+    gpu (boolean) - flag to specify whether a GPU is available
+    '''
     print(f"Arguments specified:")
     print(f"File Path: {file}")
     print(f"Use Default Model Flag: {default}")
