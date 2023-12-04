@@ -9,27 +9,27 @@ app = typer.Typer()
 spinner = yaspin()
 
 
-# @yaspin(text="Creating model summarization pipeline...")
-# def createPipeline(checkpoint, device):
-#     '''
-#     Create a transformers model summarization pipeline.
-    
-#     Arguments:
-#     checkpoint - model checkpoint
-#     device - integer, either 0 or 1, to specify if there exists a GPU 
-#     '''
-#     pipeline = SummarizationPipeline(
-#         model=AutoModelForSeq2SeqLM.from_pretrained(checkpoint),
-#         tokenizer=AutoTokenizer.from_pretrained(
-#             checkpoint,
-#             skip_special_tokens=True,
-#             legacy=False
-#         ),
-#         max_new_tokens=1024,
-#         device=device
-#     )
-    
-#     return pipeline
+@yaspin(text="Creating model summarization pipeline...")
+def createPipeline(checkpoint, device):
+    '''
+    Create a transformers model summarization pipeline.
+
+    Arguments:
+    checkpoint - model checkpoint
+    device - integer, either 0 or 1, to specify if there exists a GPU
+    '''
+    pipeline = SummarizationPipeline(
+        model=AutoModelForSeq2SeqLM.from_pretrained(checkpoint),
+        tokenizer=AutoTokenizer.from_pretrained(
+            checkpoint,
+            skip_special_tokens=True,
+            legacy=False
+        ),
+        max_new_tokens=1024,
+        device=device
+    )
+
+    return pipeline
 
 
 @app.command()
@@ -42,12 +42,12 @@ def generate(
     print(f"File Path: {file}")
     print(f"Use Default Model Flag: {default}")
     print(f"Use GPU: {gpu}")
-    
+
     # Change gpu flag
     device = 0 if gpu else 1
 
     checkpoint = r"SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune" if default else -1
-    
+
     print("\n")
     spinner.start()
     pipeline = createPipeline(checkpoint=checkpoint, device=device)
