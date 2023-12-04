@@ -25,17 +25,11 @@ def generate(filePath: str, defaultModel: bool, gpu: bool):
             device=device
         )
     
-    
-
-def main():
-
-    code = readFile(r"C:\Users\deshi\Code\whats-up-doc\src\testReadFile.py")
+    code = readFile(filePath)
+    tokenizedCode = pythonTokenizer(code)
     
     print(f"Code:\n\n{code}")
-
-    tokenizedCode = pythonTokenizer(code)
     print(f"\n\nCode after tokenization:\n\n{tokenizedCode}")
-
     print(f"\n\nModel Output through inference point:\n\n{pipeline([tokenizedCode])}")
 
 if __name__ == '__main__':
