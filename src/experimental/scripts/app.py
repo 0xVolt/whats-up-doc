@@ -5,14 +5,15 @@ app = typer.Typer()
 
 # Create a decorator for our command
 @app.command()
-def hello(name: str, num: int):
-    print(f"This is a test function. Hello {name}!")
-    print(f"Your lucky number is: {num}")
+# Note: All arguments are required but those with default values aren't
+def generate(file: str, useDefault: bool = True):
+    print(f"Here's the file you'd passed in: {file}")
+    print(f"Here's the value of the useDefault flag: {useDefault}")
 
 
 @app.command()
-def goodbye():
-    print("This is another test function. Goodbye!")
+def testCommand():
+    print("This is a test command! Just placeholder, nothing to see here ://")
 
 
 if __name__ == "__main__":
