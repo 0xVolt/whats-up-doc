@@ -9,8 +9,9 @@ app = typer.Typer()
 
 @app.command()
 def generate(file: str, default: bool = True, gpu: bool = True):
-    print(f"File: {file}")
-    print(f"Use Default Model: {default}")
+    print(f"Arguments specified:")
+    print(f"File Path: {file}")
+    print(f"Use Default Model Flag: {default}")
     
     # Change gpu flag
     device = 0 if gpu else 1
