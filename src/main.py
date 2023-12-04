@@ -71,6 +71,9 @@ def generate(
 
 @app.command()
 def easter():
+    '''
+    An easter egg for the keen eyed open-source contributor.
+    '''
     print("This is a test command! If you're here, that means you've discovered something pretty cool in our code-base.\nCongrats and thanks for using our app!")
 
 
