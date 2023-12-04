@@ -9,7 +9,6 @@ app = typer.Typer()
 spinner = yaspin()
 
 
-@yaspin(text="Creating model summarization pipeline...")
 def createPipeline(checkpoint, device):
     '''
     Create a transformers model summarization pipeline.
@@ -56,7 +55,7 @@ def generate(
 
     checkpoint = r"SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune" if default else -1
 
-    print("\n")
+    print("\nCreating model summarization pipeline...\n")
     spinner.start()
     pipeline = createPipeline(checkpoint=checkpoint, device=device)
     spinner.stop()
