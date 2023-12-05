@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, SummarizationPipeline
-from utils import readFile, pythonTokenizer
+from utils import readFile, pythonTokenizer, splitFileIntoBlocks
 import typer
 import tokenize
 import io
@@ -77,4 +77,10 @@ def easter():
 
 
 if __name__ == "__main__":
-    app()
+    # app()
+    
+    path = input('Enter the file path: ')
+    
+    codeBlocks = splitFileIntoBlocks(path)
+    
+    print(codeBlocks)

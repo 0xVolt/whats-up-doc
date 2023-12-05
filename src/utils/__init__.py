@@ -1,3 +1,5 @@
+import ast
+
 def readFile(path):
     '''
     Open a specified script file in read mode and return it's contents as a string.
@@ -14,13 +16,23 @@ def readFile(path):
     return code
 
 
+def splitFileIntoBlocks(path):
+    code = readFile(path)
+        
+    # codeBlocks = []
+    
+    codeBlocks = ast.dump(ast.parse(code, mode='eval'), indent=4)
+
+    return codeBlocks
+
+
 def checkGPU(tensorflow):
     '''
     Check if a GPU is recognized by Tensorflow or PyTorch 
     '''
     if tensorflow == True:
         import tensorflow as tf
-        print("Number of GPUs available with tensorflow:", len(tf.config.list_physical_devices('GPU')))
+        print('Number of GPUs available with tensorflow', len(tf.config.list_physical_devices('GPU')))
     else:
         import torch
         print('Checking if the GPU is available with PyTorch:', torch.cuda.is_available())
@@ -45,10 +57,10 @@ def pythonTokenizer(line):
     for tokenType, token, start, end, line in tokenize.generate_tokens(line.readline):
         if (not tokenType == tokenize.COMMENT):
             if tokenType == tokenize.STRING:
-                result.append("CODE_STRING")
+                result.append('CODE_STRING')
             elif tokenType == tokenize.NUMBER:
-                result.append("CODE_INTEGER")
-            elif (not token == "\n") and (not token == "    "):
+                result.append('CODE_INTEGER')
+            elif (not token == '\n') and (not token == '    '):
                 result.append(str(token))
 
     result = ' '.join(result)
