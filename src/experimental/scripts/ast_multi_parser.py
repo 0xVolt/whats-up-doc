@@ -18,12 +18,37 @@ def parseNode(node, path):
         return parseImport(node, path)
 
 
-def parseModule():
-    pass
+def parseModule(node, path):
+    moduleMetaData = {
+        'Type': 'Module',
+        'Name': None,
+        'StartLine': 1,
+        'StartCol': 0,
+        'EndLine': len(node.body) if node.body else 1,
+        'EndCol': 0,
+        'RelativePath': os.path.relpath(path)
+    }
+    
+    return moduleMetaData
 
 
-def parseExpression():
-    pass
+def parseExpression(node, path):
+    blockType = type(node).__name__
+    blockName = node.name if hasattr(node, 'name') else None
+    startLine, startColumn = node.lineno, node.col_offset
+    endLine, endColumn = startLine + len(node.body) if node.body else startLine, 0
+
+    blockMetaData = {
+        'Type': blockType,
+        'Name': blockName,
+        'StartLine': startLine,
+        'StartCol': startColumn,
+        'EndLine': endLine,
+        'EndCol': endColumn,
+        'RelativePath': os.path.relpath(path)
+    }
+
+    return blockMetaData
 
 
 def parseFunctionOrClass():
