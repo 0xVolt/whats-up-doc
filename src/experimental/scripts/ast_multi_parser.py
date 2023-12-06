@@ -177,3 +177,8 @@ def parseImport(node, path):
     }
     
     return importMetaData
+
+
+if __name__ == "__main__":
+    path = r"C:\Users\deshi\Code\whats-up-doc\src\experimental\scripts\testResponse.py"
+    testScriptParsing(path)
