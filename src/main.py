@@ -77,10 +77,4 @@ def easter():
 
 
 if __name__ == "__main__":
-    # app()
-    
-    path = input('Enter the file path: ')
-    
-    codeBlocks = splitFileIntoBlocks(path)
-    
-    print(codeBlocks)
+    app()
