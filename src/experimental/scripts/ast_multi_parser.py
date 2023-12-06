@@ -62,6 +62,10 @@ def parseModule(node, path):
 
 
 def parseExpression(node, path):
+    pass
+
+
+def parseFunctionOrClass(node, path):
     blockType = type(node).__name__
     blockName = node.name if hasattr(node, 'name') else None
     startLine, startColumn = node.lineno, node.col_offset
@@ -80,10 +84,6 @@ def parseExpression(node, path):
     return blockMetaData
 
 
-def parseFunctionOrClass():
-    pass
-
-
 def parseIf(node, path):
     ifMetaData = {
         'Type': 'If',
@@ -98,13 +98,43 @@ def parseIf(node, path):
     return ifMetaData
 
 
-def parseFor():
-    pass
+def parseFor(node, path):
+    forMetaData = {
+        'Type': 'For',
+        'Name': None,
+        'StartLine': node.lineno,
+        'StartCol': node.col_offset,
+        'EndLine': node.body[0].lineno if node.body else node.lineno,
+        'EndCol': node.body[0].col_offset if node.body else 0,
+        'RelativePath': os.path.relpath(path)
+    }
+    
+    return forMetaData
 
 
-def parseWhile():
-    pass
+def parseWhile(node, path):
+    whileMetaData = {
+        'Type': 'While',
+        'Name': None,
+        'StartLine': node.lineno,
+        'StartCol': node.col_offset,
+        'EndLine': node.body[0].lineno if node.body else node.lineno,
+        'EndCol': node.body[0].col_offset if node.body else 0,
+        'RelativePath': os.path.relpath(path)
+    }
+    
+    return whileMetaData
 
 
-def parseImport():
-    pass
+def parseImport(node, path):
+    importMetaData = {
+        'Type': 'Import',
+        'Name': None,
+        'StartLine': node.lineno,
+        'StartCol': node.col_offset,
+        'EndLine': node.lineno,
+        'EndCol': node.col_offset + len('import'),
+        'RelativePath': os.path.relpath(path)
+    }
+    
+    return importMetaData
