@@ -2,8 +2,37 @@ import ast
 import os
 
 
-# Note: Python match-case statements are only supported in 3.10+
+# def testScriptParsing(path):
+#     blocksInfo = parseScript(path)
+
+#     for block_name, info in blocksInfo.items():
+#         print(f"Type: {info['Type']}")
+#         print(f"Name: {info['Name']}")
+#         print(f"Start Line: {info['StartLine']}, Start Col: {info['StartCol']}")
+#         print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
+#         print(f"Relative Path: {info['RelativePath']}")
+#         print("=" * 50)
+
+
+def parseScript(path):
+    blocksDictionary = {}
+
+    with open(path, 'r') as file:
+        script = file.read()
+
+    # Parse the script using ast module
+    parsedScript = ast.parse(script)
+
+    for node in ast.walk(parsedScript):
+        blockInfo = parseNode(node, path)
+        if blockInfo:
+            blocksDictionary[blockInfo.get('Name', str(len(blocksDictionary)))] = blockInfo
+
+    return blocksDictionary
+
+
 def parseNode(node, path):
+    # Note: Python match-case statements are only supported in 3.10+
     if isinstance(node, ast.Module):
         return parseModule(node, path)
     elif isinstance(node, ast.Expression):
