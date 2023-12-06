@@ -2,16 +2,16 @@ import ast
 import os
 
 
-# def testScriptParsing(path):
-#     blocksInfo = parseScript(path)
+def testScriptParsing(path):
+    blocksInfo = parseScript(path)
 
-#     for block_name, info in blocksInfo.items():
-#         print(f"Type: {info['Type']}")
-#         print(f"Name: {info['Name']}")
-#         print(f"Start Line: {info['StartLine']}, Start Col: {info['StartCol']}")
-#         print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
-#         print(f"Relative Path: {info['RelativePath']}")
-#         print("=" * 50)
+    for block_name, info in blocksInfo.items():
+        print(f"Type: {info['Type']}")
+        print(f"Name: {info['Name']}")
+        print(f"Start Line: {info['StartLine']}, Start Col: {info['StartCol']}")
+        print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
+        print(f"Relative Path: {info['RelativePath']}")
+        print("=" * 50)
 
 
 def parseScript(path):
