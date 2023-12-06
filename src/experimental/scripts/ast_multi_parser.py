@@ -35,14 +35,19 @@ def parseNode(node, path):
     # Note: Python match-case statements are only supported in 3.10+
     if isinstance(node, ast.Module):
         return parseModule(node, path)
+    
     elif isinstance(node, ast.Expression):
         return parseModule(node, path)
+    
     elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
         return parseFunctionOrClass(node, path)
+    
     elif isinstance(node, ast.If):
         return parseIf(node, path)
+    
     elif isinstance(node, ast.While):
         return parseWhile(node, path)
+    
     elif isinstance(node, ast.Import):
         return parseImport(node, path)
 
@@ -62,7 +67,41 @@ def parseModule(node, path):
 
 
 def parseExpression(node, path):
-    pass
+    expressionMetaData = {
+        'Type': 'Expression',
+        'Name': None,
+        'StartLine': node.lineno,
+        'StartCol': node.col_offset,
+        'EndLine': node.end_lineno,
+        'EndCol': node.end_col_offset,
+        'RelativePath': os.path.relpath(path)
+    }
+
+    if isinstance(node, ast.BinOp):
+        expressionMetaData['Name'] = 'Binary Operation'
+        expressionMetaData['Left'] = parseExpression(node.left, path)
+        expressionMetaData['Operator'] = ast.get_op_symbol(node.op)
+        expressionMetaData['Right'] = parseExpression(node.right, path)
+
+    elif isinstance(node, ast.Call):
+        expressionMetaData['Name'] = 'Function Call'
+        expressionMetaData['Function'] = parseExpression(node.func, path)
+        expressionMetaData['Arguments'] = [parseExpression(arg, path) for arg in node.args]
+
+    elif isinstance(node, ast.Attribute):
+        expressionMetaData['Name'] = 'Attribute'
+        expressionMetaData['Value'] = parseExpression(node.value, path)
+        expressionMetaData['Attr'] = node.attr
+
+    elif isinstance(node, ast.Name):
+        expressionMetaData['Name'] = 'Variable'
+        expressionMetaData['Value'] = node.id
+
+    elif isinstance(node, ast.Constant):
+        expressionMetaData['Name'] = 'Constant'
+        expressionMetaData['Value'] = node.value
+
+    return expressionMetaData
 
 
 def parseFunctionOrClass(node, path):
