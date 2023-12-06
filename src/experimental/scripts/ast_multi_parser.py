@@ -84,8 +84,18 @@ def parseFunctionOrClass():
     pass
 
 
-def parseIf():
-    pass
+def parseIf(node, path):
+    ifMetaData = {
+        'Type': 'If',
+        'Name': None,
+        'StartLine': node.lineno,
+        'StartCol': node.col_offset,
+        'EndLine': node.orelse[0].lineno if node.orelse else node.lineno,
+        'EndCol': node.orelse[0].col_offset if node.orelse else 0,
+        'RelativePath': os.path.relpath(path)
+    }
+    
+    return ifMetaData
 
 
 def parseFor():
