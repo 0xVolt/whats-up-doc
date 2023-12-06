@@ -14,6 +14,8 @@ def parseNode(node, path):
         return parseIf(node, path)
     elif isinstance(node, ast.While):
         return parseWhile(node, path)
+    elif isinstance(node, ast.Import):
+        return parseImport(node, path)
 
 
 def parseModule():
@@ -37,4 +39,8 @@ def parseFor():
 
 
 def parseWhile():
+    pass
+
+
+def parseImport():
     pass
