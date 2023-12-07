@@ -4,7 +4,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 
 ## TODO
 - [ ] Setup parser
-  - [ ] Finish metadata logging
+  - [X] Finish metadata logging
   - [ ] Fix assignment statement parser
 - [ ] Fix `utils` package
 - [ ] Move parser to `utils` package
