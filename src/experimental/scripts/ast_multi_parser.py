@@ -2,16 +2,27 @@ import ast
 import os
 
 
+def pretty(d, indent=0):
+   for key, value in d.items():
+      print('\t' * indent + str(key))
+      if isinstance(value, dict):
+         pretty(value, indent+1)
+      else:
+         print('\t' * (indent+1) + str(value))
+
+
 def testScriptParsing(path):
     blocksInfo = parseScript(path)
 
-    for block_name, info in blocksInfo.items():
-        print(f"Type: {info['Type']}")
-        print(f"Name: {info['Name']}")
-        print(f"Start Line: {info['StartLine']}, Start Col: {info['StartCol']}")
-        print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
-        print(f"Relative Path: {info['RelativePath']}")
-        print("=" * 50)
+    pretty(blocksInfo)
+
+    # for block_name, info in blocksInfo.items():
+    #     # print(f"Type: {info['Type']}")
+    #     print(f"Name: {info['Name']}")
+    #     print(f"Start Line: {info['StartLine']}, Start Col: {info['StartCol']}")
+    #     print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
+    #     print(f"Relative Path: {info['RelativePath']}")
+    #     print("=" * 50)
 
 
 def parseScript(path):
@@ -24,11 +35,39 @@ def parseScript(path):
     parsedScript = ast.parse(script)
 
     for node in ast.walk(parsedScript):
-        blockInfo = parseNode(node, path)
+        blockInfo = parseNodeReturnsDictionary(node, path)
         if blockInfo:
             blocksDictionary[blockInfo.get('Name', str(len(blocksDictionary)))] = blockInfo
 
     return blocksDictionary
+
+
+def parseNodeReturnsDictionary(node, path):
+    result = {}
+
+    if isinstance(node, ast.Module):
+        result['Module'] = parseModule(node, path)
+    
+    elif isinstance(node, ast.Expression):
+        result['Expression'] = parseExpression(node, path)
+    
+    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        result[node.name] = parseFunctionOrClass(node, path)
+    
+    elif isinstance(node, ast.If):
+        result['If'] = parseIf(node, path)
+    
+    elif isinstance(node, ast.While):
+        result['While'] = parseWhile(node, path)
+    
+    elif isinstance(node, ast.Import):
+        result['Import'] = parseImport(node, path)
+    
+    for child_node in ast.iter_child_nodes(node):
+        child_result = parseNodeReturnsDictionary(child_node, path)
+        result.update(child_result)
+
+    return result
 
 
 def parseNode(node, path):
