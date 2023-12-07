@@ -6,8 +6,6 @@ import json
 def testScriptParsing(path):
     blocksInfo = parseScript(path)
 
-    # pretty(blocksInfo)
-
     print(json.dumps(blocksInfo, sort_keys=True, indent=2))
 
     # for block_name, info in blocksInfo.items():
@@ -42,10 +40,10 @@ def parseNode(node, path):
     if isinstance(node, ast.Module):
         result['Module'] = parseModule(node, path)
 
-    elif isinstance(node, ast.Assign):
-        for target in node.targets:
-            if isinstance(target, ast.Name):
-                result[target.id] = parseAssignment(node.value, path)
+    # elif isinstance(node, ast.Assign):
+    #     for target in node.targets:
+    #         if isinstance(target, ast.Name):
+    #             result[target.id] = parseAssignment(node.value, path)
 
     elif isinstance(node, ast.Expression):
         result['Expression'] = parseExpression(node, path)
@@ -55,6 +53,9 @@ def parseNode(node, path):
 
     elif isinstance(node, ast.If):
         result['If'] = parseIf(node, path)
+        
+    elif isinstance(node, ast.For):
+        result['For'] = parseFor(node, path)
 
     elif isinstance(node, ast.While):
         result['While'] = parseWhile(node, path)
@@ -63,7 +64,7 @@ def parseNode(node, path):
         result['Import'] = parseImport(node, path)
 
     for child_node in ast.iter_child_nodes(node):
-        child_result = parseNodeReturnsDictionary(child_node, path)
+        child_result = parseNode(child_node, path)
         result.update(child_result)
 
     return result
@@ -83,9 +84,9 @@ def parseModule(node, path):
     return moduleMetaData
 
 
-def parseAssignment(node, path):
+def parseAssignment(value_node, path):
     try:
-        assigned_value = ast.literal_eval(node)
+        assigned_value = ast.literal_eval(value_node)
         assignment_info = {
             'AssignedValue': assigned_value,
             'ValueType': type(assigned_value).__name__,
