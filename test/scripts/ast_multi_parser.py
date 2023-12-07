@@ -20,7 +20,7 @@ def generateBlockMetaData(
 ):
     blockBody = None
 
-    if typeName is not 'Import':
+    if typeName != 'Import':
         blockBody = []
 
         for statement in node.body:
