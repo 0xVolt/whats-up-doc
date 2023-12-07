@@ -32,24 +32,51 @@ def parseScript(path):
 
 
 def parseNode(node, path):
-    # Note: Python match-case statements are only supported in 3.10+
+    result = []
+
     if isinstance(node, ast.Module):
-        return parseModule(node, path)
+        result.append(parseModule(node, path))
     
     elif isinstance(node, ast.Expression):
-        return parseModule(node, path)
+        result.append(parseExpression(node, path))
     
     elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-        return parseFunctionOrClass(node, path)
+        result.append(parseFunctionOrClass(node, path))
     
     elif isinstance(node, ast.If):
-        return parseIf(node, path)
+        result.append(parseIf(node, path))
     
     elif isinstance(node, ast.While):
-        return parseWhile(node, path)
+        result.append(parseWhile(node, path))
     
     elif isinstance(node, ast.Import):
-        return parseImport(node, path)
+        result.append(parseImport(node, path))
+    
+    for child_node in ast.iter_child_nodes(node):
+        result.extend(parseNode(child_node, path))
+
+    return result
+
+
+# def parseNode(node, path):
+#     # Note: Python match-case statements are only supported in 3.10+
+#     if isinstance(node, ast.Module):
+#         return parseModule(node, path)
+    
+#     elif isinstance(node, ast.Expression):
+#         return parseModule(node, path)
+    
+#     elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+#         return parseFunctionOrClass(node, path)
+    
+#     elif isinstance(node, ast.If):
+#         return parseIf(node, path)
+    
+#     elif isinstance(node, ast.While):
+#         return parseWhile(node, path)
+    
+#     elif isinstance(node, ast.Import):
+#         return parseImport(node, path)
 
 
 def parseModule(node, path):
