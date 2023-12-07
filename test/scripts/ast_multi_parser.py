@@ -7,25 +7,25 @@ def testScriptParsing(path):
     parsedScriptDictionary = parseScript(path)
 
     print(json.dumps(parsedScriptDictionary, sort_keys=False, indent=2))
-    
+
 
 def generateBlockMetaData(
-    node, 
-    typeName, 
-    name, 
-    startLine, 
-    endLine, 
-    startCol, 
+    node,
+    typeName,
+    name,
+    startLine,
+    endLine,
+    startCol,
     endCol,
 ):
     blockBody = None
-    
+
     if typeName is not 'Import':
         blockBody = []
-        
+
         for statement in node.body:
             blockBody.append(ast.unparse(statement))
-    
+
     blockMetaData = {
         'Type': typeName,
         'Name': name,
@@ -34,9 +34,9 @@ def generateBlockMetaData(
         'EndLine': endLine,
         'EndCol': endCol,
         'RelativePath': os.path.relpath(path),
-        'Body': blockBody 
+        'Body': blockBody
     }
-    
+
     return blockMetaData
 
 
@@ -45,7 +45,7 @@ def parseScript(path):
 
     with open(path, 'r') as file:
         lines = file.readlines()
-        
+
     # Do this to make sure the lines of code is displayed as a field in the attributes
     # Man, this is hella confusing...
     script = "".join(lines)
@@ -55,7 +55,7 @@ def parseScript(path):
 
     for node in ast.walk(parsedScript):
         nodeMetaData = parseNode(node, path, lines)
-        
+
         if nodeMetaData:
             parsedScriptDictionary[nodeMetaData.get('Name', str(len(parsedScriptDictionary)))] = nodeMetaData
 
@@ -79,7 +79,7 @@ def parseNode(node, path, lines):
 
     elif isinstance(node, ast.If):
         result['If'] = parseIf(node, path)
-        
+
     elif isinstance(node, ast.For):
         result['For'] = parseFor(node, path)
 
@@ -112,25 +112,25 @@ def parseModule(node, path):
 
 def parseAssignment(node, path, lines):
     assignmentMetaData = {}
-    
+
     for target in node.targets:
         start_line = node.lineno
         end_line = node.end_lineno if hasattr(node, 'end_lineno') else start_line
         line_of_code = "".join(lines[start_line - 1:end_line])
-        
+
         # Replace consecutive spaces with a single tab character
         line_of_code = line_of_code.replace('    ', '\t')
-        
+
         targetMetaData = {
             'target': target.id if isinstance(target, ast.Name) else ast.dump(target),
             'value': ast.dump(node.value),
             'line': node.lineno,
             'line_of_code': line_of_code.strip()
         }
-        
+
         # If there are multiple targets. Fuck, I really hope not ://
         assignmentMetaData.update(targetMetaData)
-        
+
     return assignmentMetaData
 
 
