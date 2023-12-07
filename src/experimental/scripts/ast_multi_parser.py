@@ -1,22 +1,14 @@
 import ast
 import os
-
-
-def pretty(d, indent=0):
-    for key, value in d.items():
-        print('\t' * indent + str(key))
-        
-        if isinstance(value, dict):
-            pretty(value, indent + 1)
-            
-        else:
-            print('\t' * (indent + 1) + str(value))
+import json
 
 
 def testScriptParsing(path):
     blocksInfo = parseScript(path)
 
-    pretty(blocksInfo)
+    # pretty(blocksInfo)
+
+    print(json.dumps(blocksInfo, sort_keys=True, indent=2))
 
     # for block_name, info in blocksInfo.items():
     #     # print(f"Type: {info['Type']}")
@@ -37,87 +29,44 @@ def parseScript(path):
     parsedScript = ast.parse(script)
 
     for node in ast.walk(parsedScript):
-        blockInfo = parseNodeReturnsDictionary(node, path)
+        blockInfo = parseNode(node, path)
         if blockInfo:
             blocksDictionary[blockInfo.get('Name', str(len(blocksDictionary)))] = blockInfo
 
     return blocksDictionary
 
 
-def parseNodeReturnsDictionary(node, path):
+def parseNode(node, path):
     result = {}
 
     if isinstance(node, ast.Module):
         result['Module'] = parseModule(node, path)
-    
+
+    elif isinstance(node, ast.Assign):
+        for target in node.targets:
+            if isinstance(target, ast.Name):
+                result[target.id] = parseAssignment(node.value, path)
+
     elif isinstance(node, ast.Expression):
         result['Expression'] = parseExpression(node, path)
-    
+
     elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
         result[node.name] = parseFunctionOrClass(node, path)
-    
+
     elif isinstance(node, ast.If):
         result['If'] = parseIf(node, path)
-    
+
     elif isinstance(node, ast.While):
         result['While'] = parseWhile(node, path)
-    
+
     elif isinstance(node, ast.Import):
         result['Import'] = parseImport(node, path)
-    
+
     for child_node in ast.iter_child_nodes(node):
         child_result = parseNodeReturnsDictionary(child_node, path)
         result.update(child_result)
 
     return result
-
-
-# def parseNode(node, path):
-#     result = []
-
-#     if isinstance(node, ast.Module):
-#         result.append(parseModule(node, path))
-    
-#     elif isinstance(node, ast.Expression):
-#         result.append(parseExpression(node, path))
-    
-#     elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-#         result.append(parseFunctionOrClass(node, path))
-    
-#     elif isinstance(node, ast.If):
-#         result.append(parseIf(node, path))
-    
-#     elif isinstance(node, ast.While):
-#         result.append(parseWhile(node, path))
-    
-#     elif isinstance(node, ast.Import):
-#         result.append(parseImport(node, path))
-    
-#     for child_node in ast.iter_child_nodes(node):
-#         result.extend(parseNode(child_node, path))
-
-#     return result
-
-
-# def parseNode(node, path):
-#     # Note: Python match-case statements are only supported in 3.10+
-#     if isinstance(node, ast.Module):
-#         return parseModule(node, path)
-    
-#     elif isinstance(node, ast.Expression):
-#         return parseModule(node, path)
-    
-#     elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-#         return parseFunctionOrClass(node, path)
-    
-#     elif isinstance(node, ast.If):
-#         return parseIf(node, path)
-    
-#     elif isinstance(node, ast.While):
-#         return parseWhile(node, path)
-    
-#     elif isinstance(node, ast.Import):
-#         return parseImport(node, path)
 
 
 def parseModule(node, path):
@@ -130,8 +79,22 @@ def parseModule(node, path):
         'EndCol': 0,
         'RelativePath': os.path.relpath(path)
     }
-    
+
     return moduleMetaData
+
+
+def parseAssignment(node, path):
+    try:
+        assigned_value = ast.literal_eval(node)
+        assignment_info = {
+            'AssignedValue': assigned_value,
+            'ValueType': type(assigned_value).__name__,
+            'RelativePath': os.path.relpath(path)
+        }
+        return assignment_info
+    except SyntaxError:
+        print(f"Error parsing assignment value in path: {path}")
+        return None
 
 
 def parseExpression(node, path):
@@ -201,7 +164,7 @@ def parseIf(node, path):
         'EndCol': node.orelse[0].col_offset if node.orelse else 0,
         'RelativePath': os.path.relpath(path)
     }
-    
+
     return ifMetaData
 
 
@@ -215,7 +178,7 @@ def parseFor(node, path):
         'EndCol': node.body[0].col_offset if node.body else 0,
         'RelativePath': os.path.relpath(path)
     }
-    
+
     return forMetaData
 
 
@@ -229,7 +192,7 @@ def parseWhile(node, path):
         'EndCol': node.body[0].col_offset if node.body else 0,
         'RelativePath': os.path.relpath(path)
     }
-    
+
     return whileMetaData
 
 
@@ -243,7 +206,7 @@ def parseImport(node, path):
         'EndCol': node.col_offset + len('import'),
         'RelativePath': os.path.relpath(path)
     }
-    
+
     return importMetaData
 
 
