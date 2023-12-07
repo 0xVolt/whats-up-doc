@@ -31,7 +31,7 @@ for text in train_texts:
                         pad_to_max_length=True,
                         return_attention_mask=True,
                         return_tensors='pt'
-                   )
+                    )
 
     input_ids.append(encoded_dict['input_ids'])
     attention_masks.append(encoded_dict['attention_mask'])
