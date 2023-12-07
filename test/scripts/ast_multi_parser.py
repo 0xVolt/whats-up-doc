@@ -136,15 +136,25 @@ def parseModule(node, path):
 
 
 def parseExpression(node, path):
-    expressionMetaData = {
-        'Type': 'Expression',
-        'Name': None,
-        'StartLine': node.lineno,
-        'StartCol': node.col_offset,
-        'EndLine': node.end_lineno,
-        'EndCol': node.end_col_offset,
-        'RelativePath': os.path.relpath(path)
-    }
+    # expressionMetaData = {
+    #     'Type': 'Expression',
+    #     'Name': None,
+    #     'StartLine': node.lineno,
+    #     'StartCol': node.col_offset,
+    #     'EndLine': node.end_lineno,
+    #     'EndCol': node.end_col_offset,
+    #     'RelativePath': os.path.relpath(path)
+    # }
+    
+    expressionMetaData = generateBlockMetaData(
+        node,
+        typeName='Expression',
+        name=None,
+        startLine=node.lineno,
+        endLine=node.end_lineno,
+        startCol=node.col_offset,
+        endCol=node.end_col_offset,
+    )
 
     if isinstance(node, ast.BinOp):
         expressionMetaData['Name'] = 'Binary Operation'
