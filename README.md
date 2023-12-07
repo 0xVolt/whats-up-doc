@@ -3,7 +3,7 @@
 A command-line tool leveraging LangChain and LLMs for language-agnostic code documentation.
 
 ## TODO
-- [ ] Setup parser
+- [X] Setup parser
   - [X] Finish metadata logging
   - [X] Fix assignment statement parser
   - [X] Pre process code before passing it to the parser
