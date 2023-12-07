@@ -4,9 +4,9 @@ import json
 
 
 def testScriptParsing(path):
-    blocksInfo = parseScript(path)
+    parsedScriptDictionary = parseScript(path)
 
-    print(json.dumps(blocksInfo, sort_keys=False, indent=2))
+    print(json.dumps(parsedScriptDictionary, sort_keys=False, indent=2))
     
 
 def generateBlockMetaData(
@@ -41,30 +41,35 @@ def generateBlockMetaData(
 
 
 def parseScript(path):
-    blocksDictionary = {}
+    parsedScriptDictionary = {}
 
     with open(path, 'r') as file:
-        script = file.read()
+        lines = file.readlines()
+        
+    # Do this to make sure the lines of code is displayed as a field in the attributes
+    # Man, this is hella confusing...
+    script = "".join(lines)
 
     # Parse the script using ast module
     parsedScript = ast.parse(script)
 
     for node in ast.walk(parsedScript):
-        blockInfo = parseNode(node, path)
-        if blockInfo:
-            blocksDictionary[blockInfo.get('Name', str(len(blocksDictionary)))] = blockInfo
+        nodeMetaData = parseNode(node, path, lines)
+        
+        if nodeMetaData:
+            parsedScriptDictionary[nodeMetaData.get('Name', str(len(parsedScriptDictionary)))] = nodeMetaData
 
-    return blocksDictionary
+    return parsedScriptDictionary
 
 
-def parseNode(node, path):
+def parseNode(node, path, lines):
     result = {}
 
     if isinstance(node, ast.Module):
         result['Module'] = parseModule(node, path)
 
     elif isinstance(node, ast.Assign):
-        result['Assignment'] = parseAssignment(node, path)
+        result['Assignment'] = parseAssignment(node, path, lines)
 
     elif isinstance(node, ast.Expression):
         result['Expression'] = parseExpression(node, path)
@@ -85,7 +90,7 @@ def parseNode(node, path):
         result['Import'] = parseImport(node, path)
 
     for child_node in ast.iter_child_nodes(node):
-        child_result = parseNode(child_node, path)
+        child_result = parseNode(child_node, path, lines)
         result.update(child_result)
 
     return result
@@ -105,18 +110,28 @@ def parseModule(node, path):
     return moduleMetaData
 
 
-def parseAssignment(value_node, path):
-    try:
-        assigned_value = ast.literal_eval(value_node)
-        assignment_info = {
-            'AssignedValue': assigned_value,
-            'ValueType': type(assigned_value).__name__,
-            'RelativePath': os.path.relpath(path)
+def parseAssignment(node, path, lines):
+    assignmentMetaData = {}
+    
+    for target in node.targets:
+        start_line = node.lineno
+        end_line = node.end_lineno if hasattr(node, 'end_lineno') else start_line
+        line_of_code = "".join(lines[start_line - 1:end_line])
+        
+        # Replace consecutive spaces with a single tab character
+        line_of_code = line_of_code.replace('    ', '\t')
+        
+        targetMetaData = {
+            'target': target.id if isinstance(target, ast.Name) else ast.dump(target),
+            'value': ast.dump(node.value),
+            'line': node.lineno,
+            'line_of_code': line_of_code.strip()
         }
-        return assignment_info
-    except SyntaxError:
-        print(f"Error parsing assignment value in path: {path}")
-        return None
+        
+        # If there are multiple targets. Fuck, I really hope not ://
+        assignmentMetaData.update(targetMetaData)
+        
+    return assignmentMetaData
 
 
 def parseExpression(node, path):
@@ -233,5 +248,5 @@ def parseImport(node, path):
 
 
 if __name__ == "__main__":
-    path = r"C:\Users\deshi\Code\whats-up-doc\test\scripts\testResponse.py"
+    path = r"C:\Users\deshi\Code\whats-up-doc\test\scripts\test_response.py"
     testScriptParsing(path)
