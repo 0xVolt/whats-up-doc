@@ -7,14 +7,6 @@ def testScriptParsing(path):
     blocksInfo = parseScript(path)
 
     print(json.dumps(blocksInfo, sort_keys=False, indent=2))
-
-    # for block_name, info in blocksInfo.items():
-    #     # print(f"Type: {info['Type']}")
-    #     print(f"Name: {info['Name']}")
-    #     print(f"Start Line: {info['StartLine']}, Start Col: {info['StartCol']}")
-    #     print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
-    #     print(f"Relative Path: {info['RelativePath']}")
-    #     print("=" * 50)
     
 
 def generateBlockMetaData(
@@ -102,16 +94,6 @@ def parseNode(node, path):
 
 
 def parseModule(node, path):
-    # moduleMetaData = {
-    #     'Type': 'Module',
-    #     'Name': None,
-    #     'StartLine': 1,
-    #     'StartCol': 0,
-    #     'EndLine': len(node.body) if node.body else 1,
-    #     'EndCol': 0,
-    #     'RelativePath': os.path.relpath(path)
-    # }
-    
     moduleMetaData = generateBlockMetaData(
         node=node,
         typeName='Module',
@@ -140,16 +122,6 @@ def parseModule(node, path):
 
 
 def parseExpression(node, path):
-    # expressionMetaData = {
-    #     'Type': 'Expression',
-    #     'Name': None,
-    #     'StartLine': node.lineno,
-    #     'StartCol': node.col_offset,
-    #     'EndLine': node.end_lineno,
-    #     'EndCol': node.end_col_offset,
-    #     'RelativePath': os.path.relpath(path)
-    # }
-    
     expressionMetaData = generateBlockMetaData(
         node,
         typeName='Expression',
@@ -193,16 +165,6 @@ def parseFunctionOrClass(node, path):
     startLine, startColumn = node.lineno, node.col_offset
     endLine, endColumn = startLine + len(node.body) if node.body else startLine, 0
 
-    # blockMetaData = {
-    #     'Type': blockType,
-    #     'Name': blockName,
-    #     'StartLine': startLine,
-    #     'StartCol': startColumn,
-    #     'EndLine': endLine,
-    #     'EndCol': endColumn,
-    #     'RelativePath': os.path.relpath(path)
-    # }
-    
     functionOrClassMetaData = generateBlockMetaData(
         node,
         typeName=blockType,
@@ -217,16 +179,6 @@ def parseFunctionOrClass(node, path):
 
 
 def parseIf(node, path):
-    # ifMetaData = {
-    #     'Type': 'If',
-    #     'Name': None,
-    #     'StartLine': node.lineno,
-    #     'StartCol': node.col_offset,
-    #     'EndLine': node.orelse[0].lineno if node.orelse else node.lineno,
-    #     'EndCol': node.orelse[0].col_offset if node.orelse else 0,
-    #     'RelativePath': os.path.relpath(path)
-    # }
-
     ifMetaData = generateBlockMetaData(
         node,
         typeName='If',
@@ -241,16 +193,6 @@ def parseIf(node, path):
 
 
 def parseFor(node, path):
-    # forMetaData = {
-    #     'Type': 'For',
-    #     'Name': None,
-    #     'StartLine': node.lineno,
-    #     'StartCol': node.col_offset,
-    #     'EndLine': node.body[0].lineno if node.body else node.lineno,
-    #     'EndCol': node.body[0].col_offset if node.body else 0,
-    #     'RelativePath': os.path.relpath(path)
-    # }
-    
     forMetaData = generateBlockMetaData(
         node,
         typeName='For',
@@ -265,16 +207,6 @@ def parseFor(node, path):
 
 
 def parseWhile(node, path):
-    # whileMetaData = {
-    #     'Type': 'While',
-    #     'Name': None,
-    #     'StartLine': node.lineno,
-    #     'StartCol': node.col_offset,
-    #     'EndLine': node.body[0].lineno if node.body else node.lineno,
-    #     'EndCol': node.body[0].col_offset if node.body else 0,
-    #     'RelativePath': os.path.relpath(path)
-    # }
-    
     whileMetaData = generateBlockMetaData(
         node,
         typeName='While',
@@ -289,16 +221,6 @@ def parseWhile(node, path):
 
 
 def parseImport(node, path):
-    # importMetaData = {
-    #     'Type': 'Import',
-    #     'Name': None,
-    #     'StartLine': node.lineno,
-    #     'StartCol': node.col_offset,
-    #     'EndLine': node.lineno,
-    #     'EndCol': node.col_offset + len('import'),
-    #     'RelativePath': os.path.relpath(path)
-    # }
-    
     importMetaData = generateBlockMetaData(
         node,
         typeName='Import',
