@@ -6,7 +6,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 - [ ] Setup parser
   - [X] Finish metadata logging
   - [X] Fix assignment statement parser
-  - [ ] Pre process code before passing it to the parser
+  - [X] Pre process code before passing it to the parser
   - [ ] Move assignment parser into `multi_parser`
 - [ ] Fix `utils` package
 - [ ] Move parser to `utils` package
