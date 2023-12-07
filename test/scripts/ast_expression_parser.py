@@ -26,6 +26,7 @@ def parse_assignments(file_path):
                         'line': node.lineno,
                         'line_of_code': line_of_code.strip()
                     }
+                    
                     assignments.append(attributes)
 
     return assignments
