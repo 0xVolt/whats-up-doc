@@ -38,7 +38,7 @@ def generateBlockMetaData(
         'EndLine': endLine,
         'EndCol': endCol,
         'RelativePath': os.path.relpath(path),
-        'FunctionBody': blockBody
+        'Body': blockBody
     }
     
     return blockMetaData
