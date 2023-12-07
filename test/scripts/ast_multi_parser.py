@@ -63,10 +63,8 @@ def parseNode(node, path):
     if isinstance(node, ast.Module):
         result['Module'] = parseModule(node, path)
 
-    # elif isinstance(node, ast.Assign):
-    #     for target in node.targets:
-    #         if isinstance(target, ast.Name):
-    #             result[target.id] = parseAssignment(node.value, path)
+    elif isinstance(node, ast.Assign):
+        result['Assignment'] = parseAssignment(node, path)
 
     elif isinstance(node, ast.Expression):
         result['Expression'] = parseExpression(node, path)
@@ -107,18 +105,18 @@ def parseModule(node, path):
     return moduleMetaData
 
 
-# def parseAssignment(value_node, path):
-#     try:
-#         assigned_value = ast.literal_eval(value_node)
-#         assignment_info = {
-#             'AssignedValue': assigned_value,
-#             'ValueType': type(assigned_value).__name__,
-#             'RelativePath': os.path.relpath(path)
-#         }
-#         return assignment_info
-#     except SyntaxError:
-#         print(f"Error parsing assignment value in path: {path}")
-#         return None
+def parseAssignment(value_node, path):
+    try:
+        assigned_value = ast.literal_eval(value_node)
+        assignment_info = {
+            'AssignedValue': assigned_value,
+            'ValueType': type(assigned_value).__name__,
+            'RelativePath': os.path.relpath(path)
+        }
+        return assignment_info
+    except SyntaxError:
+        print(f"Error parsing assignment value in path: {path}")
+        return None
 
 
 def parseExpression(node, path):
