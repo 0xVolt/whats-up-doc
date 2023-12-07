@@ -2,6 +2,23 @@
 
 A command-line tool leveraging LangChain and LLMs for language-agnostic code documentation.
 
+## TODO
+- [ ] Setup parser
+  - [ ] Finish metadata logging
+  - [ ] Fix assignment statement parser
+- [ ] Fix `utils` package
+- [ ] Move parser to `utils` package
+- [ ] Smooth over `utils` package functions
+- [ ] Add docstrings to functions
+- [ ] Setup CLI
+  - [ ] Add ASCII art
+  - [ ] Fix/circumvent `yaspin` spinner flicker
+  - [ ] Setup multi-model select
+  - [ ] Ensure models work for C++/JS
+    - [ ] May need to setup another model to work with another language by default
+  - [ ] Setup markdown generator
+    - [ ] Generate text file and then parse and add `md` syntax
+
 ## Resources
 1. [Code Documentation Generation task on *paperswithcode.com*](https://paperswithcode.com/task/code-documentation-generation)
 2. [CodeSearchNet corpus on *paperswithcode.com*](https://paperswithcode.com/dataset/codesearchnet)
