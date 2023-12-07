@@ -15,6 +15,28 @@ def testScriptParsing(path):
     #     print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
     #     print(f"Relative Path: {info['RelativePath']}")
     #     print("=" * 50)
+    
+
+def generateMetaData(
+    node, 
+    typeName, 
+    name, 
+    startLine, 
+    endLine, 
+    startCol, 
+    endCol
+):
+    metaData = {
+        'Type': typeName,
+        'Name': name,
+        'StartLine': startLine,
+        'StartCol': startCol,
+        'EndLine': endLine,
+        'EndCol': endCol,
+        'RelativePath': os.path.relpath(path)
+    }
+    
+    return metaData
 
 
 def parseScript(path):
@@ -84,18 +106,18 @@ def parseModule(node, path):
     return moduleMetaData
 
 
-def parseAssignment(value_node, path):
-    try:
-        assigned_value = ast.literal_eval(value_node)
-        assignment_info = {
-            'AssignedValue': assigned_value,
-            'ValueType': type(assigned_value).__name__,
-            'RelativePath': os.path.relpath(path)
-        }
-        return assignment_info
-    except SyntaxError:
-        print(f"Error parsing assignment value in path: {path}")
-        return None
+# def parseAssignment(value_node, path):
+#     try:
+#         assigned_value = ast.literal_eval(value_node)
+#         assignment_info = {
+#             'AssignedValue': assigned_value,
+#             'ValueType': type(assigned_value).__name__,
+#             'RelativePath': os.path.relpath(path)
+#         }
+#         return assignment_info
+#     except SyntaxError:
+#         print(f"Error parsing assignment value in path: {path}")
+#         return None
 
 
 def parseExpression(node, path):
