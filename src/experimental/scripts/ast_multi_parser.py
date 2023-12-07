@@ -72,31 +72,31 @@ def parseNodeReturnsDictionary(node, path):
     return result
 
 
-def parseNode(node, path):
-    result = []
+# def parseNode(node, path):
+#     result = []
 
-    if isinstance(node, ast.Module):
-        result.append(parseModule(node, path))
+#     if isinstance(node, ast.Module):
+#         result.append(parseModule(node, path))
     
-    elif isinstance(node, ast.Expression):
-        result.append(parseExpression(node, path))
+#     elif isinstance(node, ast.Expression):
+#         result.append(parseExpression(node, path))
     
-    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-        result.append(parseFunctionOrClass(node, path))
+#     elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+#         result.append(parseFunctionOrClass(node, path))
     
-    elif isinstance(node, ast.If):
-        result.append(parseIf(node, path))
+#     elif isinstance(node, ast.If):
+#         result.append(parseIf(node, path))
     
-    elif isinstance(node, ast.While):
-        result.append(parseWhile(node, path))
+#     elif isinstance(node, ast.While):
+#         result.append(parseWhile(node, path))
     
-    elif isinstance(node, ast.Import):
-        result.append(parseImport(node, path))
+#     elif isinstance(node, ast.Import):
+#         result.append(parseImport(node, path))
     
-    for child_node in ast.iter_child_nodes(node):
-        result.extend(parseNode(child_node, path))
+#     for child_node in ast.iter_child_nodes(node):
+#         result.extend(parseNode(child_node, path))
 
-    return result
+#     return result
 
 
 # def parseNode(node, path):
