@@ -14,7 +14,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
   - [ ] Add ASCII art
   - [ ] Fix/circumvent `yaspin` spinner flicker
   - [ ] Setup multi-model select
-  - [ ] Ensure models work for C++/JS
+  - [ ] Ensure models work for C++/JS (langchain dependency check)
     - [ ] May need to setup another model to work with another language by default
   - [ ] Setup markdown generator
     - [ ] Generate text file and then parse and add `md` syntax
