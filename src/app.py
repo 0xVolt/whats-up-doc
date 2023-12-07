@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, SummarizationPipeline
-from utils import readFile, pythonTokenizer, splitFileIntoBlocks
+from utils import readFile, pythonTokenizer
 import typer
 import tokenize
 import io
