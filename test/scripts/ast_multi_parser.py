@@ -17,26 +17,31 @@ def testScriptParsing(path):
     #     print("=" * 50)
     
 
-def generateMetaData(
+def generateBlockMetaData(
     node, 
     typeName, 
     name, 
     startLine, 
     endLine, 
     startCol, 
-    endCol
+    endCol,
 ):
-    metaData = {
+    blockBody = []
+    for statement in node.body:
+        blockBody.append(ast.unparse(statement))
+    
+    blockMetaData = {
         'Type': typeName,
         'Name': name,
         'StartLine': startLine,
         'StartCol': startCol,
         'EndLine': endLine,
         'EndCol': endCol,
-        'RelativePath': os.path.relpath(path)
+        'RelativePath': os.path.relpath(path),
+        'FunctionBody': blockBody
     }
     
-    return metaData
+    return blockMetaData
 
 
 def parseScript(path):
@@ -93,15 +98,25 @@ def parseNode(node, path):
 
 
 def parseModule(node, path):
-    moduleMetaData = {
-        'Type': 'Module',
-        'Name': None,
-        'StartLine': 1,
-        'StartCol': 0,
-        'EndLine': len(node.body) if node.body else 1,
-        'EndCol': 0,
-        'RelativePath': os.path.relpath(path)
-    }
+    # moduleMetaData = {
+    #     'Type': 'Module',
+    #     'Name': None,
+    #     'StartLine': 1,
+    #     'StartCol': 0,
+    #     'EndLine': len(node.body) if node.body else 1,
+    #     'EndCol': 0,
+    #     'RelativePath': os.path.relpath(path)
+    # }
+    
+    moduleMetaData = generateBlockMetaData(
+        node=node,
+        typeName='Module',
+        name=None,
+        startLine=1,
+        endLine=len(node.body) if node.body else 1,
+        startCol=0,
+        endCol=0
+    )
 
     return moduleMetaData
 
@@ -234,5 +249,5 @@ def parseImport(node, path):
 
 
 if __name__ == "__main__":
-    path = r"C:\Users\deshi\Code\whats-up-doc\src\experimental\scripts\testResponse.py"
+    path = r"C:\Users\deshi\Code\whats-up-doc\test\scripts\testResponse.py"
     testScriptParsing(path)
