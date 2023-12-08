@@ -1,3 +1,5 @@
+__all__ = ['readGPU']
+
 import ast
 import os
 
@@ -18,16 +20,16 @@ def readFile(path):
     return code
 
 
-def checkGPU(tensorflow):
-    '''
-    Check if a GPU is recognized by Tensorflow or PyTorch
-    '''
-    if tensorflow == True:
-        import tensorflow as tf
-        print('Number of GPUs available with tensorflow', len(tf.config.list_physical_devices('GPU')))
-    else:
-        import torch
-        print('Checking if the GPU is available with PyTorch:', torch.cuda.is_available())
+# def checkGPU(tensorflow):
+#     '''
+#     Check if a GPU is recognized by Tensorflow or PyTorch
+#     '''
+#     if tensorflow == True:
+#         import tensorflow as tf
+#         print('Number of GPUs available with tensorflow', len(tf.config.list_physical_devices('GPU')))
+#     else:
+#         import torch
+#         print('Checking if the GPU is available with PyTorch:', torch.cuda.is_available())
 
 
 def pythonTokenizer(line):
