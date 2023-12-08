@@ -9,6 +9,62 @@ def testScriptParsing(path):
     print(json.dumps(parsedScriptDictionary, sort_keys=False, indent=2))
 
 
+def parseScript(path):
+    parsedScriptDictionary = {}
+
+    with open(path, 'r') as file:
+        lines = file.readlines()
+
+    # Do this to make sure the lines of code is displayed as a field in the attributes
+    # Man, this is hella confusing...
+    script = "".join(lines)
+
+    # Parse the script using ast module
+    parsedScript = ast.parse(script)
+
+    for node in ast.walk(parsedScript):
+        nodeMetaData = parseNode(node, path, lines)
+
+        if nodeMetaData:
+            parsedScriptDictionary[nodeMetaData.get('Name', str(len(parsedScriptDictionary)))] = nodeMetaData
+
+    return parsedScriptDictionary
+
+
+def parseNode(node, path, lines):
+    result = {}
+
+    if isinstance(node, ast.Module):
+        result['Module'] = parseModule(node)
+
+    elif isinstance(node, ast.Assign):
+        result['Assignment'] = parseAssignment(node, lines)
+
+    elif isinstance(node, ast.Expression):
+        result['Expression'] = parseExpression(node, path)
+
+    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        result[node.name] = parseFunctionOrClass(node)
+
+    elif isinstance(node, ast.If):
+        result['If'] = parseIf(node)
+
+    elif isinstance(node, ast.For):
+        result['For'] = parseFor(node)
+
+    elif isinstance(node, ast.While):
+        result['While'] = parseWhile(node)
+
+    elif isinstance(node, ast.Import):
+        result['Import'] = parseImport(node)
+
+    for child_node in ast.iter_child_nodes(node):
+        child_result = parseNode(child_node, path, lines)
+        result.update(child_result)
+
+    return result
+
+
 def generateBlockMetaData(
     node,
     typeName,
@@ -40,63 +96,7 @@ def generateBlockMetaData(
     return blockMetaData
 
 
-def parseScript(path):
-    parsedScriptDictionary = {}
-
-    with open(path, 'r') as file:
-        lines = file.readlines()
-
-    # Do this to make sure the lines of code is displayed as a field in the attributes
-    # Man, this is hella confusing...
-    script = "".join(lines)
-
-    # Parse the script using ast module
-    parsedScript = ast.parse(script)
-
-    for node in ast.walk(parsedScript):
-        nodeMetaData = parseNode(node, path, lines)
-
-        if nodeMetaData:
-            parsedScriptDictionary[nodeMetaData.get('Name', str(len(parsedScriptDictionary)))] = nodeMetaData
-
-    return parsedScriptDictionary
-
-
-def parseNode(node, path, lines):
-    result = {}
-
-    if isinstance(node, ast.Module):
-        result['Module'] = parseModule(node, path)
-
-    elif isinstance(node, ast.Assign):
-        result['Assignment'] = parseAssignment(node, path, lines)
-
-    elif isinstance(node, ast.Expression):
-        result['Expression'] = parseExpression(node, path)
-
-    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-        result[node.name] = parseFunctionOrClass(node, path)
-
-    elif isinstance(node, ast.If):
-        result['If'] = parseIf(node, path)
-
-    elif isinstance(node, ast.For):
-        result['For'] = parseFor(node, path)
-
-    elif isinstance(node, ast.While):
-        result['While'] = parseWhile(node, path)
-
-    elif isinstance(node, ast.Import):
-        result['Import'] = parseImport(node, path)
-
-    for child_node in ast.iter_child_nodes(node):
-        child_result = parseNode(child_node, path, lines)
-        result.update(child_result)
-
-    return result
-
-
-def parseModule(node, path):
+def parseModule(node):
     moduleMetaData = generateBlockMetaData(
         node=node,
         typeName='Module',
@@ -110,7 +110,7 @@ def parseModule(node, path):
     return moduleMetaData
 
 
-def parseAssignment(node, path, lines):
+def parseAssignment(node, lines):
     assignmentMetaData = {}
 
     for target in node.targets:
@@ -172,7 +172,7 @@ def parseExpression(node, path):
     return expressionMetaData
 
 
-def parseFunctionOrClass(node, path):
+def parseFunctionOrClass(node):
     blockType = type(node).__name__
     blockName = node.name if hasattr(node, 'name') else None
     startLine, startColumn = node.lineno, node.col_offset
@@ -191,7 +191,7 @@ def parseFunctionOrClass(node, path):
     return functionOrClassMetaData
 
 
-def parseIf(node, path):
+def parseIf(node):
     ifMetaData = generateBlockMetaData(
         node,
         typeName='If',
@@ -205,7 +205,7 @@ def parseIf(node, path):
     return ifMetaData
 
 
-def parseFor(node, path):
+def parseFor(node):
     forMetaData = generateBlockMetaData(
         node,
         typeName='For',
@@ -219,7 +219,7 @@ def parseFor(node, path):
     return forMetaData
 
 
-def parseWhile(node, path):
+def parseWhile(node):
     whileMetaData = generateBlockMetaData(
         node,
         typeName='While',
@@ -233,7 +233,7 @@ def parseWhile(node, path):
     return whileMetaData
 
 
-def parseImport(node, path):
+def parseImport(node):
     importMetaData = generateBlockMetaData(
         node,
         typeName='Import',
