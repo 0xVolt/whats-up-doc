@@ -53,6 +53,7 @@ def generate(
     # Change gpu flag
     device = 0 if gpu else 1
 
+    # Implement logic to switch models given a different language
     checkpoint = r"SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune" if default else -1
 
     print("\nCreating model summarization pipeline...\n")
