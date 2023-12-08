@@ -1,8 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, SummarizationPipeline
-from utils import readFile, pythonTokenizer
+from utils import file_utils, pre_process_utils
 import typer
-import tokenize
-import io
 from yaspin import yaspin
 
 app = typer.Typer()
@@ -60,8 +58,8 @@ def generate(
     pipeline = createPipeline(checkpoint=checkpoint, device=device)
     spinner.stop()
 
-    code = readFile(file)
-    tokenizedCode = pythonTokenizer(code)
+    code = file_utils.readFile(file)
+    tokenizedCode = pre_process_utils.pythonTokenizer(code)
 
     print(f"Code:\n\n{code}")
     print(f"\n\nCode after tokenization:\n\n{tokenizedCode}")
