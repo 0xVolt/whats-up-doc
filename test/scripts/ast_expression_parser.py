@@ -1,6 +1,5 @@
 import ast
 import json
-import os
 
 
 def parse_assignments(file_path):
@@ -32,7 +31,7 @@ def parse_assignments(file_path):
     return assignments
 
 
-file_path = r"C:\Users\deshi\Code\whats-up-doc\test\scripts\testResponse.py"
+file_path = r"C:\Users\deshi\Code\whats-up-doc\test\scripts\test_response.py"
 result = parse_assignments(file_path)
 
 print(json.dumps(result, indent=2))
