@@ -1,7 +1,9 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, SummarizationPipeline
-from utils import file_utils, pre_process_utils
 import typer
+from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
+                          SummarizationPipeline)
 from yaspin import yaspin
+
+from utils import file_utils, pre_process_utils
 
 app = typer.Typer()
 spinner = yaspin()
