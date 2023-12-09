@@ -122,30 +122,6 @@ def parseModule(node):
     return moduleMetaData
 
 
-# def parseAssignment(node, lines):
-#     assignmentMetaData = {}
-
-#     for target in node.targets:
-#         startLine = node.lineno
-#         endLine = node.end_lineno if hasattr(node, 'end_lineno') else startLine
-#         code = "".join(lines[startLine - 1:endLine])
-
-#         # Replace consecutive spaces with a single tab character
-#         code = code.replace('    ', '\t')
-
-#         targetMetaData = {
-#             'Target': target.id if isinstance(target, ast.Name) else ast.dump(target),
-#             'Value': ast.dump(node.value),
-#             'Line': node.lineno,
-#             'Body': code.strip()
-#         }
-
-#         # If there are multiple targets. Fuck, I really hope not ://
-#         assignmentMetaData.update(targetMetaData)
-
-#     return assignmentMetaData
-
-
 def parseAssignment(node, lines):
     assignmentMetaData = {}
 
