@@ -9,6 +9,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
   - [X] Pre process code before passing it to the parser
   - [X] Code `BodyCount` attribute O.O
   - [X] Move assignment parser into `multi_parser`
+  - [ ] Fix `relativePath` attribute when dealing with multiple files
 - [ ] Fix `utils` package
   - [ ] Move parser to `utils` package
   - [ ] Smooth over `utils` package functions
