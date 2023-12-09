@@ -7,7 +7,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
   - [X] Finish metadata logging
   - [X] Fix assignment statement parser
   - [X] Pre process code before passing it to the parser
-  - [ ] Code `BodyCount` attribute O.O
+  - [X] Code `BodyCount` attribute O.O
   - [ ] Move assignment parser into `multi_parser`
 - [ ] Fix `utils` package
   - [ ] Move parser to `utils` package
