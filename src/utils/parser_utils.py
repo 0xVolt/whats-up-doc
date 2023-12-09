@@ -1,25 +1,95 @@
 import ast
-import os
 import json
+import os
+
+
+def testScriptParsing(path):
+    parsedScriptDictionary = parseScript(path)
+
+    print(json.dumps(parsedScriptDictionary, sort_keys=False, indent=2))
+
+
+def parseScript(path):
+    parsedScriptDictionary = {}
+
+    with open(path, 'r') as file:
+        lines = file.readlines()
+
+    # Do this to make sure the lines of code is displayed as a field in the attributes
+    # Man, this is hella confusing...
+    script = "".join(lines)
+
+    # Parse the script using ast module
+    parsedScript = ast.parse(script)
+
+    for node in ast.walk(parsedScript):
+        nodeMetaData = parseNode(node, path, lines)
+
+        if nodeMetaData:
+            parsedScriptDictionary[nodeMetaData.get('Name', str(len(parsedScriptDictionary)))] = nodeMetaData
+
+    return parsedScriptDictionary
+
+
+def parseNode(node, path, lines):
+    result = {}
+
+    if isinstance(node, ast.Module):
+        result['Module'] = parseModule(node)
+
+    elif isinstance(node, ast.Assign):
+        result['Assignment'] = parseAssignment(node, lines)
+
+    elif isinstance(node, ast.Expression):
+        result['Expression'] = parseExpression(node, path)
+
+    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        result[node.name] = parseFunctionOrClass(node)
+
+    elif isinstance(node, ast.If):
+        result['If'] = parseIf(node)
+
+    elif isinstance(node, ast.For):
+        result['For'] = parseFor(node)
+
+    elif isinstance(node, ast.While):
+        result['While'] = parseWhile(node)
+
+    elif isinstance(node, ast.Import):
+        result['Import'] = parseImport(node)
+
+    for child_node in ast.iter_child_nodes(node):
+        child_result = parseNode(child_node, path, lines)
+        result.update(child_result)
+
+    return result
 
 
 def generateBlockMetaData(
-    node, 
-    typeName, 
-    name, 
-    startLine, 
-    endLine, 
-    startCol, 
+    node,
+    typeName,
+    name,
+    startLine,
+    endLine,
+    startCol,
     endCol,
+    code=None,            # parseAssignment is the only function that could pass code
+    targets=None          # Dictionary for parseAssignment if multiple targets exist
 ):
     blockBody = None
-    
-    if typeName is not 'Import':
+    # I don't think I wanna change this anytime soon. Indexing starts from 1.
+    bodyCount = 0
+
+    if typeName != 'Import' and typeName != 'Assignment':
         blockBody = []
-        
+
         for statement in node.body:
             blockBody.append(ast.unparse(statement))
-    
+            bodyCount += 1
+    else:
+        # Signifies that import and assignment statements have one line of code
+        bodyCount = 1
+
     blockMetaData = {
         'Type': typeName,
         'Name': name,
@@ -28,76 +98,17 @@ def generateBlockMetaData(
         'EndLine': endLine,
         'EndCol': endCol,
         'RelativePath': os.path.relpath(path),
-        'Body': blockBody 
+        'Body': code if typeName == 'Assignment' else blockBody,
+        'BodyCount': bodyCount
     }
     
+    if targets:
+        blockMetaData['Targets'] = targets
+
     return blockMetaData
 
 
-def parseScript(path):
-    blocksDictionary = {}
-
-    with open(path, 'r') as file:
-        script = file.read()
-
-    # Parse the script using ast module
-    parsedScript = ast.parse(script)
-
-    for node in ast.walk(parsedScript):
-        blockInfo = parseNode(node, path)
-        if blockInfo:
-            blocksDictionary[blockInfo.get('Name', str(len(blocksDictionary)))] = blockInfo
-
-    return blocksDictionary
-
-
-def parseNode(node, path):
-    result = {}
-
-    if isinstance(node, ast.Module):
-        result['Module'] = parseModule(node, path)
-
-    # elif isinstance(node, ast.Assign):
-    #     for target in node.targets:
-    #         if isinstance(target, ast.Name):
-    #             result[target.id] = parseAssignment(node.value, path)
-
-    elif isinstance(node, ast.Expression):
-        result['Expression'] = parseExpression(node, path)
-
-    elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-        result[node.name] = parseFunctionOrClass(node, path)
-
-    elif isinstance(node, ast.If):
-        result['If'] = parseIf(node, path)
-        
-    elif isinstance(node, ast.For):
-        result['For'] = parseFor(node, path)
-
-    elif isinstance(node, ast.While):
-        result['While'] = parseWhile(node, path)
-
-    elif isinstance(node, ast.Import):
-        result['Import'] = parseImport(node, path)
-
-    for child_node in ast.iter_child_nodes(node):
-        child_result = parseNode(child_node, path)
-        result.update(child_result)
-
-    return result
-
-
-def parseModule(node, path):
-    # moduleMetaData = {
-    #     'Type': 'Module',
-    #     'Name': None,
-    #     'StartLine': 1,
-    #     'StartCol': 0,
-    #     'EndLine': len(node.body) if node.body else 1,
-    #     'EndCol': 0,
-    #     'RelativePath': os.path.relpath(path)
-    # }
-    
+def parseModule(node):
     moduleMetaData = generateBlockMetaData(
         node=node,
         typeName='Module',
@@ -109,6 +120,44 @@ def parseModule(node, path):
     )
 
     return moduleMetaData
+
+
+def parseAssignment(node, lines):
+    assignmentMetaData = {}
+
+    startLine = node.lineno
+    endLine = node.end_lineno if hasattr(node, 'end_lineno') else startLine
+    startCol = 0
+    endColumn = node.col_offset
+    code = "".join(lines[startLine - 1:endLine])
+    
+    # Replace consecutive spaces with a single tab character
+    code = code.replace('    ', '\t')
+    
+    targetsMetaData = {}
+    for target in node.targets:
+        targetMetaData = {
+            'Target': target.id if isinstance(target, ast.Name) else ast.dump(target),
+            'Value': ast.unparse(node.value).strip(),
+            'Object': ast.dump(node.value)
+        }
+
+        # If there are multiple targets. Fuck, I really hope not ://
+        targetsMetaData.update(targetMetaData)
+        
+    assignmentMetaData = generateBlockMetaData(
+        node=node,
+        name=None,
+        typeName='Assignment',
+        startLine=startLine,
+        endLine=endLine,
+        startCol=startCol,
+        endCol=endColumn,
+        code=code,
+        targets=targetMetaData
+    )
+
+    return assignmentMetaData
 
 
 def parseExpression(node, path):
@@ -149,7 +198,7 @@ def parseExpression(node, path):
     return expressionMetaData
 
 
-def parseFunctionOrClass(node, path):
+def parseFunctionOrClass(node):
     blockType = type(node).__name__
     blockName = node.name if hasattr(node, 'name') else None
     startLine, startColumn = node.lineno, node.col_offset
@@ -168,7 +217,7 @@ def parseFunctionOrClass(node, path):
     return functionOrClassMetaData
 
 
-def parseIf(node, path):
+def parseIf(node):
     ifMetaData = generateBlockMetaData(
         node,
         typeName='If',
@@ -182,7 +231,7 @@ def parseIf(node, path):
     return ifMetaData
 
 
-def parseFor(node, path):
+def parseFor(node):
     forMetaData = generateBlockMetaData(
         node,
         typeName='For',
@@ -196,7 +245,7 @@ def parseFor(node, path):
     return forMetaData
 
 
-def parseWhile(node, path):
+def parseWhile(node):
     whileMetaData = generateBlockMetaData(
         node,
         typeName='While',
@@ -210,7 +259,7 @@ def parseWhile(node, path):
     return whileMetaData
 
 
-def parseImport(node, path):
+def parseImport(node):
     importMetaData = generateBlockMetaData(
         node,
         typeName='Import',
