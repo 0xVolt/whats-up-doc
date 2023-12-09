@@ -73,17 +73,22 @@ def generateBlockMetaData(
     endLine,
     startCol,
     endCol,
+    code=None,            # parseAssignment is the only function that could pass code
+    targets=None          # Dictionary for parseAssignment if multiple targets exist
 ):
     blockBody = None
-    # I don't think I wanna change this anytime soon.
+    # I don't think I wanna change this anytime soon. Indexing starts from 1.
     bodyCount = 0
 
-    if typeName != 'Import':
+    if typeName != 'Import' and typeName != 'Assignment':
         blockBody = []
 
         for statement in node.body:
             blockBody.append(ast.unparse(statement))
             bodyCount += 1
+    else:
+        # Signifies that import and assignment statements have one line of code
+        bodyCount = 1
 
     blockMetaData = {
         'Type': typeName,
@@ -93,9 +98,12 @@ def generateBlockMetaData(
         'EndLine': endLine,
         'EndCol': endCol,
         'RelativePath': os.path.relpath(path),
-        'Body': blockBody,
+        'Body': code if typeName == 'Assignment' else blockBody,
         'BodyCount': bodyCount
     }
+    
+    if targets:
+        blockMetaData['Targets'] = targets
 
     return blockMetaData
 
@@ -114,26 +122,64 @@ def parseModule(node):
     return moduleMetaData
 
 
+# def parseAssignment(node, lines):
+#     assignmentMetaData = {}
+
+#     for target in node.targets:
+#         startLine = node.lineno
+#         endLine = node.end_lineno if hasattr(node, 'end_lineno') else startLine
+#         code = "".join(lines[startLine - 1:endLine])
+
+#         # Replace consecutive spaces with a single tab character
+#         code = code.replace('    ', '\t')
+
+#         targetMetaData = {
+#             'Target': target.id if isinstance(target, ast.Name) else ast.dump(target),
+#             'Value': ast.dump(node.value),
+#             'Line': node.lineno,
+#             'Body': code.strip()
+#         }
+
+#         # If there are multiple targets. Fuck, I really hope not ://
+#         assignmentMetaData.update(targetMetaData)
+
+#     return assignmentMetaData
+
+
 def parseAssignment(node, lines):
     assignmentMetaData = {}
 
+    startLine = node.lineno
+    endLine = node.end_lineno if hasattr(node, 'end_lineno') else startLine
+    startCol = 0
+    endColumn = node.col_offset
+    code = "".join(lines[startLine - 1:endLine])
+    
+    # Replace consecutive spaces with a single tab character
+    code = code.replace('    ', '\t')
+    
+    targetsMetaData = {}
     for target in node.targets:
-        start_line = node.lineno
-        end_line = node.end_lineno if hasattr(node, 'end_lineno') else start_line
-        line_of_code = "".join(lines[start_line - 1:end_line])
-
-        # Replace consecutive spaces with a single tab character
-        line_of_code = line_of_code.replace('    ', '\t')
-
         targetMetaData = {
-            'target': target.id if isinstance(target, ast.Name) else ast.dump(target),
-            'value': ast.dump(node.value),
-            'line': node.lineno,
-            'line_of_code': line_of_code.strip()
+            'Target': target.id if isinstance(target, ast.Name) else ast.dump(target),
+            'Value': ast.unparse(node.value).strip(),
+            'Object': ast.dump(node.value)
         }
 
         # If there are multiple targets. Fuck, I really hope not ://
-        assignmentMetaData.update(targetMetaData)
+        targetsMetaData.update(targetMetaData)
+        
+    assignmentMetaData = generateBlockMetaData(
+        node=node,
+        name=None,
+        typeName='Assignment',
+        startLine=startLine,
+        endLine=endLine,
+        startCol=startCol,
+        endCol=endColumn,
+        code=code,
+        targets=targetMetaData
+    )
 
     return assignmentMetaData
 
