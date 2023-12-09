@@ -97,7 +97,7 @@ def generateBlockMetaData(
         'StartCol': startCol,
         'EndLine': endLine,
         'EndCol': endCol,
-        'RelativePath': os.path.relpath(path),
+        # 'RelativePath': os.path.relpath(path),
         'Body': code if typeName == 'Assignment' else blockBody,
         'BodyCount': bodyCount
     }
