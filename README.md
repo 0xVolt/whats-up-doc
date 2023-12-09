@@ -16,6 +16,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 - [ ] Add docstrings to functions
 - [ ] Setup CLI
   - [ ] Add ASCII art
+  - [ ] Implement logic to check `BodyCount` attribute for block groups
   - [ ] Fix/circumvent `yaspin` spinner flicker
   - [ ] Setup multi-model select
   - [ ] Ensure models work for C++/JS (langchain dependency check)
