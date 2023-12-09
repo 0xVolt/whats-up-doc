@@ -75,12 +75,15 @@ def generateBlockMetaData(
     endCol,
 ):
     blockBody = None
+    # I don't think I wanna change this anytime soon.
+    bodyCount = 0
 
     if typeName != 'Import':
         blockBody = []
 
         for statement in node.body:
             blockBody.append(ast.unparse(statement))
+            bodyCount += 1
 
     blockMetaData = {
         'Type': typeName,
@@ -90,7 +93,8 @@ def generateBlockMetaData(
         'EndLine': endLine,
         'EndCol': endCol,
         'RelativePath': os.path.relpath(path),
-        'Body': blockBody
+        'Body': blockBody,
+        'BodyCount': bodyCount
     }
 
     return blockMetaData
