@@ -1,6 +1,5 @@
 import ast
 import json
-import os
 
 
 def testScriptParsing(path):
