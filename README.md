@@ -11,7 +11,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
   - [X] Move assignment parser into `multi_parser`
   - [ ] Fix `relativePath` attribute when dealing with multiple files
 - [ ] Fix `utils` package
-  - [ ] Move parser to `utils` package
+  - [X] Move parser to `utils` package
   - [ ] Smooth over `utils` package functions
   - [ ] Rename modules with logical names
 - [ ] Add docstrings to functions
