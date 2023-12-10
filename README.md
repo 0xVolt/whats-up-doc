@@ -12,8 +12,8 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
   - [ ] Fix `relativePath` attribute when dealing with multiple files
 - [ ] Fix `utils` package
   - [X] Move parser to `utils` package
-  - [ ] Smooth over `utils` package functions
-  - [ ] Rename modules with logical names
+  - [X] Smooth over `utils` package functions
+  - [X] Rename modules with logical names
 - [ ] Add docstrings to functions
 - [ ] Setup CLI
   - [ ] Add ASCII art
