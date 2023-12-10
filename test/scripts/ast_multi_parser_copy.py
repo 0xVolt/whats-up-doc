@@ -15,25 +15,25 @@ def testScriptParsing(path):
     #     print(f"End Line: {info['EndLine']}, End Col: {info['EndCol']}")
     #     print(f"Relative Path: {info['RelativePath']}")
     #     print("=" * 50)
-    
+
 
 def generateBlockMetaData(
-    node, 
-    typeName, 
-    name, 
-    startLine, 
-    endLine, 
-    startCol, 
+    node,
+    typeName,
+    name,
+    startLine,
+    endLine,
+    startCol,
     endCol,
 ):
     blockBody = None
-    
+
     if typeName is not 'Import':
         blockBody = []
-        
+
         for statement in node.body:
             blockBody.append(ast.unparse(statement))
-    
+
     blockMetaData = {
         'Type': typeName,
         'Name': name,
@@ -42,9 +42,9 @@ def generateBlockMetaData(
         'EndLine': endLine,
         'EndCol': endCol,
         'RelativePath': os.path.relpath(path),
-        'Body': blockBody 
+        'Body': blockBody
     }
-    
+
     return blockMetaData
 
 
@@ -84,7 +84,7 @@ def parseNode(node, path):
 
     elif isinstance(node, ast.If):
         result['If'] = parseIf(node, path)
-        
+
     elif isinstance(node, ast.For):
         result['For'] = parseFor(node, path)
 
@@ -111,7 +111,7 @@ def parseModule(node, path):
     #     'EndCol': 0,
     #     'RelativePath': os.path.relpath(path)
     # }
-    
+
     moduleMetaData = generateBlockMetaData(
         node=node,
         typeName='Module',
@@ -149,7 +149,7 @@ def parseExpression(node, path):
     #     'EndCol': node.end_col_offset,
     #     'RelativePath': os.path.relpath(path)
     # }
-    
+
     expressionMetaData = generateBlockMetaData(
         node,
         typeName='Expression',
@@ -202,7 +202,7 @@ def parseFunctionOrClass(node, path):
     #     'EndCol': endColumn,
     #     'RelativePath': os.path.relpath(path)
     # }
-    
+
     functionOrClassMetaData = generateBlockMetaData(
         node,
         typeName=blockType,
@@ -250,7 +250,7 @@ def parseFor(node, path):
     #     'EndCol': node.body[0].col_offset if node.body else 0,
     #     'RelativePath': os.path.relpath(path)
     # }
-    
+
     forMetaData = generateBlockMetaData(
         node,
         typeName='For',
@@ -274,7 +274,7 @@ def parseWhile(node, path):
     #     'EndCol': node.body[0].col_offset if node.body else 0,
     #     'RelativePath': os.path.relpath(path)
     # }
-    
+
     whileMetaData = generateBlockMetaData(
         node,
         typeName='While',
@@ -298,7 +298,7 @@ def parseImport(node, path):
     #     'EndCol': node.col_offset + len('import'),
     #     'RelativePath': os.path.relpath(path)
     # }
-    
+
     importMetaData = generateBlockMetaData(
         node,
         typeName='Import',
