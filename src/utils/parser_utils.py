@@ -9,6 +9,49 @@ def testScriptParsing(path):
     print(json.dumps(parsedScriptDictionary, sort_keys=False, indent=2))
 
 
+def generateBlockMetaData(
+    node,
+    typeName,
+    name,
+    startLine,
+    endLine,
+    startCol,
+    endCol,
+    code=None,            # parseAssignment is the only function that could pass code
+    targets=None          # Dictionary for parseAssignment if multiple targets exist
+):
+    blockBody = None
+    # I don't think I wanna change this anytime soon. Indexing starts from 1.
+    bodyCount = 0
+
+    if typeName != 'Import' and typeName != 'Assignment':
+        blockBody = []
+
+        for statement in node.body:
+            blockBody.append(ast.unparse(statement))
+            bodyCount += 1
+    else:
+        # Signifies that import and assignment statements have one line of code
+        bodyCount = 1
+
+    blockMetaData = {
+        'Type': typeName,
+        'Name': name,
+        'StartLine': startLine,
+        'StartCol': startCol,
+        'EndLine': endLine,
+        'EndCol': endCol,
+        # 'RelativePath': os.path.relpath(path),
+        'Body': code if typeName == 'Assignment' else blockBody,
+        'BodyCount': bodyCount
+    }
+    
+    if targets:
+        blockMetaData['Targets'] = targets
+
+    return blockMetaData
+
+
 def parseScript(path):
     parsedScriptDictionary = {}
 
@@ -63,49 +106,6 @@ def parseNode(node, path, lines):
         result.update(child_result)
 
     return result
-
-
-def generateBlockMetaData(
-    node,
-    typeName,
-    name,
-    startLine,
-    endLine,
-    startCol,
-    endCol,
-    code=None,            # parseAssignment is the only function that could pass code
-    targets=None          # Dictionary for parseAssignment if multiple targets exist
-):
-    blockBody = None
-    # I don't think I wanna change this anytime soon. Indexing starts from 1.
-    bodyCount = 0
-
-    if typeName != 'Import' and typeName != 'Assignment':
-        blockBody = []
-
-        for statement in node.body:
-            blockBody.append(ast.unparse(statement))
-            bodyCount += 1
-    else:
-        # Signifies that import and assignment statements have one line of code
-        bodyCount = 1
-
-    blockMetaData = {
-        'Type': typeName,
-        'Name': name,
-        'StartLine': startLine,
-        'StartCol': startCol,
-        'EndLine': endLine,
-        'EndCol': endCol,
-        # 'RelativePath': os.path.relpath(path),
-        'Body': code if typeName == 'Assignment' else blockBody,
-        'BodyCount': bodyCount
-    }
-    
-    if targets:
-        blockMetaData['Targets'] = targets
-
-    return blockMetaData
 
 
 def parseModule(node):
