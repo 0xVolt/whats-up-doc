@@ -1,7 +1,6 @@
 from transformers import AutoTokenizer, pipeline
-# import transformers
 import torch
-from utils import test_utils
+from utils import gpu_utils
 
 
 def promptModel(prompt: str) -> None:
@@ -27,7 +26,8 @@ def promptModel(prompt: str) -> None:
     print("Chatbot:", sequences[0]['generated_text'])
     
 
-test_utils.checkGPU(tensorflow=False)
+gpu_utils.checkGPU(tensorflow=False)
+gpu_utils.clearCUDACache()
 
 model = "codellama/CodeLlama-7b-Instruct-hf" 
 
@@ -40,6 +40,7 @@ llama_pipeline = pipeline(
     model=model,
     torch_dtype=torch.float16,
     device_map="cuda:0",
+    use_fast_tokenizer=True
 )
 
 testFunction = """
