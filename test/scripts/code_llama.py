@@ -1,6 +1,7 @@
 from transformers import AutoTokenizer
 import transformers
 import torch
+from utils import test_utils
 
 
 def get_llama_response(prompt: str) -> None:
@@ -19,11 +20,13 @@ def get_llama_response(prompt: str) -> None:
         top_k=10,
         num_return_sequences=1,
         eos_token_id=tokenizer.eos_token_id,
-        max_length=256,
+        max_length=1024,
     )
     
     print("Chatbot:", sequences[0]['generated_text'])
     
+
+test_utils.checkGPU(tensorflow=False)
 
 model = "meta-llama/Llama-2-7b-chat-hf" # meta-llama/Llama-2-7b-hf
 
