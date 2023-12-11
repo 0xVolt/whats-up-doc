@@ -31,15 +31,21 @@ tokenizer = AutoTokenizer.from_pretrained(model, token=True)
 
 from transformers import pipeline
 
+# Note: RuntimeError: "addmm_impl_cpu_" not implemented for 'Half' error means that GPU implementation is only supported for float16 and not float32
+# If your program runs on the CPU, turn this to float32
 llama_pipeline = pipeline(
     "text-generation",  # LLM task
     model=model,
-    torch_dtype=torch.float16,
+    torch_dtype=torch.float32,
     device_map="auto",
 )
 
-prompt = """I'm a programmer and Python is my favorite language because of it's simple syntax and variety of applications I can build with it.\
-Based on that, what language should I learn next?\
-Give me 5 recommendations"""
+testFunction = """
+
+"""
+
+prompt = """
+Given the definition of a program in any programming language (particularly Python and C++), please generate it's stand-alone documentation in markdown form. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function works. 
+"""
 
 get_llama_response(prompt)
