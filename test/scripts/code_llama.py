@@ -38,7 +38,7 @@ llama_pipeline = pipeline(
     "text-generation",  # LLM task
     model=model,
     torch_dtype=torch.float16,
-    device_map="gpu",
+    device_map="cuda:0",
 )
 
 testFunction = """
