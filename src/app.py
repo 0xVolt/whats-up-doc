@@ -27,7 +27,7 @@ def generate(
     '''
     
     if model is None:
-        model_utils.getModelChoice()
+        model = model_utils.getModelChoice()
     
     print(f"Arguments specified:")
     print(f"File Path: {path}")
