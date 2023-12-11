@@ -1,5 +1,19 @@
+import inquirer
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
+
+
+def getModelChoice():
+    models = ["mistral", "orca-mini"]
+    questions = [
+        inquirer.List(
+            "model",
+            message="Select a model:",
+            choices=models,
+        ),
+    ]
+    answers = inquirer.prompt(questions)
+    return answers["model"]
 
 
 def createPipeline(checkpoint, device):
