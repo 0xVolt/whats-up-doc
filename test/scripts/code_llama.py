@@ -41,11 +41,32 @@ llama_pipeline = pipeline(
 )
 
 testFunction = """
+def get_llama_response(prompt: str) -> None:
+    '''
+    Generate a response from the Llama model.
 
+    Parameters:
+        prompt (str): The user's input/question for the model.
+
+    Returns:
+        None: Prints the model's response.
+    '''
+    sequences = llama_pipeline(
+        prompt,
+        do_sample=True,
+        top_k=10,
+        num_return_sequences=1,
+        eos_token_id=tokenizer.eos_token_id,
+        max_length=256,
+    )
+    print("Chatbot:", sequences[0]['generated_text'])
 """
 
-prompt = """
+prompt = f"""
 Given the definition of a program in any programming language (particularly Python and C++), please generate it's stand-alone documentation in markdown form. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function works. 
+
+Do this for the following function in Python:\n
+{testFunction}
 """
 
 get_llama_response(prompt)
