@@ -36,9 +36,14 @@ def generate(
 
     functionBodies = parser_utils.extractFunctionsAsList(path)
     
-    with open(output, 'w') as file:
-        
+    # with open(output, 'w') as file:
+    
+    print(functionBodies[0])
+    
+    llmChain = model_utils.setupLangChain(model)
+    response = model_utils.returnInferenceFromLangChain(llmChain, functionBodies[0])
 
+    print(response)
 
 @app.command()
 def easter():
