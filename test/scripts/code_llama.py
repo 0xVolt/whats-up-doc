@@ -1,10 +1,10 @@
-from transformers import AutoTokenizer
-import transformers
+from transformers import AutoTokenizer, pipeline
+# import transformers
 import torch
 from utils import test_utils
 
 
-def get_llama_response(prompt: str) -> None:
+def promptModel(prompt: str) -> None:
     """
     Generate a response from the Llama model.
 
@@ -28,19 +28,17 @@ def get_llama_response(prompt: str) -> None:
 
 test_utils.checkGPU(tensorflow=False)
 
-model = "meta-llama/Llama-2-7b-chat-hf" # meta-llama/Llama-2-7b-hf
+model = "codellama/CodeLlama-7b-Instruct-hf" 
 
 tokenizer = AutoTokenizer.from_pretrained(model, token=True)
-
-from transformers import pipeline
 
 # Note: RuntimeError: "addmm_impl_cpu_" not implemented for 'Half' error means that GPU implementation is only supported for float16 and not float32
 # If your program runs on the CPU, turn this to float32
 llama_pipeline = pipeline(
     "text-generation",  # LLM task
     model=model,
-    torch_dtype=torch.float32,
-    device_map="auto",
+    torch_dtype=torch.float16,
+    device_map="gpu",
 )
 
 testFunction = """
@@ -65,11 +63,14 @@ def get_llama_response(prompt: str) -> None:
     print("Chatbot:", sequences[0]['generated_text'])
 """
 
-prompt = f"""
-Given the definition of a program in any programming language (particularly Python and C++), please generate it's stand-alone documentation in markdown form. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function works. 
+language = "Python"
 
-Do this for the following function in Python:\n
+prompt = f"""
+Here's my function in {language}:
+
 {testFunction}
+
+Given the definition of a function in any programming language (particularly Python and C++), please generate it's stand-alone documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line.  Make it concise and informative to put the documentation into a project documentation file.
 """
 
-get_llama_response(prompt)
+promptModel(prompt)
