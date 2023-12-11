@@ -24,7 +24,7 @@ def getModelChoice():
     return answer["model"]
 
 
-def setupLangChain(model, batches=4, threads=8, ramLock=True, nPredict=512):
+def setupLangChain(model, batches=4, threads=8, nPredict=1024):
     path = returnModelLocalPath(model)
     
     # Callbacks support token-wise streaming
@@ -36,7 +36,6 @@ def setupLangChain(model, batches=4, threads=8, ramLock=True, nPredict=512):
         callbacks=callbacks, 
         verbose=True,
         n_batch=batches,
-        use_mlock=ramLock,
         n_threads=threads,
         n_predict=nPredict,
         seed=42
@@ -46,16 +45,16 @@ def setupLangChain(model, batches=4, threads=8, ramLock=True, nPredict=512):
     # language = 'Python'
     
     template = """
-    Here's are my functions in Python:
+    Here's my function in Python:
 
-    {functions}
+    {function}
 
-    Given multiple function definitions in any programming language (particularly Python and C++), please generate their stand-alone documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project documentation file.
+    For this function, generate it's stand-alone documentation. Complete it with the following - function name, function arguments, return values and a detailed explanation of how the function logic works line-by-line.
     """
     
     prompt = PromptTemplate(
         template=template,
-        input_variables=["functions"],
+        input_variables=["function"],
     )
     
     llmChain = LLMChain(

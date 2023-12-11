@@ -35,28 +35,14 @@ def generate(
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
     
-    llmChain = model_utils.setupLangChain(model)
-
     functionBodies = parser_utils.extractFunctionsAsList(path)
-    print(functionBodies)
     
-    code = file_utils.readFile(path)
-    with open(output, 'w') as file:
-        file.write(llmChain.run({'functions': code}))
-
-
-    # with open(output, 'w') as file:
-    #     response1 = llmChain.run({'function': functionBodies[0]})
-    #     file.write(response1)
-        
-    #     print('\n\n')
-    #     gc.collect()
-        
-    #     response2 = llmChain.run({'function': functionBodies[1]})
-    #     file.write(response2)
-        
-    #     print('\n\n')
-    #     gc.collect()
+    llmChain = model_utils.setupLangChain(model)
+    
+    for function in functionBodies:
+        # llmChain = model_utils.setupLangChain(model)
+        llmChain.run({'function': function})
+        print("\n\n\n")
 
 
 @app.command()

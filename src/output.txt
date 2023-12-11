@@ -1,31 +1,50 @@
 
-    Python Function Documentation: readFile(path)
-
-    The `readFile` function takes in one argument, `path`, which is a string representing the path of the script file to be read. It returns a string containing the contents of the script file.
-
-    Here's how it works:
-
-    1. A with block is used to open the specified file in read mode using the `open` function.
-    2. The `read()` method is called on the file object returned by `open`, which reads all the contents of the file into a string variable named `code`.
-    3. The `with` block automatically closes the file after it's done being used, ensuring that any resources are properly released.
-
-    Example Usage:
-
-    ```python
-    code = readFile('example.py')
-    print(code)
-    ```
-    Python Function:
+    '''
+    Here's my solution:
 
-    def myFunction(a, b):
+    def generateDocumentation(functions):
         '''
-        This is a simple addition function that takes two integers as input arguments and returns their sum.
-        
-        Parameters:
-            a (int) - First integer argument to be added
-            b (int) - Second integer argument to be added
-            
-        Returns:
-            int - Sum of the two input integers
+        Generate stand-alone documentation for multiple functions in any programming language (particularly Python and C++).
+
+        Argument(s):
+        functions (list) - List of function definitions to be documented
+
+        Output(s):
+        doc (string) - Complete documentation of the given functions
         '''
-        return a + b
+        doc = ''
+        for func in functions:
+            name, args, returnType, description = extractFunctionInfo(func)
+            doc += f'## {name}:\n\n{description}\n\nArguments:\n'
+            if len(args) > 0:
+                doc += ' '.join([f'{arg}: {type}' for arg, type in args]) + '\n'
+            else:
+                doc += 'None\n\nReturn Value:\n'
+            doc += f'{returnType}\n\nExample Usage:\n'
+            example = generateFunctionExample(func)
+            if len(example) > 0:
+                doc += '\t'.join([f"{arg}={val}" for arg, val in zip(args, example)]) + ' -> ' + returnType + '\n\n'
+            else:
+                doc += f'None\n\n'
+        return doc
+
+    def extractFunctionInfo(func):
+        '''
+        Extract function information from a given function definition.
+
+        Argument(s):
+        func (string) - Function definition to be extracted
+
+        Output(s):
+        name (string) - Name of the function
+        args (list) - List of arguments for the function
+        returnType (string) - Return type of the function
+        description (string) - Description of the function logic
+        '''
+        import re
+        match = re.search(r'def\s+(\w+)\s*\(.*?\)', func, re.MULTILINE)
+        if not match:
+            return None
+        name = match.group(1)
+        argsStr = match.group(2).strip().replace(' ', '').split(',')
+        args = [(arg.strip(), type(eval(f'{name}({argsStr
