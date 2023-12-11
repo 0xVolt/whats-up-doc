@@ -24,7 +24,7 @@ def getModelChoice():
     return answer["model"]
 
 
-def setupLangChain(model, batches=4, threads=8, ramLock=True):
+def setupLangChain(model, batches=4, threads=8, ramLock=True, nPredict=512):
     path = returnModelLocalPath(model)
     
     # Callbacks support token-wise streaming
@@ -37,23 +37,25 @@ def setupLangChain(model, batches=4, threads=8, ramLock=True):
         verbose=True,
         n_batch=batches,
         use_mlock=ramLock,
-        n_threads=threads
+        n_threads=threads,
+        n_predict=nPredict,
+        seed=42
     )
     
     # This is yet to be toggled for language-agnostic behavior
     # language = 'Python'
     
     template = """
-    Here's my function in Python:
+    Here's are my functions in Python:
 
-    {function}
+    {functions}
 
-    Given the definition of a function in any programming language (particularly Python and C++), please generate it's stand-alone documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project documentation file.
+    Given multiple function definitions in any programming language (particularly Python and C++), please generate their stand-alone documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project documentation file.
     """
     
     prompt = PromptTemplate(
         template=template,
-        input_variables=["function"],
+        input_variables=["functions"],
     )
     
     llmChain = LLMChain(
@@ -64,10 +66,10 @@ def setupLangChain(model, batches=4, threads=8, ramLock=True):
     return llmChain
 
 
-def returnInferenceFromLangChain(llmChain, function):
-    response = llmChain.run({"function": function})
+# def returnInferenceFromLangChain(llmChain, function):
+#     response = llmChain.run({"function": function})
     
-    return response
+#     return response
 
 
 def createPipeline(checkpoint, device):
