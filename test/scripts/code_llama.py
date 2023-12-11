@@ -20,7 +20,8 @@ def promptModel(prompt: str) -> None:
         top_k=10,
         num_return_sequences=1,
         eos_token_id=tokenizer.eos_token_id,
-        max_length=1024,
+        max_length=128,
+        batch_size=1
     )
     
     print("Chatbot:", sequences[0]['generated_text'])
