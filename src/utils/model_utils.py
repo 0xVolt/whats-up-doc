@@ -1,5 +1,5 @@
 import inquirer
-from file_utils import returnModelLocalPath
+from .file_utils import returnModelLocalPath
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import LLMChain
 from langchain.llms import GPT4All
