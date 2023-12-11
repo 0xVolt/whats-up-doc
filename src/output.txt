@@ -1,0 +1,31 @@
+
+    Python Function Documentation: readFile(path)
+
+    The `readFile` function takes in one argument, `path`, which is a string representing the path of the script file to be read. It returns a string containing the contents of the script file.
+
+    Here's how it works:
+
+    1. A with block is used to open the specified file in read mode using the `open` function.
+    2. The `read()` method is called on the file object returned by `open`, which reads all the contents of the file into a string variable named `code`.
+    3. The `with` block automatically closes the file after it's done being used, ensuring that any resources are properly released.
+
+    Example Usage:
+
+    ```python
+    code = readFile('example.py')
+    print(code)
+    ```
+    Python Function:
+
+    def myFunction(a, b):
+        '''
+        This is a simple addition function that takes two integers as input arguments and returns their sum.
+        
+        Parameters:
+            a (int) - First integer argument to be added
+            b (int) - Second integer argument to be added
+            
+        Returns:
+            int - Sum of the two input integers
+        '''
+        return a + b
