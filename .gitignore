@@ -6,3 +6,6 @@ src/experimental-notebooks/__pycache__
 
 # Add assets
 assets/
+
+# Add models directory
+models/
