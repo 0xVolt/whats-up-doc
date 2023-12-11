@@ -3,7 +3,7 @@ from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
 from yaspin import yaspin
 
-from utils import file_utils, pre_process_utils
+from utils import *
 
 app = typer.Typer()
 spinner = yaspin()
@@ -78,4 +78,6 @@ def easter():
 
 
 if __name__ == "__main__":
-    app()
+    # app()
+    model = 'mistral'
+    print(file_utils.returnLocalModelPath(model))

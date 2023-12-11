@@ -16,7 +16,8 @@ def readFile(path):
     
 def returnLocalModelPath(model):
     modelPaths = {
-        'mistral-7b-instruct': r"C:\Users\deshi\Code\gpt4all-models\mistral-7b-instruct-v0.1.Q4_0.gguf",
-        'orca-mini-3b': r"C:\Users\deshi\Code\gpt4all-models\orca-mini-3b-gguf2-q4_0.gguf",
-        
+        'mistral': r"C:\Users\deshi\Code\gpt4all-models\mistral-7b-instruct-v0.1.Q4_0.gguf",
+        'orca': r"C:\Users\deshi\Code\gpt4all-models\orca-mini-3b-gguf2-q4_0.gguf"
     }
+    
+    return modelPaths[model]
