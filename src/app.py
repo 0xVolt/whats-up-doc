@@ -16,7 +16,8 @@ spinner = yaspin()
 @app.command()
 def generate(
     path: str,
-    model: str = typer.Argument(None)
+    model: str = typer.Argument(None),
+    output: str = 'output.txt'
 ):
     '''
     Typer command to generate the documentation for an input script file.
@@ -31,17 +32,12 @@ def generate(
     
     print(f"Arguments specified:")
     print(f"File Path: {path}")
-    print(f"Model: {model}")
+    print(f"Model: {model}\n")
 
-    listOfFunctions = parser_utils.extractFunctionsAsList(path)
+    functionBodies = parser_utils.extractFunctionsAsList(path)
     
-    for function in listOfFunctions:
-        print(f"Function: {function['name']}")
-        print(f"  Args: {function['args']}")
-        print(f"  Defaults: {function['defaults']}")
-        print(f"  Body:\n{function['body']}")
-        print(f"  Return: {function['return']}")
-        print("\n")
+    with open(output, 'w') as file:
+        
 
 
 @app.command()
