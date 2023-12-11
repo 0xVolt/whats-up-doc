@@ -1,4 +1,8 @@
 import typer
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.chains import LLMChain
+from langchain.llms import GPT4All
+from langchain.prompts import PromptTemplate
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
 from yaspin import yaspin
@@ -7,28 +11,6 @@ from utils import *
 
 app = typer.Typer()
 spinner = yaspin()
-
-
-def createPipeline(checkpoint, device):
-    '''
-    Create a transformers model summarization pipeline.
-
-    Arguments:
-    checkpoint - model checkpoint
-    device (integer) - either 0 or 1, to specify if there exists a GPU
-    '''
-    pipeline = SummarizationPipeline(
-        model=AutoModelForSeq2SeqLM.from_pretrained(checkpoint),
-        tokenizer=AutoTokenizer.from_pretrained(
-            checkpoint,
-            skip_special_tokens=True,
-            legacy=False
-        ),
-        max_new_tokens=1024,
-        device=device
-    )
-
-    return pipeline
 
 
 @app.command()
@@ -58,7 +40,7 @@ def generate(
 
     print("\nCreating model summarization pipeline...\n")
     spinner.start()
-    pipeline = createPipeline(checkpoint=checkpoint, device=device)
+    pipeline = model_utils.createPipeline(checkpoint=checkpoint, device=device)
     spinner.stop()
 
     code = file_utils.readFile(file)
