@@ -19,15 +19,15 @@ def promptModel(prompt: str) -> None:
         top_k=10,
         num_return_sequences=1,
         eos_token_id=tokenizer.eos_token_id,
-        max_length=128,
+        max_length=512,
         batch_size=1
     )
     
     print("Chatbot:", sequences[0]['generated_text'])
     
 
-gpu_utils.checkGPU(tensorflow=False)
-gpu_utils.clearCUDACache()
+# gpu_utils.checkGPU(tensorflow=False)
+# gpu_utils.clearCUDACache()
 
 model = "codellama/CodeLlama-7b-Instruct-hf" 
 
@@ -38,9 +38,8 @@ tokenizer = AutoTokenizer.from_pretrained(model, token=True)
 llama_pipeline = pipeline(
     "text-generation",  # LLM task
     model=model,
-    torch_dtype=torch.float16,
-    device_map="cuda:0",
-    use_fast_tokenizer=True
+    torch_dtype=torch.float32,
+    device_map="cpu"
 )
 
 testFunction = """
