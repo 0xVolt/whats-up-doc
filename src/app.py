@@ -78,6 +78,4 @@ def easter():
 
 
 if __name__ == "__main__":
-    # app()
-    model = 'mistral'
-    print(file_utils.returnLocalModelPath(model))
+    app()
