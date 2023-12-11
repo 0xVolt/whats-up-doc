@@ -4,7 +4,8 @@ from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
 
 
 def getModelChoice():
-    models = ["mistral", "orca-mini"]
+    models = ["mistral-7b-instruct", "orca-mini-3b"]
+    
     questions = [
         inquirer.List(
             "model",
@@ -12,8 +13,10 @@ def getModelChoice():
             choices=models,
         ),
     ]
-    answers = inquirer.prompt(questions)
-    return answers["model"]
+    
+    answer = inquirer.prompt(questions)
+    
+    return answer["model"]
 
 
 def createPipeline(checkpoint, device):
