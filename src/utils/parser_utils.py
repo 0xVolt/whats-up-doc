@@ -21,9 +21,12 @@ def extractFunctionsAsList(path):
                     'return': ast.get_source_segment(content, node.returns) if node.returns else None
                 }
                 
+                # Collect functions' meta data
                 listOfFunctions.append(function_data)
+                
+    listOfFunctionBodies = [function['body'] for function in listOfFunctions]
 
-    return listOfFunctions
+    return listOfFunctionBodies
 
 
 def testScriptParsing(path):
