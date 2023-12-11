@@ -15,40 +15,27 @@ spinner = yaspin()
 
 @app.command()
 def generate(
-    file: str,
-    default: bool = True,
-    gpu: bool = True
+    path: str,
+    model: str = typer.Argument(None)
 ):
     '''
     Typer command to generate the documentation for an input script file.
 
     Arguments:
-    file (string) - path to the input file
-    default (boolean) - flag to specify using the default model or a custom model
-    gpu (boolean) - flag to specify whether a GPU is available
+    filePath (string) - path to the input file
+    model (string) - string to specify which model to use when generating documentation
     '''
+    
+    if model is None:
+        model_utils.getModelChoice()
+    
     print(f"Arguments specified:")
-    print(f"File Path: {file}")
-    print(f"Use Default Model Flag: {default}")
-    print(f"Use GPU: {gpu}")
+    print(f"File Path: {path}")
+    print(f"Model: {model}")
 
-    # Change gpu flag
-    device = 0 if gpu else 1
-
-    # Implement logic to switch models given a different language
-    checkpoint = r"SEBIS/code_trans_t5_base_source_code_summarization_python_transfer_learning_finetune" if default else -1
-
-    print("\nCreating model summarization pipeline...\n")
-    spinner.start()
-    pipeline = model_utils.createPipeline(checkpoint=checkpoint, device=device)
-    spinner.stop()
-
-    code = file_utils.readFile(file)
-    tokenizedCode = pre_process_utils.pythonTokenizer(code)
-
-    print(f"Code:\n\n{code}")
-    print(f"\n\nCode after tokenization:\n\n{tokenizedCode}")
-    print(f"\n\nModel Output through inference point:\n\n{pipeline([tokenizedCode])}")
+    parsedScriptDictionary = parser_utils.parseScript(path)
+    
+    print(parsedScriptDictionary)
 
 
 @app.command()
