@@ -34,8 +34,7 @@ def generate(
     print(f"Model: {model}")
 
     parsedScriptDictionary = parser_utils.parseScript(path)
-    
-    print(parsedScriptDictionary)
+    qol_utils.prettyPrintDictionary(parsedScriptDictionary)
 
 
 @app.command()
