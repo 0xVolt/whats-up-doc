@@ -11,3 +11,8 @@ def checkGPU(tensorflow):
     else:
         import torch
         print('Checking if the GPU is available with PyTorch:', torch.cuda.is_available())
+
+
+def clearCUDACache():
+    import torch
+    torch.cuda.empty_cache()
