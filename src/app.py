@@ -6,6 +6,7 @@ from langchain.prompts import PromptTemplate
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
 from yaspin import yaspin
+import gc
 
 from utils import *
 
@@ -33,16 +34,29 @@ def generate(
     print(f"Arguments specified:")
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
-
-    functionBodies = parser_utils.extractFunctionsAsList(path)
-
+    
     llmChain = model_utils.setupLangChain(model)
 
+    functionBodies = parser_utils.extractFunctionsAsList(path)
+    print(functionBodies)
+    
+    code = file_utils.readFile(path)
     with open(output, 'w') as file:
-        for function in functionBodies:
-            # Verbose = True => prints out on inference
-            response = model_utils.returnInferenceFromLangChain(llmChain, function)
-            file.write(response + '\n\n')
+        file.write(llmChain.run({'functions': code}))
+
+
+    # with open(output, 'w') as file:
+    #     response1 = llmChain.run({'function': functionBodies[0]})
+    #     file.write(response1)
+        
+    #     print('\n\n')
+    #     gc.collect()
+        
+    #     response2 = llmChain.run({'function': functionBodies[1]})
+    #     file.write(response2)
+        
+    #     print('\n\n')
+    #     gc.collect()
 
 
 @app.command()
