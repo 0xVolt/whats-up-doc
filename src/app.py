@@ -33,8 +33,15 @@ def generate(
     print(f"File Path: {path}")
     print(f"Model: {model}")
 
-    parsedScriptDictionary = parser_utils.parseScript(path)
-    qol_utils.prettyPrintDictionary(parsedScriptDictionary)
+    listOfFunctions = parser_utils.extractFunctionsAsList(path)
+    
+    for function in listOfFunctions:
+        print(f"Function: {function['name']}")
+        print(f"  Args: {function['args']}")
+        print(f"  Defaults: {function['defaults']}")
+        print(f"  Body:\n{function['body']}")
+        print(f"  Return: {function['return']}")
+        print("\n")
 
 
 @app.command()
