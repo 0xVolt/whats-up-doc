@@ -26,24 +26,24 @@ def generate(
     filePath (string) - path to the input file
     model (string) - string to specify which model to use when generating documentation
     '''
-    
+
     if model is None:
         model = model_utils.getModelChoice()
-    
+
     print(f"Arguments specified:")
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
 
     functionBodies = parser_utils.extractFunctionsAsList(path)
-    
-    # with open(output, 'w') as file:
-    
-    print(functionBodies[0])
-    
-    llmChain = model_utils.setupLangChain(model)
-    response = model_utils.returnInferenceFromLangChain(llmChain, functionBodies[0])
 
-    print(response)
+    llmChain = model_utils.setupLangChain(model)
+
+    with open(output, 'w') as file:
+        for function in functionBodies:
+            # Verbose = True => prints out on inference
+            response = model_utils.returnInferenceFromLangChain(llmChain, function)
+            file.write(response + '\n\n')
+
 
 @app.command()
 def easter():
