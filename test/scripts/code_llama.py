@@ -27,7 +27,7 @@ def get_llama_response(prompt: str) -> None:
 
 model = "meta-llama/Llama-2-7b-chat-hf" # meta-llama/Llama-2-7b-hf
 
-tokenizer = AutoTokenizer.from_pretrained(model, use_auth_token=True)
+tokenizer = AutoTokenizer.from_pretrained(model, token=True)
 
 from transformers import pipeline
 
