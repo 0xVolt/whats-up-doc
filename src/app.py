@@ -28,10 +28,10 @@ def generate(
     model (string) - string to specify which model to use when generating documentation
     '''
 
-    # if model is None:
-    #     model = model_utils.getModelChoice()
+    if model is None:
+        model = model_utils.getModelChoice()
     
-    model = 'mistral-7b-instruct'
+    # model = 'mistral-7b-instruct'
 
     print(f"Arguments specified:")
     print(f"File Path: {path}")
@@ -39,7 +39,8 @@ def generate(
     
     functions = parser_utils.extractFunctionsAsList(path)
     
-    modelPath = r"C:\Users\deshi\Code\gpt4all-models\mistral-7b-instruct-v0.1.Q4_0.gguf"
+    # modelPath = r"C:\Users\deshi\Code\gpt4all-models\mistral-7b-instruct-v0.1.Q4_0.gguf"
+    modelPath = file_utils.returnModelLocalPath(model)
     
     # Callbacks support token-wise streaming
     callbacks = [StreamingStdOutCallbackHandler()]
