@@ -38,18 +38,25 @@ def setupLangChain(model, batches=4, threads=8, nPredict=1024):
         n_batch=batches,
         n_threads=threads,
         n_predict=nPredict,
-        seed=42
+        seed=-1
     )
     
-    # This is yet to be toggled for language-agnostic behavior
-    # language = 'Python'
-    
     template = """
-    Here's my function in Python:
-
+    Generate documentation for this function in Python.
+    
     {function}
+    
+    Generate the documentation in this format:
 
-    For this function, generate it's stand-alone documentation. Complete it with the following - function name, function arguments, return values and a detailed explanation of how the function logic works line-by-line.
+    Function Name: [function_name]
+    Parameters: [parameters]
+    Return Value: [return_value]
+
+    Function Description:
+    [function_description]
+
+    Example Usage:
+    [example_code]
     """
     
     prompt = PromptTemplate(
@@ -64,11 +71,6 @@ def setupLangChain(model, batches=4, threads=8, nPredict=1024):
     
     return llmChain
 
-
-# def returnInferenceFromLangChain(llmChain, function):
-#     response = llmChain.run({"function": function})
-    
-#     return response
 
 
 def createPipeline(checkpoint, device):
