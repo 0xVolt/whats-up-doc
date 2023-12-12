@@ -38,25 +38,14 @@ def setupLangChain(model, batches=4, threads=8, nPredict=1024):
         n_batch=batches,
         n_threads=threads,
         n_predict=nPredict,
-        seed=-1
     )
     
     template = """
-    Generate documentation for this function in Python.
-    
-    {function}
-    
-    Generate the documentation in this format:
+Here's my function in Python:
 
-    Function Name: [function_name]
-    Parameters: [parameters]
-    Return Value: [return_value]
+{function}
 
-    Function Description:
-    [function_description]
-
-    Example Usage:
-    [example_code]
+Given the definition of a function in Python, generate it's documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project.
     """
     
     prompt = PromptTemplate(
