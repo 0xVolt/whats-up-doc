@@ -17,7 +17,7 @@ spinner = yaspin()
 @app.command()
 def generate(
     path: str,
-    # model: str = typer.Argument(None),
+    model: str = typer.Argument(None),
     output: str = 'output.txt'
 ):
     '''
