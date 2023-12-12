@@ -1,42 +1,44 @@
-def readFile(path):
-    '''
-    Open a specified script file in read mode and return it's contents as a string.
-
-    Argument(s):
-    path (string) - path to the file to be read
-
-    Output(s):
-    code (string) - contents of the script file
-    '''
-    with open(path, 'r') as fin:
-        code = fin.read()
-
-    return code
+def checkGPU(tensorflow):
+    if tensorflow == True:
+        import tensorflow as tf
+        print("Number of GPUs available with tensorflow:", len(tf.config.list_physical_devices('GPU')))
+    else:
+        import torch
+        print('Checking if the GPU is available with PyTorch:', torch.cuda.is_available())
 
 
-def pythonTokenizer(line):
-    '''
-    Tokenize a python script file and replace code with abstracted syntax to then pass to a model inference point.
+def log_directory_structure(directory_path, ai_context, indent=0):
+    # Check if path is valid
+    if not os.path.exists(directory_path):
+        print("Directory not found.")
+        return
 
-    Argument(s):
-    line (string) - Python code passed to tokenize
+    # Get the list of items in the directory
+    items = os.listdir(directory_path)
 
-    Output(s):
-    result (string) - Result of the tokenized Python code
-    '''
-    import io
-    import tokenize
+    for item in items:
+        item_path = os.path.join(directory_path, item)
 
-    result = []
-    line = io.StringIO(line)
+        # Check if the item is a directory
+        if os.path.isdir(item_path):
+            # Log the directory using ai_context
+            directory_name = os.path.basename(item_path)
+            indentation = "  " * indent  # Adjust indentation for subdirectories
+            log_message = f"{indentation}Directory: {directory_name}"
+            print(log_message)
 
-    for tokenType, token, start, end, line in tokenize.generate_tokens(line.readline):
-        if (not tokenType == tokenize.COMMENT):
-            if tokenType == tokenize.STRING:
-                result.append('CODE_STRING')
-            elif tokenType == tokenize.NUMBER:
-                result.append('CODE_INTEGER')
-            elif (not token == '\n') and (not token == '    '):
-                result.append(str(token))
+            # Recursively log the subdirectory structure
+            log_directory_structure(item_path, ai_context, indent + 1)
 
-    result = ' '.join(result)
+        # If it's a file, you can log it similarly
+        
+    # Get the directory path from the user
+    directory_path = input("Enter the directory path: ")
+
+    # Log the root directory
+    print(f"Root Directory: {directory_path}")
+
+    # Call the function to log the directory structure
+    log_directory_structure(directory_path, ai_context)
+
+    print(ai_context)
