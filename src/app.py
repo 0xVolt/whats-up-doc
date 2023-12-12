@@ -17,7 +17,7 @@ spinner = yaspin()
 @app.command()
 def generate(
     path: str,
-    model: str = typer.Argument(None),
+    # model: str = typer.Argument(None),
     output: str = 'output.txt'
 ):
     '''
@@ -37,48 +37,46 @@ def generate(
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
     
+    # modelPath = file_utils.returnModelLocalPath(model)
     functions = parser_utils.extractFunctionsAsList(path)
     
     # modelPath = r"C:\Users\deshi\Code\gpt4all-models\mistral-7b-instruct-v0.1.Q4_0.gguf"
-    modelPath = file_utils.returnModelLocalPath(model)
     
     # Callbacks support token-wise streaming
-    callbacks = [StreamingStdOutCallbackHandler()]
+#     callbacks = [StreamingStdOutCallbackHandler()]
 
-    # Verbose is required to pass to the callback manager
-    llm = GPT4All(
-        model=modelPath, 
-        callbacks=callbacks, 
-        verbose=True,
-        n_batch=4,
-        n_threads=8,
-        # n_predict=512
-        # seed=-1
-    )
+#     # Verbose is required to pass to the callback manager
+#     llm = GPT4All(
+#         model=modelPath, 
+#         callbacks=callbacks, 
+#         verbose=True,
+#         n_batch=4,
+#         n_threads=8,
+#         # n_predict=512
+#         # seed=-1
+#     )
     
-    template = """
-Here's my function in Python:
+#     template = """
+# Here's my function in Python:
 
-{function}
+# {function}
 
-Given the definition of a function in Python, generate it's documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project.
-    """
+# Given the definition of a function in Python, generate it's documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project.
+#     """
     
-    prompt = PromptTemplate(
-        template=template,
-        input_variables=["function"],
-    )
+#     prompt = PromptTemplate(
+#         template=template,
+#         input_variables=["function"],
+#     )
     
-    llmChain = LLMChain(
-        prompt=prompt, 
-        llm=llm,
-    )
+#     llmChain = LLMChain(
+#         prompt=prompt, 
+#         llm=llm,
+#     )
+
+    llmChain = model_utils.setupLangChain(model)
     
     for function in functions:
-        print("\n\n\n")
-        print(prompt.format(function=function))
-    
-        print("\n\n\n")
         llmChain.run({'function': function})
 
 
