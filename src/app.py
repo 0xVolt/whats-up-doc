@@ -28,21 +28,57 @@ def generate(
     model (string) - string to specify which model to use when generating documentation
     '''
 
-    if model is None:
-        model = model_utils.getModelChoice()
+    # if model is None:
+    #     model = model_utils.getModelChoice()
+    
+    model = 'mistral-7b-instruct'
 
     print(f"Arguments specified:")
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
     
-    functionBodies = parser_utils.extractFunctionsAsList(path)
+    functions = parser_utils.extractFunctionsAsList(path)
     
-    llmChain = model_utils.setupLangChain(model)
+    modelPath = r"C:\Users\deshi\Code\gpt4all-models\mistral-7b-instruct-v0.1.Q4_0.gguf"
     
-    for function in functionBodies:
-        # llmChain = model_utils.setupLangChain(model)
-        llmChain.run({'function': function})
+    # Callbacks support token-wise streaming
+    callbacks = [StreamingStdOutCallbackHandler()]
+
+    # Verbose is required to pass to the callback manager
+    llm = GPT4All(
+        model=modelPath, 
+        callbacks=callbacks, 
+        verbose=True,
+        n_batch=4,
+        n_threads=8,
+        # n_predict=512
+        # seed=-1
+    )
+    
+    template = """
+Here's my function in Python:
+
+{function}
+
+Given the definition of a function in Python, generate it's documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project.
+    """
+    
+    prompt = PromptTemplate(
+        template=template,
+        input_variables=["function"],
+    )
+    
+    llmChain = LLMChain(
+        prompt=prompt, 
+        llm=llm,
+    )
+    
+    for function in functions:
         print("\n\n\n")
+        print(prompt.format(function=function))
+    
+        print("\n\n\n")
+        llmChain.run({'function': function})
 
 
 @app.command()
