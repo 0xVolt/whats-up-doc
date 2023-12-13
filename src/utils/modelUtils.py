@@ -1,5 +1,5 @@
 import inquirer
-from .file_utils import returnModelLocalPath
+from .fileUtils import returnModelLocalPath
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import LLMChain
 from langchain.llms import GPT4All
@@ -14,7 +14,7 @@ def getModelChoice():
     questions = [
         inquirer.List(
             "model",
-            message="Select a model:",
+            message="Please select a model:",
             choices=models,
         ),
     ]
