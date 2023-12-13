@@ -41,9 +41,12 @@ def generate_docs(file_path: str, output_file: str = "documentation.md"):
 
             # Generate documentation using mistral-7b-instruct model
             if docstring:
+                instruction = docstring
+            else:
                 instruction = f"Document the function {function_name}."
-                generated_doc = instruct_model(instruction)[0]['generated_text']
-                documentation.append(f"## {function_name}\n\n{docstring}\n\nGenerated Documentation:\n\n{generated_doc}\n\n---\n")
+
+            generated_doc = instruct_model(instruction)[0]['generated_text']
+            documentation.append(f"## {function_name}\n\n{docstring}\n\nGenerated Documentation:\n\n{generated_doc}\n\n---\n")
 
     # Write documentation to the output file
     with open(output_file, "w") as output:
