@@ -1,11 +1,12 @@
 import typer
-from transformers import pipeline
+import llama_cpp
 import ast
 
 app = typer.Typer()
 
-# Load the mistral-7b-instruct model
-instruct_model = pipeline("text2text-generation", model="salesforce/instruct-mistral-7.0", tokenizer="salesforce/instruct-mistral-7.0")
+# Load the mistral-7b-instruct model using llama_cpp
+model_path = "path/to/your/mistral-7b-instruct-model.gguf"
+instruct_model = llama_cpp.GGUFTextGenerator(model_path)
 
 def generate_function_docstring(function_name, source_code):
     # Extract the docstring of a function using AST
@@ -45,7 +46,7 @@ def generate_docs(file_path: str, output_file: str = "documentation.md"):
             else:
                 instruction = f"Document the function {function_name}."
 
-            generated_doc = instruct_model(instruction)[0]['generated_text']
+            generated_doc = instruct_model.generate_text(instruction)
             documentation.append(f"## {function_name}\n\n{docstring}\n\nGenerated Documentation:\n\n{generated_doc}\n\n---\n")
 
     # Write documentation to the output file
