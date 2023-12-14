@@ -31,7 +31,7 @@ def log_directory_structure(directory_path, ai_context, indent=0):
             log_directory_structure(item_path, ai_context, indent + 1)
 
         # If it's a file, you can log it similarly
-        
+
     # Get the directory path from the user
     directory_path = input("Enter the directory path: ")
 
