@@ -18,7 +18,7 @@ spinner = yaspin()
 def generate(
     path: str,
     model: str = typer.Argument(None),
-    outputFile: str = 'output.txt'
+    outputFile: str = 'output'
 ):
     '''
     Typer command to generate the documentation for an input script file.
@@ -44,7 +44,7 @@ def generate(
     for function in functions:
         modelOutputs.append(llmChain.run({'function': function}))
 
-    fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title="Test Output Markdown File", ordered=False)
+    fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title="Test Output Markdown File")
 
 
 @app.command()
