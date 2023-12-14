@@ -16,28 +16,25 @@ def readFile(path):
 
     return code
 
-    
+
 def returnModelLocalPath(model):
     modelPath = {
         'mistral-7b-instruct': r"C:\Users\deshi\Code\gpt4all-models\mistral-7b-instruct-v0.1.Q4_0.gguf",
         'orca-mini-3b': r"C:\Users\deshi\Code\gpt4all-models\orca-mini-3b-gguf2-q4_0.gguf"
     }
-    
+
     return modelPath[model]
 
 
 def writeOutputToMarkdownFile(fileName, outputList, title):
     formattedOutputs = []
-    
+
     for output in outputList:
         formattedOutputs.append(formatModelOutputToMarkdown(output))
-        
-    # print(outputList[0])
-    print('\n\n', formattedOutputs[0])
-        
-    # Join the formatted outputs into a single string
-    # markdownContent = f"# {title}\n\n" + "\n\n---\n\n".join(formattedOutputs)
 
-    # # Write the content to the file
-    # with open(f'{fileName}.md', 'w') as file:
-    #     file.write(markdownContent)
+    # Join the formatted outputs into a single string
+    markdownContent = f"# {title}\n\n" + "\n\n---\n\n".join(formattedOutputs)
+
+    # Write the content to the file
+    with open(f'{fileName}.md', 'w') as file:
+        file.write(markdownContent)
