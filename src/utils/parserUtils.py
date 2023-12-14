@@ -1,6 +1,13 @@
 import ast
 import json
 import textwrap
+import re
+
+
+def cleanString(inputString):
+    # Remove characters that are not spaces, newlines, or tabs
+    cleanedString = re.sub(r'[^ \t\n]', '', inputString)
+    return cleanedString
 
 
 def formatModelOutputToMarkdown(inputString):

@@ -31,10 +31,13 @@ def writeOutputToMarkdownFile(fileName, outputList, title):
     
     for output in outputList:
         formattedOutputs.append(formatModelOutputToMarkdown(output))
-
-    with open(f'{fileName}.md', 'a') as file:
-        file.write(f'# {title}\n\n')
         
-        for output in formattedOutputs:
-            file.write(output)
-            file.write(f'\n\n---\n\n')
+    # print(outputList[0])
+    print('\n\n', formattedOutputs[0])
+        
+    # Join the formatted outputs into a single string
+    # markdownContent = f"# {title}\n\n" + "\n\n---\n\n".join(formattedOutputs)
+
+    # # Write the content to the file
+    # with open(f'{fileName}.md', 'w') as file:
+    #     file.write(markdownContent)
