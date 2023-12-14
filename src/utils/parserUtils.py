@@ -1,12 +1,12 @@
 import ast
 import json
-import textwrap
 import re
+import textwrap
 
 
 def cleanString(inputString):
     # Remove characters that are not spaces, newlines, or tabs
-    cleanedString = re.sub(r'[^ \t\n]', '', inputString)
+    cleanedString = re.sub(r'\r', '', inputString)
     return cleanedString
 
 
@@ -20,7 +20,7 @@ def formatModelOutputToMarkdown(inputString):
 
     # Extract function name and description
     function_name = lines[0].split(":")[1].strip()
-    
+
     # Initialize section start indices
     section_starts = []
 
@@ -65,7 +65,7 @@ def extractFunctionsAsList(path):
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef):
                 body = ast.get_source_segment(content, node)
-                
+
                 function_data = {
                     'name': node.name,
                     'args': [arg.arg for arg in node.args.args],
@@ -73,10 +73,10 @@ def extractFunctionsAsList(path):
                     'body': body,
                     'return': ast.get_source_segment(content, node.returns) if node.returns else None
                 }
-                
+
                 # Collect functions' meta data
                 listOfFunctions.append(function_data)
-                
+
     listOfFunctionBodies = [function['body'] for function in listOfFunctions]
 
     return listOfFunctionBodies
@@ -124,7 +124,7 @@ def generateBlockMetaData(
         'Body': code if typeName == 'Assignment' else blockBody,
         'BodyCount': bodyCount
     }
-    
+
     if targets:
         blockMetaData['Targets'] = targets
 
@@ -209,10 +209,10 @@ def parseAssignment(node, lines):
     startCol = 0
     endColumn = node.col_offset
     code = "".join(lines[startLine - 1:endLine])
-    
+
     # Replace consecutive spaces with a single tab character
     code = code.replace('    ', '\t')
-    
+
     targetsMetaData = {}
     for target in node.targets:
         targetMetaData = {
@@ -223,7 +223,7 @@ def parseAssignment(node, lines):
 
         # If there are multiple targets. Fuck, I really hope not ://
         targetsMetaData.update(targetMetaData)
-        
+
     assignmentMetaData = generateBlockMetaData(
         node=node,
         name=None,
@@ -351,7 +351,7 @@ def parseImport(node):
 
     return importMetaData
 
-    
+
 def pythonTokenizer(line):
     '''
     Tokenize a python script file and replace code with abstracted syntax to then pass to a model inference point.
