@@ -42,7 +42,7 @@ def writeOutputToMarkdownFile(filename, strings, title=None, ordered=False):
 
     # Choose formatting based on ordered flag
     if ordered:
-        mdFile.new_list(strings, ul_style=True)
+        mdFile.new_list(strings, marked_with='-')
     else:
         mdFile.new_list(strings)
 
