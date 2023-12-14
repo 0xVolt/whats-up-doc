@@ -44,7 +44,7 @@ def generate(
     for function in functions:
         modelOutputs.append(llmChain.run({'function': function}))
 
-    fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title="Test Output Markdown File", ordered=True)
+    fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title="Test Output Markdown File", ordered=False)
 
 
 @app.command()
