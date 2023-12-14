@@ -1,3 +1,6 @@
+from .parserUtils import formatModelOutputToMarkdown
+
+
 def readFile(path):
     '''
     Open a specified script file in read mode and return it's contents as a string.
@@ -23,5 +26,11 @@ def returnModelLocalPath(model):
     return modelPath[model]
 
 
-def writeOutputToMarkdownFile(fileName, outputList, title="Document", ordered=False):
-    pass
+def writeOutputToMarkdownFile(fileName, outputList, title="Script Documentation", ordered=False):
+    for output in outputList:
+        formattedOutput = formatModelOutputToMarkdown(output)
+        
+        with open(f'{fileName}.md', 'w') as file:
+            file.write(f'# {title}')
+            file.write(formattedOutput)
+            file.write(f'\n\n---')
