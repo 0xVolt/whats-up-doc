@@ -117,6 +117,23 @@ Explanation:
 7. Finally, it calls itself on the given `directory_path` using `log_directory_structure(directory_path, ai_context)`.
 """
 
+documentation_string = """
+Function Name: checkGPU
+
+Description: This function checks if GPU is available with TensorFlow or PyTorch.
+
+Arguments:
+- tensorflow (bool): Whether to use TensorFlow or PyTorch for checking GPU availability. Defaults to True.
+
+Return Values:
+None
+
+Explanation:
+The checkGPU function takes a boolean argument 'tensorflow' which specifies whether the function should use TensorFlow or PyTorch for checking GPU availability. If tensorflow is set to True, it imports the necessary modules from TensorFlow and prints out the number of GPUs available with TensorFlow using the len() function on the list returned by tf.config.list_physical_devices('GPU').
+If tensorflow is set to False, it imports the necessary modules from PyTorch and checks if a GPU is available with PyTorch using torch.cuda.is_available(). The output of this check is printed out.
+In both cases, no return value is returned as the function simply prints out information about the availability of GPUs.
+"""
+
 parsed_data = parse_function_documentation(documentation_string)
 qol_utils.prettyPrintDictionary(parsed_data)
 
