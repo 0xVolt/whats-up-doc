@@ -26,11 +26,15 @@ def returnModelLocalPath(model):
     return modelPath[model]
 
 
-def writeOutputToMarkdownFile(fileName, outputList, title="Script Documentation", ordered=False):
+def writeOutputToMarkdownFile(fileName, outputList, title):
+    formattedOutputs = []
+    
     for output in outputList:
-        formattedOutput = formatModelOutputToMarkdown(output)
+        formattedOutputs.append(formatModelOutputToMarkdown(output))
+
+    with open(f'{fileName}.md', 'a') as file:
+        file.write(f'# {title}\n\n')
         
-        with open(f'{fileName}.md', 'w') as file:
-            file.write(f'# {title}')
-            file.write(formattedOutput)
-            file.write(f'\n\n---')
+        for output in formattedOutputs:
+            file.write(output)
+            file.write(f'\n\n---\n\n')
