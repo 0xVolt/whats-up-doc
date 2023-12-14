@@ -1,5 +1,51 @@
 import ast
 import json
+import textwrap
+
+
+def formatModelOutputToMarkdown(inputString):
+    # Split the input string into lines
+    lines = inputString.strip().split('\n')
+
+    # Ensure that there are at least two lines
+    if len(lines) < 2:
+        raise ValueError("Input string does not contain enough lines")
+
+    # Extract function name and description
+    function_name = lines[0].split(":")[1].strip()
+    
+    # Initialize section start indices
+    section_starts = []
+
+    # Find the start indices for each section
+    for section in ["Description:", "Arguments:", "Return Values:", "Explanation:"]:
+        try:
+            section_starts.append(lines.index(section) + 1)
+        except ValueError:
+            # Handle the case when a section is not found
+            section_starts.append(None)
+
+    # Extract content for each section
+    description_start, args_start, return_vals_start, explanation_start = section_starts
+
+    description = '\n'.join(lines[description_start:args_start - 1]) if description_start else ""
+    arguments = '\n'.join(lines[args_start:return_vals_start - 1]) if args_start else ""
+    return_values = '\n'.join(lines[return_vals_start:explanation_start - 1]) if return_vals_start else ""
+    explanation = '\n'.join(lines[explanation_start:]) if explanation_start else ""
+
+    # Format the output
+    markdownFormattedOutput = f"## Function Name: `{function_name}`\n\n{description}\n\n"
+
+    if args_start:
+        markdownFormattedOutput += f"### Arguments\n{textwrap.indent(arguments.replace('- ', '* '), '')}\n\n"
+
+    if return_vals_start:
+        markdownFormattedOutput += f"### Return Values\n{textwrap.indent(return_values, '')}\n\n"
+
+    if explanation_start:
+        markdownFormattedOutput += f"### Explanation\n{textwrap.indent(explanation, '')}"
+
+    return markdownFormattedOutput
 
 
 def extractFunctionsAsList(path):
