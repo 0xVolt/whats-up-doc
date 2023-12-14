@@ -29,7 +29,7 @@ def generate(
     '''
 
     if model is None:
-        model = model_utils.getModelChoice()
+        model = modelUtils.getModelChoice()
     
     # model = 'mistral-7b-instruct'
 
@@ -74,7 +74,7 @@ def generate(
 #         llm=llm,
 #     )
 
-    llmChain = model_utils.setupLangChain(model)
+    llmChain = modelUtils.setupLangChain(model)
     
     for function in functions:
         llmChain.run({'function': function})
