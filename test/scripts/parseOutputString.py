@@ -15,7 +15,7 @@ def dict_to_markdown(data, title="Document", filename="output.md"):
     Returns:
         A formatted markdown string or None if writing to a file fails.
     """
-    md = MdUtils( title=title)
+    md = MdUtils(filename, title=title)
 
     for key, value in data.items():
         if isinstance(value, dict):
@@ -120,7 +120,7 @@ Explanation:
 parsed_data = parse_function_documentation(documentation_string)
 qol_utils.prettyPrintDictionary(parsed_data)
 
-returnedValue = dict_to_markdown(parsed_data)
+returnedValue = dict_to_markdown(parsed_data, filename='output.md')
 if returnedValue is None:
     print("Writing failed")
 # print(f"Parsed function data: {parsed_data}")
