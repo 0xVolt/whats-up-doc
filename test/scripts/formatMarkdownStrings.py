@@ -1,49 +1,72 @@
 import textwrap
 
-def format_function_description(input_string):
+def formatModelOutputToMarkdown(inputString):
     # Split the input string into lines
-    lines = input_string.strip().split('\n')
+    lines = inputString.strip().split('\n')
+
+    # Ensure that there are at least two lines
+    if len(lines) < 2:
+        raise ValueError("Input string does not contain enough lines")
 
     # Extract function name and description
     function_name = lines[0].split(":")[1].strip()
-    description = lines[1].split(":")[1].strip()
+    
+    # Initialize section start indices
+    section_starts = []
 
-    # Extract arguments, return values, and explanation
-    arguments_start = lines.index("Arguments:") + 1
-    return_values_start = lines.index("Return Values:") + 1
-    explanation_start = lines.index("Explanation:") + 1
+    # Find the start indices for each section
+    for section in ["Description:", "Arguments:", "Return Values:", "Explanation:"]:
+        try:
+            section_starts.append(lines.index(section) + 1)
+        except ValueError:
+            # Handle the case when a section is not found
+            section_starts.append(None)
 
-    arguments = '\n'.join(lines[arguments_start:return_values_start-1])
-    return_values = '\n'.join(lines[return_values_start:explanation_start-1])
-    explanation = '\n'.join(lines[explanation_start:])
+    # Extract content for each section
+    description_start, args_start, return_vals_start, explanation_start = section_starts
+
+    description = '\n'.join(lines[description_start:args_start - 1]) if description_start else ""
+    arguments = '\n'.join(lines[args_start:return_vals_start - 1]) if args_start else ""
+    return_values = '\n'.join(lines[return_vals_start:explanation_start - 1]) if return_vals_start else ""
+    explanation = '\n'.join(lines[explanation_start:]) if explanation_start else ""
 
     # Format the output
-    formatted_output = f"## Function Name: `{function_name}`\n\n{description}\n\n" \
-                       f"### Description\n\n{textwrap.indent(description, '* ')}\n\n" \
-                       f"### Arguments\n\n{textwrap.indent(arguments.replace('- ', '* '), '')}\n\n" \
-                       f"### Return Values\n\n{return_values}\n\n" \
-                       f"### Explanation\n{textwrap.indent(explanation, '')}"
+    markdownFormattedOutput = f"## Function Name: `{function_name}`\n\n{description}\n\n"
 
-    return formatted_output
+    if args_start:
+        markdownFormattedOutput += f"### Arguments\n{textwrap.indent(arguments.replace('- ', '* '), '')}\n\n"
+
+    if return_vals_start:
+        markdownFormattedOutput += f"### Return Values\n{textwrap.indent(return_values, '')}\n\n"
+
+    if explanation_start:
+        markdownFormattedOutput += f"### Explanation\n{textwrap.indent(explanation, '')}"
+
+    return markdownFormattedOutput
 
 # Example usage
 input_string = """
-Function Name: functionxyz
+Function Name: log_directory_structure
+
 Description: This function logs the directory structure by recursively traversing through all subdirectories and files in the given directory path.
+
 Arguments:
-- directory_path (str): The path of the root directory to be logged. It should exist on the file system.
-- ai_context (dict, optional): A dictionary containing any additional context information that needs to be passed along with the log messages.
-- indent (int, optional): An integer specifying how many spaces to indent each level of subdirectories in the output. Default is 0.
+- `directory_path` (str): The path of the root directory to be logged. It should exist on the file system.
+- `ai_context` (dict): A dictionary containing any additional context information that needs to be passed along with the log messages.
+- `indent` (int, optional): An integer specifying how many spaces to indent each level of subdirectories in the output. Default is 0.
+
 Return Values:
 None - This function does not return a value.
+
 Explanation:
-1. The function first checks if the given directory path exists using os.path.exists() and prints an error message if it doesn't exist.
+1. The function first checks if the given directory path exists on the file system using `os.path.exists()` and prints an error message if it doesn't exist.
+2. It then gets a list of all items in the directory using `os.listdir()`.
+3. For each item, it constructs the full path to that item by joining the directory path with the item name using `os.path.join()` and checks if it's a directory or file using `os.path.isdir()`.
+4. If the item is a directory, it logs the directory using the given `ai_context` dictionary and recursively calls itself on that subdirectory with an increased indentation level using `log_directory_structure(item_path, ai_context, indent + 1)`.
+5. If the item is a file, it can log it similarly.
+6. The function then prompts the user to enter the directory path and logs the root directory with that path.
+7. Finally, it calls itself on the given `directory_path` using `log_directory_structure(directory_path, ai_context)`.
 """
 
-formatted_output = format_function_description(input_string)
-
-# Write the formatted string to a markdown file
-with open('formatted_function.md', 'w') as file:
-    file.write(formatted_output)
-
-print("Formatted string has been written to 'formatted_function.md'")
+formatted_output = formatModelOutputToMarkdown(input_string)
+print(formatted_output)
