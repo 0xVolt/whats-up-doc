@@ -37,7 +37,7 @@ def formatModelOutputToMarkdown(inputString):
 
     description = '\n'.join(lines[description_start:args_start - 1]) if description_start else ""
     arguments = '\n'.join(lines[args_start:return_vals_start - 1]) if args_start else ""
-    return_values = '\n'.join(lines[return_vals_start:explanation_start - 1]) if return_vals_start else ""
+    return_values = '\n'.join(lines[return_vals_start:explanation_start - 1 if explanation_start else len(lines)]) if return_vals_start else ""
     explanation = '\n'.join(lines[explanation_start:]) if explanation_start else ""
 
     # Format the output
