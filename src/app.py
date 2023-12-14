@@ -65,7 +65,7 @@ Explanation:
 5. If the item is a file, it can log it similarly.
 6. The function then prompts the user to enter the directory path and logs the root directory with that path.
 7. Finally, it calls itself on the given `directory_path` using `log_directory_structure(directory_path, ai_context)`. 
-    """
+"""
 
     modelOutputs.append(testOutput)
 
