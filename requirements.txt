@@ -1,0 +1,6 @@
+typer
+yaspin
+transformers
+torch
+langchain
+inquirer
