@@ -4,13 +4,13 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 
 ## TODO
 - [ ] Update TODO :/
-- [X] Setup parser
+- [ ] Setup parser
+  - [ ] Fix `relativePath` attribute when dealing with multiple files
   - [X] Finish metadata logging
   - [X] Fix assignment statement parser
   - [X] Pre process code before passing it to the parser
   - [X] Code `BodyCount` attribute O.O
   - [X] Move assignment parser into `multi_parser`
-  - [ ] Fix `relativePath` attribute when dealing with multiple files
 - [ ] Fix `utils` package
   - [X] Move parser to `utils` package
   - [X] Smooth over `utils` package functions
@@ -18,8 +18,8 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 - [ ] Add docstrings to functions
 - [ ] Setup CLI
   - [ ] Add ASCII art
-  - [ ] Implement logic to check `BodyCount` attribute for block groups
   - [ ] Fix/circumvent `yaspin` spinner flicker
+  - [ ] Implement logic to check `BodyCount` attribute for block groups
   - [ ] Setup multi-model select
   - [ ] Ensure models work for C++/JS (langchain dependency check)
     - [ ] May need to setup another model to work with another language by default
