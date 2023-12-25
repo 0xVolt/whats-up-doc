@@ -1,0 +1,7 @@
+typer
+yaspin
+transformers
+torch
+langchain
+inquirer
+gpt4all
