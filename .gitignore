@@ -2,7 +2,7 @@
 src/experimental-notebooks/__pycache__
 
 # Add spyder environment config
-.spyproject/
+.spyproject
 
 # Add assets
 assets/
