@@ -2,6 +2,10 @@
 
 A command-line tool leveraging LangChain and LLMs for language-agnostic code documentation.
 
+## Usage 
+
+Run `install.sh`. If you have a GPU on your machine, use the `--gpu` flag to install the correct dependencies for `llama-cpp`.
+
 ## TODO
 - [ ] Update TODO :/
 - [ ] Setup parser
