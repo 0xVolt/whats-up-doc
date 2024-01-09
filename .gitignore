@@ -9,3 +9,6 @@ assets/
 
 # Add models directory
 models/
+
+# Add venv/
+venv/
