@@ -1,5 +1,7 @@
+#!/bin/bash
+
 # Check if the --gpu flag is provided
-if [[ $* == *--gpu* ]]; then
+if [ "$#" -ne 0 ] && [[ " $@ " == *" --gpu "* ]]; then
     # If GPU flag is present, install with GPU-related flags
     CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python --verbose
 else
