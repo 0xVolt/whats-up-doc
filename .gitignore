@@ -11,4 +11,4 @@ assets/
 models/
 
 # Add venv/
-venv/
+venv
