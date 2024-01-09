@@ -40,7 +40,7 @@ def generate(
     for function in functions:
         output = llmChain.run({'function': function})
         modelOutputs.append(parserUtils.cleanString(output))
-        
+
     spinner.stop()
 
     fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title=f"Function Documentation for `{path}`")
