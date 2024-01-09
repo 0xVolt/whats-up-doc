@@ -28,3 +28,7 @@ while getopts ":g:" opt; do
 done
 
 echo "GPU: $gpu"
+
+git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+
