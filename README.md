@@ -4,7 +4,11 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 
 ## Usage
 
-Run `install.sh`. If you have a GPU on your machine, use the `--gpu` flag to install the correct dependencies for `llama-cpp`.
+Run `install.sh`. If you have a GPU on your machine, use the `--gpu` flag to install the correct dependencies for `llama-cpp`. When in doubt, always create a new Python virtual environment, like so:
+1. `python3 -m venv <path_to_venv>`
+2. `source venv/bin/activate` for Linux. The command differs with OS.
+3. `chmod +x ./install.sh`
+4. `./install.sh`
 
 ## TODO
 - [ ] Update TODO :/
