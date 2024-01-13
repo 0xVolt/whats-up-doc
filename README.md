@@ -11,30 +11,20 @@ Run `install.sh`. If you have a GPU on your machine, use the `--gpu` flag to ins
 4. `./install.sh`
 
 ## TODO
-- [ ] Update TODO :/
-- [ ] Setup parser
-  - [ ] Fix `relativePath` attribute when dealing with multiple files
-  - [X] Finish metadata logging
-  - [X] Fix assignment statement parser
-  - [X] Pre process code before passing it to the parser
-  - [X] Code `BodyCount` attribute O.O
-  - [X] Move assignment parser into `multi_parser`
-- [ ] Fix `utils` package
-  - [X] Move parser to `utils` package
-  - [X] Smooth over `utils` package functions
-  - [X] Rename modules with logical names
-- [ ] Add docstrings to functions
-- [ ] Setup CLI
+
+- [ ] Get app working
+- [ ] Eliminate need for `llama-cpp` due to dependency issues
+  - [ ] Run GPU inferences with StarCoder
+  - [ ] Replace models for StarCoder
+  - [ ] Run inference with StarCoder in CLI
+- [ ] Clean code and add docstrings
+- [ ] Pretty up CLI
   - [ ] Add ASCII art
-  - [ ] Fix/circumvent `yaspin` spinner flicker
-  - [ ] Implement logic to check `BodyCount` attribute for block groups
-  - [ ] Setup multi-model select
-  - [ ] Ensure models work for C++/JS (langchain dependency check)
-    - [ ] May need to setup another model to work with another language by default
-  - [ ] Setup markdown generator
-    - [ ] Generate text file and then parse and add `md` syntax
+  - [ ] Better status messages (probably use logs instead of prints in some places)
+  - [ ] Clean up what's displayed to the user 
 
 ## Resources
+
 1. [Code Documentation Generation task on *paperswithcode.com*](https://paperswithcode.com/task/code-documentation-generation)
 2. [CodeSearchNet corpus on *paperswithcode.com*](https://paperswithcode.com/dataset/codesearchnet)
 3. [CodeTrans model GitHub page](https://github.com/agemagician/CodeTrans)
