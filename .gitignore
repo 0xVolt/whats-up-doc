@@ -12,3 +12,6 @@ models/
 
 # Add venv/
 venv
+
+# Add env variables
+.env
