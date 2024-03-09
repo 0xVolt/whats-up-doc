@@ -14,7 +14,7 @@ Run `install.sh`. If you have a GPU on your machine, use the `-g` flag to instal
 
 ## TODO
 
-- [ ] Get app working
+- [ ] Remove GPT4All dependency
 - [ ] Eliminate need for `llama-cpp` due to dependency issues
   - [ ] Run GPU inferences with StarCoder
   - [ ] Replace models for StarCoder
