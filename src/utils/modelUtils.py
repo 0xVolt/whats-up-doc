@@ -1,8 +1,8 @@
 import inquirer
 from .fileUtils import returnModelLocalPath
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.chains import LLMChain
-from langchain.llms import GPT4All
+# from langchain.chains import LLMChain
+from langchain_community.llms import GPT4All
 from langchain.prompts import PromptTemplate
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
