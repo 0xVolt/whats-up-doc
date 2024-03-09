@@ -15,15 +15,13 @@ Run `install.sh`. If you have a GPU on your machine, use the `-g` flag to instal
 ## TODO
 
 - [ ] Remove GPT4All dependency
+  - [ ] Check out Claude 3
 - [ ] Eliminate need for `llama-cpp` due to dependency issues
-  - [ ] Run GPU inferences with StarCoder
-  - [ ] Replace models for StarCoder
-  - [ ] Run inference with StarCoder in CLI
 - [ ] Clean code and add docstrings
 - [ ] Pretty up CLI
   - [ ] Add ASCII art
   - [ ] Better status messages (probably use logs instead of prints in some places)
-  - [ ] Clean up what's displayed to the user 
+  - [ ] Clean up what's displayed to the user
 
 ## Resources
 
