@@ -1,17 +1,11 @@
 # Add pycache
 src/experimental-notebooks/__pycache__
 
-# Add spyder environment config
-.spyproject
-
 # Add assets
 assets/
 
 # Add models directory
 models/
-
-# Add venv/
-venv
 
 # Add env variables
 .env
