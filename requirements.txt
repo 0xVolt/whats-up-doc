@@ -5,6 +5,5 @@ transformers
 torch
 langchain
 inquirer
-gpt4all
 huggingface_hub
-vllm
+ollama
