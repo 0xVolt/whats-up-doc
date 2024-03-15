@@ -28,20 +28,28 @@ def generate(
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
 
-    modelOutputs = []
-
     functions = parserUtils.extractFunctionsAsList(path)
 
-    llmChain = modelUtils.setupLangChain(model)
+    chain = modelUtils.setupLangChain(model)
 
     print("Generating model outputs...")
-    spinner.start()
+    # spinner.start()
+
+    modelOutputs = []
 
     for function in functions:
-        output = llmChain.invoke({'function': function})
-        # modelOutputs.append(parserUtils.cleanString(output))
+        stream = chain.stream({'function': function})
+        outputString = ''
+        
+        for chunk in stream:                
+            # Print each chunk to the terminal
+            print(chunk, end='')
+            # Concatenate each chunk to the output string
+            outputString+= chunk
+        
+        modelOutputs.append(outputString)
 
-    spinner.stop()
+    # spinner.stop()
 
     fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title=f"Documentation for `{path}`")
 
