@@ -1,12 +1,12 @@
 import inquirer
-from langchain.prompts import PromptTemplate
 from langchain_community.llms import Ollama
+from langchain.prompts import PromptTemplate
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
 
 
 def getModelChoice():
-    models = ["codellama"]
+    models = ["codellama", "mistral"]
 
     questions = [
         inquirer.List(
@@ -28,13 +28,9 @@ def setupLangChain(model):
     # callbacks = [StreamingStdOutCallbackHandler()]
 
     # Verbose is required to pass to the callback manager
-    llm = Ollama(model)
+    llm = Ollama(model=model)
 
-    template = """
-Here's my function in Python:
-
-{function}
-
+    template = f"""
 Given the definition of a function in Python, generate it's documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project.
 
 Here is a sample function
@@ -56,7 +52,7 @@ def log_directory_structure(directory_path, ai_context, indent=0):
             # Log the directory using ai_context
             directory_name = os.path.basename(item_path)
             indentation = "  " * indent  # Adjust indentation for subdirectories
-            log_message = f"{indentation}Directory: {directory_name}"
+            log_message = "Directory: ", directory_name"
             print(log_message)
 
             # Recursively log the subdirectory structure
@@ -68,7 +64,7 @@ def log_directory_structure(directory_path, ai_context, indent=0):
     directory_path = input("Enter the directory path: ")
 
     # Log the root directory
-    print(f"Root Directory: {directory_path}")
+    print("Root Directory: ", directory_path")
 
     # Call the function to log the directory structure
     log_directory_structure(directory_path, ai_context)
@@ -76,7 +72,7 @@ def log_directory_structure(directory_path, ai_context, indent=0):
     print(ai_context)
 ```
 
-Here's an example of how to generate the documentation for a function:
+Here's an example of how to generate the documentation for the above function:
 
 ## Function Name: `log_directory_structure`
 
@@ -95,18 +91,20 @@ None - this function does not return any value.
 5. If the item is a file, it can be logged similarly by calling `print()` with the item name and path.
 6. After logging all items in the directory, it prompts the user for the directory path using `input()` and logs the root directory using `print()`.
 7. Finally, it calls itself on the given directory path to log its structure recursively.
+    
+Now, document the following function following how the example function's documentation looks like.
+
+{function}
     """
 
     prompt = PromptTemplate(
         template=template,
-        input_variables=["function"],
+        input_variables = ["function"]
     )
 
-    llmChain = llm.invoke(
-        prompt=prompt
-    )
+    chain = prompt | llm
 
-    return llmChain
+    return chain
 
 
 def createPipeline(checkpoint, device):

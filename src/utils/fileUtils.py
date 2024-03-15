@@ -27,13 +27,13 @@ def returnModelLocalPath(model):
 
 
 def writeOutputToMarkdownFile(fileName, outputList, title):
-    formattedOutputs = []
+    # formattedOutputs = []
 
-    for output in outputList:
-        formattedOutputs.append(formatModelOutputToMarkdown(output))
+    # for output in outputList:
+    #     formattedOutputs.append(formatModelOutputToMarkdown(output))
 
-    # Join the formatted outputs into a single string
-    markdownContent = f"# {title}\n\n" + "\n\n---\n\n".join(formattedOutputs)
+    # # Join the formatted outputs into a single string
+    markdownContent = f"# {title}\n\n" + "\n\n---\n\n".join(outputList)
 
     # Write the content to the file
     with open(f'{fileName}.md', 'w') as file:
