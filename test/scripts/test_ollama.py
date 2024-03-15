@@ -2,7 +2,7 @@ from langchain_community.llms import Ollama
 
 model = Ollama(model='codellama')
 
-stream = model.stream("Write a sample chrome extension in Rust.")
+stream = model.stream("Write a program in Python to implement a linear regression model.")
 
 # Initialize an empty string to store the output
 output_string = ""
