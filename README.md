@@ -2,7 +2,7 @@
 
 A command-line tool leveraging LangChain and LLMs for language-agnostic code documentation.
 
-## Usage
+<!-- ## Usage
 
 _Under maintenance._
 
@@ -10,15 +10,16 @@ Run `install.sh`. If you have a GPU on your machine, use the `-g` flag to instal
 1. `python3 -m venv <path_to_venv>`
 2. `source venv/bin/activate` for Linux. The command differs with OS.
 3. `chmod +x ./install.sh`
-4. `./install.sh`
+4. `./install.sh` -->
 
 ## TODO
 
 - [ ] Remove GPT4All dependency
   - [ ] Check out Claude 3
-- [ ] Eliminate need for `llama-cpp` due to dependency issues
+- [ ] Replace vanilla `llama.cpp` with `ollama`
 - [ ] Clean code and add docstrings
 - [ ] Pretty up CLI
+  - [ ] Add tokens/sec and/or execution time metric
   - [ ] Add ASCII art
   - [ ] Better status messages (probably use logs instead of prints in some places)
   - [ ] Clean up what's displayed to the user
