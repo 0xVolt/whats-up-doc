@@ -38,12 +38,12 @@ def generate(
     spinner.start()
 
     for function in functions:
-        output = llmChain.run({'function': function})
-        modelOutputs.append(parserUtils.cleanString(output))
+        output = llmChain.invoke({'function': function})
+        # modelOutputs.append(parserUtils.cleanString(output))
 
     spinner.stop()
 
-    fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title=f"Function Documentation for `{path}`")
+    fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title=f"Documentation for `{path}`")
 
 
 @app.command()
