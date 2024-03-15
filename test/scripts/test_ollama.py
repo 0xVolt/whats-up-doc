@@ -1,19 +1,26 @@
 from langchain_community.llms import Ollama
 
-model = Ollama(model='codellama')
+llm = Ollama(model='mistral')
 
-stream = model.stream("Write a program in Python to implement a linear regression model.")
+function = """
+def sum():
+    sum = 0
+    for i in range(10):
+        sum += i
 
-# Initialize an empty string to store the output
-output_string = ""
+    return sum
+"""
 
-for chunk in stream:
-    # Print each chunk to the terminal
-    print(chunk, end='')
-    
-    # Concatenate each chunk to the output string
-    output_string += chunk
+prompt = f"""
+Write the following function's documentation in markdown format.
 
-# Now you can use the output_string variable wherever you need the complete output as a string
-print("\n\nComplete Output as String:")
-print(output_string)
+{function}
+"""
+
+output = llm.invoke(prompt)
+
+# for chunk in llm.stream(prompt):
+#     print(chunk, end='')
+#     output += chunk
+
+print(f'\n\n\n{output}')
