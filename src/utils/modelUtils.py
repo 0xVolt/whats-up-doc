@@ -1,15 +1,12 @@
 import inquirer
-from .fileUtils import returnModelLocalPath
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-# from langchain.chains import LLMChain
-from langchain_community.llms import GPT4All
 from langchain.prompts import PromptTemplate
+from langchain_community.llms import Ollama
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
 
 
 def getModelChoice():
-    models = ["mistral-7b-instruct", "orca-mini-3b"]
+    models = ["codellama"]
 
     questions = [
         inquirer.List(
@@ -24,21 +21,14 @@ def getModelChoice():
     return answer["model"]
 
 
-def setupLangChain(model, batches=4, threads=8, nPredict=1024):
-    path = returnModelLocalPath(model)
+def setupLangChain(model):
+    # path = returnModelLocalPath(model)
 
     # Callbacks support token-wise streaming
-    callbacks = [StreamingStdOutCallbackHandler()]
+    # callbacks = [StreamingStdOutCallbackHandler()]
 
     # Verbose is required to pass to the callback manager
-    llm = GPT4All(
-        model=path,
-        callbacks=callbacks,
-        verbose=True,
-        n_batch=batches,
-        n_threads=threads,
-        n_predict=nPredict,
-    )
+    llm = Ollama(model)
 
     template = """
 Here's my function in Python:
@@ -46,6 +36,45 @@ Here's my function in Python:
 {function}
 
 Given the definition of a function in Python, generate it's documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project.
+
+Here is a sample function
+```python
+def log_directory_structure(directory_path, ai_context, indent=0):
+    # Check if path is valid
+    if not os.path.exists(directory_path):
+        print("Directory not found.")
+        return
+
+    # Get the list of items in the directory
+    items = os.listdir(directory_path)
+
+    for item in items:
+        item_path = os.path.join(directory_path, item)
+
+        # Check if the item is a directory
+        if os.path.isdir(item_path):
+            # Log the directory using ai_context
+            directory_name = os.path.basename(item_path)
+            indentation = "  " * indent  # Adjust indentation for subdirectories
+            log_message = f"{indentation}Directory: {directory_name}"
+            print(log_message)
+
+            # Recursively log the subdirectory structure
+            log_directory_structure(item_path, ai_context, indent + 1)
+
+        # If it's a file, you can log it similarly
+        
+    # Get the directory path from the user
+    directory_path = input("Enter the directory path: ")
+
+    # Log the root directory
+    print(f"Root Directory: {directory_path}")
+
+    # Call the function to log the directory structure
+    log_directory_structure(directory_path, ai_context)
+
+    print(ai_context)
+```
 
 Here's an example of how to generate the documentation for a function:
 
@@ -73,9 +102,8 @@ None - this function does not return any value.
         input_variables=["function"],
     )
 
-    llmChain = LLMChain(
-        prompt=prompt,
-        llm=llm,
+    llmChain = llm.invoke(
+        prompt=prompt
     )
 
     return llmChain
