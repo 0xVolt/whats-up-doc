@@ -17,13 +17,13 @@ def readFile(path):
     return code
 
 
-def returnModelLocalPath(model):
-    modelPath = {
-        'mistral-7b-instruct': r"C:\Users\deshi\Code\models\mistral-7b-instruct-v0.1.Q4_0.gguf",
-        'orca-mini-3b': r"C:\Users\deshi\Code\models\orca-mini-3b-gguf2-q4_0.gguf"
-    }
+# def returnModelLocalPath(model):
+#     modelPath = {
+#         'mistral-7b-instruct': r"C:\Users\deshi\Code\models\mistral-7b-instruct-v0.1.Q4_0.gguf",
+#         'orca-mini-3b': r"C:\Users\deshi\Code\models\orca-mini-3b-gguf2-q4_0.gguf"
+#     }
 
-    return modelPath[model]
+#     return modelPath[model]
 
 
 def writeOutputToMarkdownFile(fileName, outputList, title):
