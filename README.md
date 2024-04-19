@@ -17,8 +17,8 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 - Get access to these papers
 	- [Automatic Code Documentation Generation Using GPT-3](https://dl.acm.org/doi/10.1145/3551349.3559548)
 - Structure content and findings in paper format
-	- [x] Confirm [[Problem Statement]]
-	- [x] Find more relevant papers and structure [[Literature Survey]] accordingly
+	- [x] Confirm Problem Statement
+	- [x] Find more relevant papers and structure Literature Survey accordingly
 	- [ ] Re-write abstract and introduction
 - Explore
 	- [ ] Dataset augmentation
