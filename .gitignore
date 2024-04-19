@@ -1,8 +1,8 @@
 # Add pycache
 src/experimental-notebooks/__pycache__
 
-# Add assets
-assets/
+# Add data in assets
+assets/data/
 
 # Add models directory
 models/

@@ -1,0 +1,23 @@
+Here's my function in Python: 
+
+def get_llama_response(prompt: str) -> None:
+    '''
+    Generate a response from the Llama model.
+
+    Parameters:
+        prompt (str): The user's input/question for the model.
+
+    Returns:
+        None: Prints the model's response.
+    '''
+    sequences = llama_pipeline(
+        prompt,
+        do_sample=True,
+        top_k=10,
+        num_return_sequences=1,
+        eos_token_id=tokenizer.eos_token_id,
+        max_length=256,
+    )
+    print("Chatbot:", sequences[0]['generated_text'])
+
+Given the definition of a function in any programming language (particularly Python and C++), please generate it's stand-alone documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project documentation file.
