@@ -5,7 +5,7 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 # Problem Statement
 
 - Fine-tune an LLM on a dataset of code snippets in different languages
-	- Refer to this [link](https://www.mdpi.com/2073-8994/14/3/471)for datasets to explore
+	- Refer to this [link](https://www.mdpi.com/2073-8994/14/3/471) for datasets to explore
 	- Codellama-7b, [StarCoder2-7b](https://huggingface.co/bigcode/starcoder2-7b), [StarCoderbase-3b](https://huggingface.co/bigcode/starcoderbase-3b)
 - Record a score higher than the average for the different datasets using the above models in a mixture of experts (or depths?) model that can run on consumer h/w
 - Showcase findings in fine-tuning and results on different benchmarks for languages
