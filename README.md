@@ -56,5 +56,4 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 17. [HF BigCode Leaderboard](https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard)
 18. [IEEE Paper Template](https://www.ieee.org/conferences/publishing/templates.html)
 19. [Purdue OWL's Guidelines for IEEE Papers](https://owl.purdue.edu/owl/research_and_citation/ieee_style/ieee_general_format.html)
-
 ---
