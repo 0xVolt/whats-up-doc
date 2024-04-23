@@ -45,7 +45,7 @@ def generate(
             # Print each chunk to the terminal
             print(chunk, end='')
             # Concatenate each chunk to the output string
-            outputString+= chunk
+            outputString += chunk
         
         modelOutputs.append(outputString)
 
