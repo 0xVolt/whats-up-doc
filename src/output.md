@@ -6,17 +6,21 @@
 * `length` (int, optional): The length of the generated password. Default is 8.
 
 ### Return Values
-A randomly generated password consisting of characters from the specified character set.
+A randomly generated password composed of characters from the ASCII letters, digits, and punctuation.
 
 ### Explanation of Function Logic:
-1. The function defines a list of characters that can be used to generate the password, which includes ASCII letters, digits, and punctuation marks.
-2. It then creates an empty password by using `join()` method to concatenate random characters from the character set using `random.choice()`. The length of the password is determined by the value of `length` parameter or default value of 8.
-3. Finally, it returns the generated password.
+1. The function defines a list of characters that can be used to generate the password. These characters are a combination of ASCII letters, digits, and punctuation.
+2. It then uses the `random` module to generate a random password of the desired length. It does this by iterating over the length using a for loop and selecting a character from the defined list using the `random.choice()` function. The selected character is then concatenated into a single string using the `.join()` method.
+3. Finally, the generated password is returned.
 
-Note: The function does not take any additional parameters other than the `length` parameter, which is optional.
+Here's an example of how to use this function:
+```python
+>>> generate_random_password()
+'hgmB$7LJ4'
+```
+In this example, a random password of 8 characters was generated and printed to the console. You can modify the `length` argument to generate passwords of different lengths by changing the value passed to the function.
 
 ---
-
 
 ## Function Name: `is_anagram`
 
@@ -25,11 +29,26 @@ Note: The function does not take any additional parameters other than the `lengt
 * `str2` (str): The second string to check for anagrams. It is required.
 
 ### Return Values
-True - if the strings are anagrams, False otherwise.
+True if the two strings are anagrams, otherwise False.
 
 ### Explanation of Function Logic:
-1. First, it sorts both input strings using `sorted()` to ensure they are in alphabetical order.
-2. Then, it compares the sorted versions of the two strings by checking if they are equal using `==`. If they are equal, the function returns `True`, otherwise it returns `False`.
-3. It's a simple and straightforward implementation of the anagram checker.
-    
-Now, let me know if you have any questions or if there's anything else I can help you with!
+1. First, it sorts both input strings using `sorted()`. This is necessary because the function needs to compare the strings element-wise to determine if they are anagrams.
+2. Then, it checks if the sorted versions of the two strings are equal by comparing them element-wise using `==`. If they are equal, the function returns True; otherwise, it returns False.
+
+Here's how you can document the function for your project:
+
+## Function Name: `is_anagram`
+
+### Arguments
+
+* `str1` (str): The first string to check for anagrams. It is required.
+* `str2` (str): The second string to check for anagrams. It is required.
+
+### Return Values
+True if the two strings are anagrams, otherwise False.
+
+### Explanation of Function Logic
+
+The function first sorts both input strings using `sorted()`. This is necessary because the function needs to compare the strings element-wise to determine if they are anagrams. Then, it checks if the sorted versions of the two strings are equal by comparing them element-wise using `==`. If they are equal, the function returns True; otherwise, it returns False.
+
+For example, if you pass `"apple"` and `"plea"`, the function will return `True` because the sorted versions of both strings are equal: `"apple"` and `"plea"`. On the other hand, if you pass `"apple"` and `"table"` (which are not anagrams), the function will return `False`.
