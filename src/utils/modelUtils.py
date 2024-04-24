@@ -83,7 +83,7 @@ None - this function does not return any value.
 6. After logging all items in the directory, it prompts the user for the directory path using `input()` and logs the root directory using `print()`.
 7. Finally, it calls itself on the given directory path to log its structure recursively.
     
-Now, document the following function following how the example function's documentation looks like.
+Now, document the following function following how the example function's documentation looks like. This function is written in {language}. This is the function:
 
 {function}
     """
@@ -92,19 +92,13 @@ Now, document the following function following how the example function's docume
 
 
 def setupLangChain(model):
-    # path = returnModelLocalPath(model)
-
-    # Callbacks support token-wise streaming
-    # callbacks = [StreamingStdOutCallbackHandler()]
-
-    # Verbose is required to pass to the callback manager
     llm = Ollama(model=model)
 
     template = returnTemplate()
 
     prompt = PromptTemplate(
         template=template,
-        input_variables=["function"]
+        input_variables=["function", "language"]
     )
 
     chain = prompt | llm
