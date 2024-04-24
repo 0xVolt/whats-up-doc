@@ -12,7 +12,8 @@ fileExtensionMap = {
     "php": "PHP",
     "sh": "Bash",
     "sc": "Scala",
-    "scala": "Scala"
+    "scala": "Scala",
+    "md": "Markdown"
 }
 
 
