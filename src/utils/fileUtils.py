@@ -15,21 +15,23 @@ fileExtensionMap = {
     "scala": "Scala"
 }
 
+
 def getFileExtension(file_path):
     # Regular expression pattern to match file extension
     pattern = r'\.(?!\.)[a-zA-Z0-9+]+$'
-    
+
     # Use regex expression to get file extension
     match = re.search(pattern, file_path)
-    
+
     if match:
         # Remove leading period
         return match.group(0)[1:]
     else:
         return None
-    
+
+
 def getScriptLanguage(path):
-    
+
     """
     Determine the programming language based on the file extension.
 
@@ -41,8 +43,9 @@ def getScriptLanguage(path):
     """
     extension = getFileExtension(path)
     language = fileExtensionMap.get(extension.lower(), "Unknown")
-    
+
     return language
+
 
 def writeOutputToMarkdownFile(fileName, outputList, title):
     # Join the formatted outputs into a single string
