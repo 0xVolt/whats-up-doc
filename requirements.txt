@@ -1,8 +1,6 @@
 ipykernel
 typer
 yaspin
-transformers
-torch
 langchain
 inquirer
 huggingface_hub
