@@ -1,11 +1,9 @@
 import typer
-from yaspin import yaspin
-
+# from yaspin import yaspin
 from utils import *
 
 app = typer.Typer()
-spinner = yaspin()
-
+# spinner = yaspin()
 
 @app.command()
 def generate_script_documentation(
@@ -31,13 +29,11 @@ def generate_script_documentation(
     language = fileUtils.getScriptLanguage(path)
     
     # Parse script according to language
-
-    functions = parserUtils.extractFunctionsAsList(path, language)
+    # functions = parserUtils.extractFunctionsAsList(path, language)
 
     chain = modelUtils.setupLangChain(model)
 
     print("Generating model outputs...")
-    # spinner.start()
 
     modelOutputs = []
 
@@ -53,10 +49,7 @@ def generate_script_documentation(
         
         modelOutputs.append(outputString)
 
-    # spinner.stop()
-
     fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title=f"Documentation for `{path}`")
-
 
 if __name__ == "__main__":
     app()
