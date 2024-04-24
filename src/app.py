@@ -8,7 +8,7 @@ spinner = yaspin()
 
 
 @app.command()
-def generate(
+def generate_script_documentation(
     path: str,
     model: str = typer.Argument(None),
     outputFile: str = 'output'
