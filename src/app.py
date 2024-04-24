@@ -27,8 +27,12 @@ def generate_script_documentation(
     print(f"Arguments specified:")
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
+    
+    language = fileUtils.getScriptLanguage(path)
+    
+    # Parse script according to language
 
-    functions = parserUtils.extractFunctionsAsList(path)
+    functions = parserUtils.extractFunctionsAsList(path, language)
 
     chain = modelUtils.setupLangChain(model)
 
