@@ -45,7 +45,7 @@ def getScriptLanguage(path):
     return language
 
 def main():
-    path = "/path/to/your/file/script.cpp"
+    path = "/path/to/your/file/script.js"
     print(getScriptLanguage(path))
 
 if __name__ == "__main__":
