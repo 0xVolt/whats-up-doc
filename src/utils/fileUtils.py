@@ -6,6 +6,7 @@ fileExtensionMap = {
     "java": "Java",
     "cpp": "C++",
     "c": "C",
+    "go": "Golang",
     "html": "HTML",
     "css": "CSS",
     "php": "PHP",
