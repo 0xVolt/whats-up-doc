@@ -6,7 +6,7 @@ from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
 
 
 def getModelChoice():
-    models = ["codellama", "mistral", "llama2"]
+    models = ["llama2", "codellama", "mistral", "phi3"]
 
     questions = [
         inquirer.List(

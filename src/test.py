@@ -19,7 +19,7 @@ def generate_random_password(length=8):
     password = ''.join(random.choice(characters) for _ in range(length))
     return password
 
-# def is_anagram(str1, str2):
-#     str1_sorted = sorted(str1)
-#     str2_sorted = sorted(str2)
-#     return str1_sorted == str2_sorted
+def is_anagram(str1, str2):
+    str1_sorted = sorted(str1)
+    str2_sorted = sorted(str2)
+    return str1_sorted == str2_sorted
