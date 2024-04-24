@@ -5,3 +5,4 @@ langchain
 inquirer
 huggingface_hub
 ollama
+guesslang-experimental
