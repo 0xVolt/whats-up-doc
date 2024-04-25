@@ -75,16 +75,18 @@ def extractFunctionsAsListPython(path):
 def extractFunctionsAsList(path, language):
     match language:
         case "Python":
-            extractFunctionsAsListPython(path)
+            return extractFunctionsAsListPython(path)
         
         case _:
             print("Unsupported language...")
 
 def main():
-    path = r"C:\Users\deshi\Code\whats-up-doc\src\test-files\app_script_test.py"
+    path = r"C:\Users\deshi\Code\whats-up-doc\src\test\test_functions.py"
     
     lang = getScriptLanguage(path)
-    extractFunctionsAsList(path, lang)
+    listOfFunctions = extractFunctionsAsList(path, lang)
+    
+    print(*listOfFunctions, sep='\n')
 
 if __name__ == "__main__":
     main()
