@@ -29,7 +29,7 @@ def generate_script_documentation(
     language = fileUtils.getScriptLanguage(path)
     
     # Parse script according to language
-    # functions = parserUtils.extractFunctionsAsList(path, language)
+    functions = parserUtils.extractFunctionsAsList(path, language)
 
     chain = modelUtils.setupLangChain(model)
 
