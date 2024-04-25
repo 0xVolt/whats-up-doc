@@ -1,5 +1,6 @@
 import re
 import ast
+import clang.cindex
 
 fileExtensionMap = {
     "py": "Python",
@@ -73,7 +74,35 @@ def extractFunctionsAsListPython(path):
     return listOfFunctionBodies
 
 def extractFunctionsAsListCpp(path):
-    pass
+    listOfFunctions = []
+
+    # Create an index for the translation unit
+    index = clang.cindex.Index.create()
+
+    # Parse the translation unit
+    tu = index.parse(path)
+
+    # Traverse the AST and extract function bodies
+    for node in tu.cursor.walk_preorder():
+        if node.kind == clang.cindex.CursorKind.FUNCTION_DECL:
+            function_name = node.spelling
+            function_body = node.extent.contents
+            
+            # Get the function body as a string
+            function_body_str = function_body and function_body.as_string()
+
+            function_data = {
+                'name': function_name,
+                'body': function_body_str,
+                'return': node.result_type.spelling  # Extract return type if needed
+            }
+
+            # Collect functions' meta data
+            listOfFunctions.append(function_data)
+
+    listOfFunctionBodies = [function['body'] for function in listOfFunctions]
+
+    return listOfFunctionBodies
 
 def extractFunctionsAsList(path, language):
     match language:
@@ -87,7 +116,7 @@ def extractFunctionsAsList(path, language):
             print("Unsupported language...")
 
 def main():
-    path = r"C:\Users\deshi\Code\whats-up-doc\src\test\test_functions.py"
+    path = r"C:\Users\deshi\Code\whats-up-doc\src\test\test_functions.cpp"
     
     lang = getScriptLanguage(path)
     listOfFunctions = extractFunctionsAsList(path, lang)
