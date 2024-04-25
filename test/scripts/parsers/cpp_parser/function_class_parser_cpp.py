@@ -1,34 +1,34 @@
-# This script is able to parse all the functions in a C++ script
-# However, this won't distinguish methods in a class/struct from other functions
-import re
+import clang.cindex
 
-def extractFunctions(path):
-    functions = []
+def extract_classes(cursor):
+    classes = []
 
-    with open(path, 'r') as file:
-        content = file.read()
+    for node in cursor.get_children():
+        if node.kind == clang.cindex.CursorKind.CLASS_DECL:
+            class_name = node.spelling
+            class_body = node.extent.contents
+            
+            classes.append((class_name, class_body))
 
-        function_pattern = r'((?:\w+\s+)*\w+\s+\w+\s*\([^)]*\)\s*\{(?:[^{}]*|\{(?:[^{}]*|\{(?:[^{}]*|\{(?:[^{}]*|\{[^{}]*\})*\})*\})*\})*\})'
+        classes.extend(extract_classes(node))
 
-        functions = re.findall(function_pattern, content, re.DOTALL)
+    return classes
 
-    return functions
+def parse_cpp_file(file_path):
+    index = clang.cindex.Index.create()
+    tu = index.parse(file_path)
 
-# Function to print a separator line
-def print_separator():
-    print("-------------------")
+    return extract_classes(tu.cursor)
 
-# Main function to extract and print functions
-def main():
-    file_path = r'C:\Users\deshi\Code\whats-up-doc\src\test_doc_scripts\test_functions_advanced.cpp'
-    extracted_functions = extractFunctions(file_path)
-
-    if extracted_functions:
-        for func in extracted_functions:
-            print(func)
-            print_separator()
-    else:
-        print("No functions found in the file.")
-
+# Example usage:
 if __name__ == "__main__":
-    main()
+    file_path = r"C:\Users\deshi\Code\whats-up-doc\src\test_doc_scripts\test_functions_advanced.cpp"
+    classes = parse_cpp_file(file_path)
+
+    if classes:
+        for class_name, class_body in classes:
+            print("Class Name:", class_name)
+            print("Class Body:", class_body)
+            print("-------------------")
+    else:
+        print("No classes found in the file.")
