@@ -4,7 +4,6 @@ from langchain.prompts import PromptTemplate
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
 
-
 def getModelChoice():
     models = ["llama3", "llama2", "codellama", "mistral", "phi3"]
 
@@ -90,7 +89,6 @@ Now, document the following function following how the example function's docume
     
     return template
 
-
 def setupLangChain(model):
     llm = Ollama(model=model)
 
@@ -104,7 +102,6 @@ def setupLangChain(model):
     chain = prompt | llm
 
     return chain
-
 
 def createPipeline(checkpoint, device):
     '''
