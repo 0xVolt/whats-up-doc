@@ -1,16 +1,3 @@
-def sum():
-    sum = 0
-    for i in range(10):
-        sum += i
-
-    return sum
-
-def calculate_gravitational_force(mass1, mass2, distance):
-    return (mass1 * mass2) / (distance ** 2)
-
-def reverse_string(input_str):
-    return input_str[::-1]
-
 import random
 import string
 
@@ -23,3 +10,16 @@ def is_anagram(str1, str2):
     str1_sorted = sorted(str1)
     str2_sorted = sorted(str2)
     return str1_sorted == str2_sorted
+
+# def sum():
+#     sum = 0
+#     for i in range(10):
+#         sum += i
+
+#     return sum
+
+# def calculate_gravitational_force(mass1, mass2, distance):
+#     return (mass1 * mass2) / (distance ** 2)
+
+# def reverse_string(input_str):
+#     return input_str[::-1]
