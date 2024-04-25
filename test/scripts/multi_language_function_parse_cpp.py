@@ -1,47 +1,34 @@
+# This script is able to parse all the functions in a C++ script
+# However, this won't distinguish methods in a class/struct from other functions
 import re
 
-# Function to parse a C++ file and extract functions, classes, and structs with their bodies
-def parse_cpp_file(file_path):
-    # Regular expressions to match functions, classes, and structs
-    function_pattern = r'(?:\b(?:void|int|float|double|char|long|short)\s+)(\w+)\s*\((.*?)\)\s*{([^}]*)\}'
-    class_pattern = r'class\s+(\w+)\s*{([^}]*)};'
-    struct_pattern = r'struct\s+(\w+)\s*{([^}]*)};'
+def extractFunctions(path):
+    functions = []
 
-    # Read the content of the C++ file
-    with open(file_path, 'r') as file:
+    with open(path, 'r') as file:
         content = file.read()
 
-    # Extract functions
-    functions = re.findall(function_pattern, content, re.DOTALL)
+        function_pattern = r'((?:\w+\s+)*\w+\s+\w+\s*\([^)]*\)\s*\{(?:[^{}]*|\{(?:[^{}]*|\{(?:[^{}]*|\{(?:[^{}]*|\{[^{}]*\})*\})*\})*\})*\})'
 
-    # Extract classes
-    classes = re.findall(class_pattern, content, re.DOTALL)
+        functions = re.findall(function_pattern, content, re.DOTALL)
 
-    # Extract structs
-    structs = re.findall(struct_pattern, content, re.DOTALL)
+    return functions
 
-    return functions, classes, structs
+# Function to print a separator line
+def print_separator():
+    print("-------------------")
 
-# Main function to test the script
+# Main function to extract and print functions
 def main():
-    file_path = r"C:\Users\deshi\Code\whats-up-doc\src\test\test_functions.cpp"  # Provide the path to your C++ file
-    functions, classes, structs = parse_cpp_file(file_path)
-    
-    print("Functions:")
-    for name, args, body in functions:
-        print(f"Name: {name}")
-        print(f"Arguments: {args}")
-        print(f"Body: {body.strip()}\n")
-    
-    print("\nClasses:")
-    for name, body in classes:
-        print(f"Name: {name}")
-        print(f"Body: {body.strip()}\n")
-    
-    print("\nStructs:")
-    for name, body in structs:
-        print(f"Name: {name}")
-        print(f"Body: {body.strip()}\n")
+    file_path = r'C:\Users\deshi\Code\whats-up-doc\src\test_doc_scripts\test_functions_advanced.cpp'
+    extracted_functions = extractFunctions(file_path)
+
+    if extracted_functions:
+        for func in extracted_functions:
+            print(func)
+            print_separator()
+    else:
+        print("No functions found in the file.")
 
 if __name__ == "__main__":
     main()
