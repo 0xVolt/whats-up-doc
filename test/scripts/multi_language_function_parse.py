@@ -72,11 +72,17 @@ def extractFunctionsAsListPython(path):
 
     return listOfFunctionBodies
 
+def extractFunctionsAsListCpp(path):
+    pass
+
 def extractFunctionsAsList(path, language):
     match language:
         case "Python":
             return extractFunctionsAsListPython(path)
         
+        case "C++":
+            return extractFunctionsAsListCpp(path)
+
         case _:
             print("Unsupported language...")
 
