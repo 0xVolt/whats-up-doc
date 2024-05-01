@@ -31,6 +31,8 @@ def generate_script_documentation(
 
     language = fileUtils.getScriptLanguage(path)
 
+    functions = parserUtils.extractFunctionsAsList(path, language)
+
     chain = modelUtils.setupLangChain(model)
 
     print("Generating model outputs...")
