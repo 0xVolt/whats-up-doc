@@ -97,7 +97,7 @@ def setupLangChain(model):
 
     prompt = PromptTemplate(
         template=template,
-        input_variables=["function", "language"]
+        input_variables=["code", "language"]
     )
 
     chain = prompt | llm
