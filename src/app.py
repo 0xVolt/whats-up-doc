@@ -35,8 +35,6 @@ def generate_script_documentation(
 
     print("Generating model outputs...")
 
-    modelOutputs = []
-
     stream = chain.stream({'code': code, 'language': language})
     outputString = ''
 
@@ -46,9 +44,7 @@ def generate_script_documentation(
         # Concatenate each chunk to the output string
         outputString += chunk
 
-        modelOutputs.append(outputString)
-
-    fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title=f"Documentation for `{path}`")
+    fileUtils.writeOutputToMarkdownFile(outputFile, outputString, title=f"Documentation for `{path}`")
 
 if __name__ == "__main__":
     app()
