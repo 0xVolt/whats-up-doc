@@ -1,6 +1,5 @@
 import re
 import ast
-import clang.cindex
 
 fileExtensionMap = {
     "py": "Python",
