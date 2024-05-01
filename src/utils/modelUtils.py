@@ -21,70 +21,29 @@ def getModelChoice():
 
 def returnTemplate():
     template = """
-Given is a script file in {language}, generate it's documentation by function. For each function in the script, document it's name, arguments, return values and a detailed explanation of how the function logic works line-by-line. Make it concise and informative. This will then go into a documentation report.
+Given a script file in {language}, generate its documentation for each function. For each function in the script, document its name, arguments, return values, and a brief explanation of its logic.
 
-For this function in Python, 
-```python
-def log_directory_structure(directory_path, ai_context, indent=0):
-    # Check if path is valid
-    if not os.path.exists(directory_path):
-        print("Directory not found.")
-        return
+Strictly use the following format for each function:
 
-    # Get the list of items in the directory
-    items = os.listdir(directory_path)
-
-    for item in items:
-        item_path = os.path.join(directory_path, item)
-
-        # Check if the item is a directory
-        if os.path.isdir(item_path):
-            # Log the directory using ai_context
-            directory_name = os.path.basename(item_path)
-            indentation = "  " * indent  # Adjust indentation for subdirectories
-            log_message = "Directory: ", directory_name"
-            print(log_message)
-
-            # Recursively log the subdirectory structure
-            log_directory_structure(item_path, ai_context, indent + 1)
-
-        # If it's a file, you can log it similarly
-        
-    # Get the directory path from the user
-    directory_path = input("Enter the directory path: ")
-
-    # Log the root directory
-    print("Root Directory: ", directory_path")
-
-    # Call the function to log the directory structure
-    log_directory_structure(directory_path, ai_context)
-
-    print(ai_context)
-```
-
-This is how I want you to generate it's documentation. Make sure you strictly adhere to this format and do not deviate from it.
-
-## Function Name: `log_directory_structure`
+## Function Name: `function_name`
 
 ### Arguments
-* `directory_path` (str): The path of the directory to be logged. It is required.
-* `ai_context` (dict): A dictionary containing information about the AI context. This parameter can be used for additional functionality, but it's not necessary for logging the directory structure.
+* `arg1` (type): Description of argument 1.
+* `arg2` (type): Description of argument 2.
+* ...
 
 ### Return Values
-None - this function does not return any value.
+* `return_value1` (type): Description of return value 1.
+* `return_value2` (type): Description of return value 2.
+* ...
 
 ### Explanation of Function Logic:
-1. The function first checks if the given path is valid by using `os.path.exists()`. If the path is invalid, it prints an error message and returns without logging anything.
-2. It then gets a list of items in the directory using `os.listdir()` and iterates through each item.
-3. For each item, it checks if it's a directory by using `os.path.isdir()`. If it is, it logs the directory name using `print()`, adjusting the indentation level for subdirectories using string multiplication (`" " * indent`) and concatenating it with the current directory path.
-4. It then recursively calls itself on the item path to log its subdirectory structure.
-5. If the item is a file, it can be logged similarly by calling `print()` with the item name and path.
-6. After logging all items in the directory, it prompts the user for the directory path using `input()` and logs the root directory using `print()`.
-7. Finally, it calls itself on the given directory path to log its structure recursively.
-    
-------------------------
+1. Brief explanation of the function logic step by step.
+2. ...
+3. ...
 
-Now that you understand how the documentation is expected to look like, here is the script in {language} that I want you to document each function of:
+Ensure that code within comments is not parsed and documented.
+
 {code}
     """
     
