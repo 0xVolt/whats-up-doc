@@ -30,6 +30,8 @@ def generate_script_documentation(
     
     # Parse script according to language
     functions = parserUtils.extractFunctionsAsList(path, language)
+    if functions == -1:
+        return
 
     chain = modelUtils.setupLangChain(model)
 
