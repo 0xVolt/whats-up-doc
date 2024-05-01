@@ -26,10 +26,9 @@ def generate_script_documentation(
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
 
+    language = fileUtils.getScriptLanguage(path)
     with open(path, 'r') as file:
         code = file.read()
-
-    language = fileUtils.getScriptLanguage(path)
 
     chain = modelUtils.setupLangChain(model)
 
