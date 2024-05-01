@@ -48,10 +48,11 @@ def getScriptLanguage(path):
     return language
 
 
-def writeOutputToMarkdownFile(fileName, outputList, title):
+def writeOutputToMarkdownFile(fileName, modelOutputString, title):
     # Join the formatted outputs into a single string
-    markdownContent = f"# {title}\n\n" + "\n\n---\n\n".join(outputList)
+    markdownTitle = f"# {title}\n\n" + "\n\n---\n\n"
 
     # Write the content to the file
     with open(f'{fileName}.md', 'w') as file:
-        file.write(markdownContent)
+        file.write(markdownTitle)
+        file.write(modelOutputString)
