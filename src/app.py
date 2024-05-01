@@ -25,13 +25,8 @@ def generate_script_documentation(
     print(f"Arguments specified:")
     print(f"File Path: {path}")
     print(f"Model: {model}\n")
-    
+
     language = fileUtils.getScriptLanguage(path)
-    
-    # Parse script according to language
-    functions = parserUtils.extractFunctionsAsList(path, language)
-    if functions == -1:
-        return
 
     chain = modelUtils.setupLangChain(model)
 
@@ -39,16 +34,15 @@ def generate_script_documentation(
 
     modelOutputs = []
 
-    for function in functions:
-        stream = chain.stream({'function': function})
-        outputString = ''
-        
-        for chunk in stream:                
-            # Print each chunk to the terminal
-            print(chunk, end='')
-            # Concatenate each chunk to the output string
-            outputString += chunk
-        
+    stream = chain.stream({'function': function})
+    outputString = ''
+
+    for chunk in stream:
+        # Print each chunk to the terminal
+        print(chunk, end='')
+        # Concatenate each chunk to the output string
+        outputString += chunk
+
         modelOutputs.append(outputString)
 
     fileUtils.writeOutputToMarkdownFile(outputFile, modelOutputs, title=f"Documentation for `{path}`")
