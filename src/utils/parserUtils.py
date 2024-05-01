@@ -19,35 +19,6 @@ fileExtensionMap = {
     "md": "Markdown"
 }
 
-def getFileExtension(file_path):
-    # Regular expression pattern to match file extension
-    pattern = r'\.(?!\.)[a-zA-Z0-9+]+$'
-
-    # Use regex expression to get file extension
-    match = re.search(pattern, file_path)
-
-    if match:
-        # Remove leading period
-        return match.group(0)[1:]
-    else:
-        return None
-
-def getScriptLanguage(path):
-
-    """
-    Determine the programming language based on the file extension.
-
-    Args:
-    - file_extension (str): The file extension of the script file.
-
-    Returns:
-    - str: The programming language corresponding to the file extension.
-    """
-    extension = getFileExtension(path)
-    language = fileExtensionMap.get(extension.lower(), "Unknown")
-
-    return language
-
 def extractFunctionsAsListPython(path):
     listOfFunctions = []
 
