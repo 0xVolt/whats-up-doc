@@ -52,3 +52,4 @@ def extractFunctionsAsList(path, language):
 
         case _:
             print("Unsupported language...")
+            return -1
