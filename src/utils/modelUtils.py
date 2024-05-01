@@ -21,9 +21,9 @@ def getModelChoice():
 
 def returnTemplate():
     template = """
-Given the definition of a function in Python, generate it's documentation. I want it complete with fields like function name, function arguments and return values as well as a detailed explanation of how the function logic works line-by-line. Make it concise and informative to put the documentation into a project.
+Given is a script file in {language}, generate it's documentation by function. For each function in the script, document it's name, arguments, return values and a detailed explanation of how the function logic works line-by-line. Make it concise and informative. This will then go into a documentation report.
 
-Here is a sample function
+For this function in Python, 
 ```python
 def log_directory_structure(directory_path, ai_context, indent=0):
     # Check if path is valid
@@ -62,7 +62,7 @@ def log_directory_structure(directory_path, ai_context, indent=0):
     print(ai_context)
 ```
 
-Here's an example of how to generate the documentation for the above function:
+This is how I want you to generate it's documentation. Make sure you strictly adhere to this format and do not deviate from it.
 
 ## Function Name: `log_directory_structure`
 
@@ -82,9 +82,10 @@ None - this function does not return any value.
 6. After logging all items in the directory, it prompts the user for the directory path using `input()` and logs the root directory using `print()`.
 7. Finally, it calls itself on the given directory path to log its structure recursively.
     
-Now, document the following function following how the example function's documentation looks like. This function is written in {language}. This is the function:
+------------------------
 
-{function}
+Now that you understand how the documentation is expected to look like, here is the script in {language} that I want you to document each function of:
+{code}
     """
     
     return template
