@@ -5,6 +5,12 @@ from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
                           SummarizationPipeline)
 
 def getModelChoice():
+    """
+    Prompt the user to select a model from a list of available models.
+
+    Returns:
+    - str: The selected model.
+    """
     models = ["llama3", "llama2", "codellama", "mistral", "phi3"]
 
     questions = [
@@ -20,6 +26,12 @@ def getModelChoice():
     return answer["model"]
 
 def returnTemplate():
+    """
+    Return a template string for generating documentation.
+
+    Returns:
+    - str: The template string.
+    """
     template = """
 Given a script file in {language}, generate its documentation for each function. For each function in the script, document its name, arguments, return values, and a brief explanation of its logic.
 
@@ -50,6 +62,15 @@ Ensure that code within comments is not parsed and documented.
     return template
 
 def setupLangChain(model):
+    """
+    Set up a language processing chain with the specified model.
+
+    Args:
+    - model (str): The language model to use.
+
+    Returns:
+    - PromptChain: The language processing chain.
+    """
     llm = Ollama(model=model)
 
     template = returnTemplate()
@@ -67,7 +88,7 @@ def createPipeline(checkpoint, device):
     '''
     Create a transformers model summarization pipeline.
 
-    Arguments:
+    Args:
     checkpoint - model checkpoint
     device (integer) - either 0 or 1, to specify if there exists a GPU
     '''
