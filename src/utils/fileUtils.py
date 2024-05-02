@@ -1,5 +1,6 @@
 import re
 
+# Map (dict) that maps popular script file extensions to their associated language
 fileExtensionMap = {
     "py": "Python",
     "js": "JavaScript",
@@ -16,13 +17,22 @@ fileExtensionMap = {
     "md": "Markdown"
 }
 
+# Function to extract the file extension from a file's path
+def getFileExtension(path):
+    """
+    Determine the file extension from the given file path.
 
-def getFileExtension(file_path):
+    Args:
+    - path (str): The path of the file.
+
+    Returns:
+    - str or None: The file extension if found, otherwise None.
+    """
     # Regular expression pattern to match file extension
     pattern = r'\.(?!\.)[a-zA-Z0-9+]+$'
 
     # Use regex expression to get file extension
-    match = re.search(pattern, file_path)
+    match = re.search(pattern, path)
 
     if match:
         # Remove leading period
@@ -30,7 +40,7 @@ def getFileExtension(file_path):
     else:
         return None
 
-
+# Function to determine the programming language based on the file extension
 def getScriptLanguage(path):
 
     """
@@ -47,7 +57,7 @@ def getScriptLanguage(path):
 
     return language
 
-
+# Write model's output string to a markdown file
 def writeOutputToMarkdownFile(fileName, modelOutputString, title):
     # Join the formatted outputs into a single string
     markdownTitle = f"# {title}\n\n" + "\n\n---\n\n"
