@@ -1,7 +1,4 @@
 import ast
-# import json
-import re
-# import textwrap
 
 fileExtensionMap = {
     "py": "Python",
