@@ -1,5 +1,5 @@
 # Add pycache
-src/utils/__pycache__
+# src/utils/__pycache__
 src/experimental-notebooks/__pycache__
 
 # Add data in assets
@@ -10,7 +10,3 @@ models/
 
 # Add env variables
 .env
-
-src/utils/__pycache__/fileUtils.cpython-311.pyc
-src/utils/__pycache__/modelUtils.cpython-311.pyc
-src/utils/__pycache__/parserUtils.cpython-311.pyc
