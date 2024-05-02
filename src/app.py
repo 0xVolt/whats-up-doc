@@ -15,9 +15,9 @@ def generate_script_documentation(
     '''
     Typer command to generate the documentation for an input script file.
 
-    Arguments:
-    filePath (string) - path to the input file
-    model (string) - string to specify which model to use when generating documentation
+    Args:
+    - filePath (string) - path to the input file
+    - model (string) - string to specify which model to use when generating documentation
     '''
 
     # Logic to handle model selection
