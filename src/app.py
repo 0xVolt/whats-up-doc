@@ -31,7 +31,7 @@ def generate_script_documentation(
 
     # Get the script's language by file extension
     language = fileUtils.getScriptLanguage(path)
-    
+
     # Read script source code into a string
     with open(path, 'r') as file:
         code = file.read()

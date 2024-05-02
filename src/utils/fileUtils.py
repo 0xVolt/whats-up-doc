@@ -52,7 +52,7 @@ def getScriptLanguage(path):
     - str: The programming language corresponding to the file extension.
     """
     extension = getFileExtension(path)
-    
+
     # Map file extension to ones in the map of extensions
     language = fileExtensionMap.get(extension.lower(), "Unknown")
 
