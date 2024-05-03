@@ -1,4 +1,4 @@
-# Language-agnostic Code Documentation with LLMs & LangChain
+# Language-agnostic Code Documentation Generation with LLMs & LangChain
 
 A command-line tool leveraging LangChain and LLMs for language-agnostic code documentation.
 
