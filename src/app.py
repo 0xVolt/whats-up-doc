@@ -42,7 +42,11 @@ def generate_script_documentation(
     print("Generating model outputs...")
 
     # Inference model as a stream
-    stream = chain.stream({'code': code, 'language': language})
+    stream = chain.stream({
+            'code': code, 
+            'language': language
+        }
+    )
     outputString = ''
 
     # Iterate over generated chunks in the stream
