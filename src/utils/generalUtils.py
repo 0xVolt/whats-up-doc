@@ -1,13 +1,10 @@
 import json
 
-
 def stringToDictionary(string):
     pass 
 
-
 def prettyPrintDictionary(dict):
     print(json.dumps(dict, sort_keys=False, indent=2))
-
 
 def checkGPU(tensorflow):
     '''
