@@ -10,3 +10,6 @@ models/
 
 # Add env variables
 .env
+
+# Add mergekit sub-dir
+C:\Users\deshi\Code\whats-up-doc\test\notebooks\model-blending\mergekit
