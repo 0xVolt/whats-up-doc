@@ -7,7 +7,7 @@ fn handle_client(mut stream: TcpStream) {
     let mut buffer = [0; 512];
     loop {
         match stream.read(&mut buffer) {
-            Ok(0) => break, // Connection was closed
+            Ok(0) => break, // 
             Ok(_) => {
                 stream.write(&buffer).unwrap();
                 println!(
