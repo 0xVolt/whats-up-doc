@@ -1,5 +1,7 @@
 # Language-agnostic Code Documentation Generation with LLMs & LangChain
 
+*WORK IN PROGRESS!*
+
 A command-line tool leveraging LangChain and LLMs for language-agnostic code documentation.
 
 # Problem Statement
@@ -11,29 +13,6 @@ A command-line tool leveraging LangChain and LLMs for language-agnostic code doc
 - Showcase findings in fine-tuning and results on different benchmarks for languages
 	- Evaluation metrics include: METEOR, BLEU-4
 	- Benchmarks: [HumanEval](https://huggingface.co/datasets/openai_humaneval), [MultiPL-E](https://huggingface.co/datasets/nuprl/MultiPL-E)
-
-# To-do 
-
-- Get access to these papers
-	- [Automatic Code Documentation Generation Using GPT-3](https://dl.acm.org/doi/10.1145/3551349.3559548)
-- Structure content and findings in paper format
-	- [x] Confirm Problem Statement
-	- [x] Find more relevant papers and structure Literature Survey accordingly
-	- [ ] Re-write abstract and introduction
-- Explore
-	- [ ] Dataset augmentation
-	- [ ] Mergekit
-	- [ ] [LLMAutoEval](https://github.com/mlabonne/llm-autoeval)
-	- [ ] Claude 3
-	- [ ] Quantization and model layer dropping
-- Code
-	- [ ] Update template to produce consistent responses
-	- [ ] Test for language-agnostic generation
-	- [ ] Clean code and add docstrings
-    - [ ] Add ASCII art
-    - [ ] Better status messages (probably use logs instead of prints in some places)
-    - [ ] Clean up what's displayed to the user
-	- [ ] Make sure it runs for directories
 
 # References
 
