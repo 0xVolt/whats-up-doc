@@ -241,15 +241,15 @@ def parseIf(node, path):
 
 
 def parseFor(node, path):
-    # forMetaData = {
-    #     'Type': 'For',
-    #     'Name': None,
-    #     'StartLine': node.lineno,
-    #     'StartCol': node.col_offset,
-    #     'EndLine': node.body[0].lineno if node.body else node.lineno,
-    #     'EndCol': node.body[0].col_offset if node.body else 0,
-    #     'RelativePath': os.path.relpath(path)
-    # }
+    forMetaData = {
+        'Type': 'For',
+        'Name': None,
+        'StartLine': node.lineno,
+        'StartCol': node.col_offset,
+        'EndLine': node.body[0].lineno if node.body else node.lineno,
+        'EndCol': node.body[0].col_offset if node.body else 0,
+        'RelativePath': os.path.relpath(path)
+    }
 
     forMetaData = generateBlockMetaData(
         node,
@@ -265,15 +265,15 @@ def parseFor(node, path):
 
 
 def parseWhile(node, path):
-    # whileMetaData = {
-    #     'Type': 'While',
-    #     'Name': None,
-    #     'StartLine': node.lineno,
-    #     'StartCol': node.col_offset,
-    #     'EndLine': node.body[0].lineno if node.body else node.lineno,
-    #     'EndCol': node.body[0].col_offset if node.body else 0,
-    #     'RelativePath': os.path.relpath(path)
-    # }
+    whileMetaData = {
+        'Type': 'While',
+        'Name': None,
+        'StartLine': node.lineno,
+        'StartCol': node.col_offset,
+        'EndLine': node.body[0].lineno if node.body else node.lineno,
+        'EndCol': node.body[0].col_offset if node.body else 0,
+        'RelativePath': os.path.relpath(path)
+    }
 
     whileMetaData = generateBlockMetaData(
         node,
