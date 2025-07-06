@@ -1,7 +1,5 @@
 # Language-agnostic Code Documentation Generation with LLMs & LangChain
 
-*WORK IN PROGRESS!*
-
 A command-line tool leveraging LangChain and LLMs for language-agnostic code documentation.
 
 # Problem Statement
